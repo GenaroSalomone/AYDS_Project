@@ -1,0 +1,17 @@
+Sistema de preguntas y respuestas.
+Software- Tecnología.
+
+->El usuario deberá registrarse mediante un nombre y una contraseña.
+->Los temas de las preguntas se basan en software y tecnología en general, como el título lo indica.
+->Serán diez preguntas multiple opciones, las respuestas a las preguntas serán cuatro.
+->Cada pregunta tendrá un tiempo límite para responder de seis segundos.
+->Existirán preguntas para autocompletar con una palabra. Ejemplo: > La carrera de analista en computación tiene una duración de ... años.
+                                                                     º cuatro
+                                                                     º tres
+                                                                     º cinco
+                                                                     º niguna de las anteriores
+->Al finalizar las diez preguntas se dará a conocer el resultado, preguntas acertadas y preguntas falladas.
+->Las preguntas no respondidas, es decir, no se marcó ninguna respuesta, será una pregunta fallada.
+->Si cinco preguntas son contestadas en un tiempo menor o igual a 4 segundos (y contestadas de manera correcta),
+  se dará un bonus de poder responder una pregunta más (pregunta once) que será de menor complejidad respecto de las
+  anteriores.
