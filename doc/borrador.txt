@@ -1,0 +1,23 @@
+Sistema de preguntas y respuestas.
+Software- Tecnología.
+
+Ver!
+
+--Cada Pregunta tiene 1..* Tiempo-restante (varios tiempos-restantes?), no es 1?
+
+-- Choice y True-false son respuestas, Autocompletado no?
+
+-- Cada Respuesta tiene 0..1 Choice (¿?)
+
+-- Cada Respuesta tiene 0..1 True-False (¿?) 
+
+-- No se modela el sistema de ayuda para trivia con dificultad facil.
+
+-- No se modela mostrar las respuestas correctas despues de realizar la trivia.
+
+Diagrama de objetos:
+
+El usuario Vegeta con gmail vegeta@gmail.com realiza una trivia en dificultad dificil,
+la trivia consiste de 5 preguntas multiple choice, 3 autocompletado y 2 true-false.
+Vegeta responde correctamente 3 choice, 1 autocompletado y 2 true-false, luego se respondieron
+de manera incorrecta 2 choice, 2 autocompletado.
