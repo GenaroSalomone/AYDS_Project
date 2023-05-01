@@ -39,3 +39,12 @@ end
 # 2-bundle exec rackup -p 4567 : Working
 # 3-docker compose up app : Working
 # Container ayds_project-app-1
+# bundle exec rake db:migrate
+# bundle exec irb -I. -r server.rb
+# user = User.new(name: "John")
+# user.save
+# User.all
+# User.find_by(name: "John")
+# puts john.inspect -> imprime el registro en la BD .
+# no puedo hacer esto dentro de docker:docker-compose exec app bundle exec irb -I. -r server.rb -> no abre la consola
+# docker compose exec app bundle exec irb -I. -r server.rb -> service "app" is not running container #1. VER EN CLASE
