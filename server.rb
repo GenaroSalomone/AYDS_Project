@@ -21,3 +21,4 @@ end
 # Start the server using rackup
 # 1-rackup -p 4567 : Working
 # 2-bundle exec rackup -p 4567 : Working
+# 3-docker compose up app : Working

@@ -27,9 +27,11 @@ GEM
     tilt (2.1.0)
 
 PLATFORMS
+  ruby
   x86_64-linux
 
 DEPENDENCIES
+  multi_json
   sinatra!
   sinatra-contrib!
 
