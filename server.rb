@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'bundler/setup'
 require 'logger'
+require "sinatra/activerecord"
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
 class App < Sinatra::Application
@@ -36,3 +37,4 @@ end
 # 1-rackup -p 4567 : Working
 # 2-bundle exec rackup -p 4567 : Working
 # 3-docker compose up app : Working
+# Container ayds_project-app-1
