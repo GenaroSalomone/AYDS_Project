@@ -49,10 +49,7 @@ end
 # no puedo hacer esto dentro de docker:docker-compose exec app bundle exec irb -I. -r server.rb -> no abre la consola
 
 
-
-
-
-
 # docker compose exec app bundle exec irb -I. -r server.rb -> WORKING
 # sqlite3 db/duo_development.sqlite3
 # .schema users --indent
+# bundle exec rake db:migrate:status -> VER MIGRACIONES
