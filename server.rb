@@ -26,7 +26,7 @@ class App < Sinatra::Application
   end
 
   get '/' do
-    'Welcome'
+    erb :index
   end
 
   get '/welcome' do
@@ -47,4 +47,12 @@ end
 # User.find_by(name: "John")
 # puts john.inspect -> imprime el registro en la BD .
 # no puedo hacer esto dentro de docker:docker-compose exec app bundle exec irb -I. -r server.rb -> no abre la consola
-# docker compose exec app bundle exec irb -I. -r server.rb -> service "app" is not running container #1. VER EN CLASE
+
+
+
+
+
+
+# docker compose exec app bundle exec irb -I. -r server.rb -> WORKING
+# sqlite3 db/duo_development.sqlite3
+# .schema users --indent
