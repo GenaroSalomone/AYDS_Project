@@ -35,8 +35,13 @@ class App < Sinatra::Application
 
   delete '/users/:id' do
     user = User.find(params[:id])
-    user.destroy
-    redirect '/users'
+    if user.destroy
+      @message = "Borrado exitoso!"
+      erb :message
+    else
+      @error_message = "Hubo un error al borrar el usuario: #{user.errors.full_messages.join(', ')}"
+      erb :message
+    end
   end
 
   post '/registrarse' do
@@ -50,10 +55,10 @@ class App < Sinatra::Application
 
     if user.save
       @message = "¡Registro exitoso!"
-      erb :success
+      erb :message
     else
       @error_message = "Hubo un error al registrar el usuario: #{user.errors.full_messages.join(', ')}"
-      erb :error
+      erb :message
     end
   end
 
@@ -82,5 +87,6 @@ end
 # docker compose exec app bundle exec irb -I. -r server.rb -> WORKING
 # sqlite3 db/duo_development.sqlite3
 # .schema users --indent
-# SELECT * FROM users
+# SELECT * FROM users;
 # bundle exec rake db:migrate:status -> VER MIGRACIONES
+# seeds.rb en la altura bd. db.seeds para correr
