@@ -3,6 +3,10 @@ require 'bundler/setup'
 require 'logger'
 require "sinatra/activerecord"
 require_relative 'models/user'
+require_relative 'models/question'
+require_relative 'models/choice'
+require_relative 'models/answer'
+
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
 class App < Sinatra::Application
@@ -62,6 +66,56 @@ class App < Sinatra::Application
     end
   end
 
+  post '/crearChoice' do
+    question_id = params[:question_id]
+
+    answers = Answer.where(choice_id: nil).limit(4)
+
+    # Verificar si se obtuvieron exactamente 4 respuestas
+    if answers.size == 4
+      choice = Choice.create(question_id: question_id)
+      choice.answers = answers
+
+      if choice.save
+        @message = "¡Registro exitoso!"
+        erb :message
+      else
+        @error_message = "Hubo un error al registrar la elección: #{choice.errors.full_messages.join(', ')}"
+        erb :message
+      end
+    end
+  end
+
+
+  post '/crearQuestion' do
+    texto = params[:texto]
+
+    question = Question.create(texto: texto)
+
+    if question.save
+      @message = "¡Registro exitoso!"
+      erb :message
+    else
+      @error_message = "Hubo un error al registrar el usuario: #{user.errors.full_messages.join(', ')}"
+      erb :message
+    end
+  end
+
+  post '/crearAnswer' do
+    texto = params[:texto]
+    esCorrecta = params[:esCorrecta]
+
+    answer = Answer.create(texto: texto, esCorrecta: esCorrecta)
+
+    if answer.save
+      @message = "¡Registro exitoso!"
+      erb :message
+    else
+      @error_message = "Hubo un error al registrar el usuario: #{user.errors.full_messages.join(', ')}"
+      erb :message
+    end
+  end
+
   get '/welcome' do
     logger.info 'USANDO LOGGER INFO EN WELCOME PATH'
     'Welcome path'
@@ -90,3 +144,5 @@ end
 # SELECT * FROM users;
 # bundle exec rake db:migrate:status -> VER MIGRACIONES
 # seeds.rb en la altura bd. db.seeds para correr
+
+#rake db:create_migration NAME=create_users
