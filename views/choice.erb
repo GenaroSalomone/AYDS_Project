@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Choice Data</title>
+  <style>
+    h1 {
+      font-size: 24px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+
+    ul {
+      list-style-type: disc;
+    }
+  </style>
+</head>
+<body>
+  <h1>Choice Data</h1>
+  <h2>Question:</h2>
+  <p><%= @choice_data[:texto] %></p>
+
+  <h2>Answers:</h2>
+  <ul>
+    <% @choice_data[:answers].each do |answer| %>
+      <li><%= answer[:texto] %></li>
+    <% end %>
+  </ul>
+</body>
+</html>
