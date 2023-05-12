@@ -6,6 +6,8 @@ require_relative 'models/user'
 require_relative 'models/question'
 require_relative 'models/choice'
 require_relative 'models/answer'
+require 'json'
+
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
@@ -64,16 +66,20 @@ class App < Sinatra::Application
       @error_message = "Hubo un error al registrar el usuario: #{user.errors.full_messages.join(', ')}"
       erb :message
     end
+    redirect '/choice/3'
   end
 
   post '/crearChoice' do
     question_id = params[:question_id]
+    answer_id1 = params[:answer_id1]
+    answer_id2 = params[:answer_id2]
+    answer_id3 = params[:answer_id3]
+    answer_id4 = params[:answer_id4]
 
-    answers = Answer.where(choice_id: nil).limit(4)
+    answers = Answer.where(id: [answer_id1, answer_id2, answer_id3, answer_id4])
 
-    # Verificar si se obtuvieron exactamente 4 respuestas
     if answers.size == 4
-      choice = Choice.create(question_id: question_id)
+      choice = Choice.new(question_id: question_id)
       choice.answers = answers
 
       if choice.save
@@ -83,6 +89,9 @@ class App < Sinatra::Application
         @error_message = "Hubo un error al registrar la elección: #{choice.errors.full_messages.join(', ')}"
         erb :message
       end
+    else
+      @error_message = "Debes seleccionar exactamente 4 respuestas."
+      erb :message
     end
   end
 
@@ -121,6 +130,35 @@ class App < Sinatra::Application
     'Welcome path'
   end
 
+  get '/choice/:id' do
+    choice_id = params[:id]
+
+    choice_query = <<-SQL
+      SELECT choices.id, questions.texto
+      FROM choices
+      INNER JOIN questions ON choices.question_id = questions.id
+      WHERE choices.id = #{choice_id}
+    SQL
+
+    answers_query = <<-SQL
+      SELECT answers.id, answers.texto
+      FROM choices
+      INNER JOIN answers ON choices.id = answers.choice_id
+      WHERE choices.id = #{choice_id}
+    SQL
+
+    choice_result = ActiveRecord::Base.connection.exec_query(choice_query).first
+    answers_results = ActiveRecord::Base.connection.exec_query(answers_query)
+
+    # Construir un hash con los datos de la choice y las answers
+    @choice_data = {
+      id: choice_result['id'],
+      texto: choice_result['texto'],
+      answers: answers_results.map { |row| { id: row['id'], texto: row['texto'] } }
+    }
+
+    erb :choice
+  end
 
 end
 # Start the server using rackup
@@ -146,3 +184,15 @@ end
 # seeds.rb en la altura bd. db.seeds para correr
 
 #rake db:create_migration NAME=create_users
+
+#Asi se veria la herencia entre choice y question, donde mediante esa consulta se veria el texto de la choice.
+#SELECT choices.id, questions.texto
+#FROM choices
+#INNER JOIN questions ON choices.question_id = questions.id
+#WHERE choices.id = 2;
+
+#Asi se veria la relacion entre choice y answer, mediante la siguiente consulta:
+#SELECT answers.id, answers.texto
+#FROM choices
+#INNER JOIN answers ON choices.id = answers.choice_id
+#WHERE choices.id = 2;
