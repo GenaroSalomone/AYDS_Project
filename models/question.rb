@@ -1,6 +1,9 @@
 class Question < ActiveRecord::Base
-  has_many :choices, foreign_key: 'question_id'
+  # Relación de herencia
+  has_one :true_false #, optional: true
+  has_one :autocompletado #, optional: true
+  has_one :choice #, optional: true
+  #Sin el opcional, no estaria diciendo que una question es las 3 a la vez, o el opcional esta implicito
 end
 
-#la asociación has_many :choices en la clase Question permite acceder a todas las instancias de Choice que están asociadas a una instancia
-#de Question específica. Esto es posible porque las subclases heredan las asociaciones de la clase base en Rails.
+

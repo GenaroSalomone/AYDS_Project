@@ -1,5 +1,8 @@
 class Choice < ActiveRecord::Base
+  #Herencia
   belongs_to :question
+
+  #Relacion con respuesta
   has_many :answers, foreign_key: 'choice_id'
 
   validate :must_have_four_answers
