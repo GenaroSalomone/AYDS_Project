@@ -66,7 +66,6 @@ class App < Sinatra::Application
       @error_message = "Hubo un error al registrar el usuario: #{user.errors.full_messages.join(', ')}"
       erb :message
     end
-    redirect '/choice/3'
   end
 
   post '/crearChoice' do
@@ -131,32 +130,12 @@ class App < Sinatra::Application
   end
 
   get '/choice/:id' do
-    choice_id = params[:id]
-
-    choice_query = <<-SQL
-      SELECT choices.id, questions.texto
-      FROM choices
-      INNER JOIN questions ON choices.question_id = questions.id
-      WHERE choices.id = #{choice_id}
-    SQL
-
-    answers_query = <<-SQL
-      SELECT answers.id, answers.texto
-      FROM choices
-      INNER JOIN answers ON choices.id = answers.choice_id
-      WHERE choices.id = #{choice_id}
-    SQL
-
-    choice_result = ActiveRecord::Base.connection.exec_query(choice_query).first
-    answers_results = ActiveRecord::Base.connection.exec_query(answers_query)
-
-    # Construir un hash con los datos de la choice y las answers
-    @choice_data = {
-      id: choice_result['id'],
-      texto: choice_result['texto'],
-      answers: answers_results.map { |row| { id: row['id'], texto: row['texto'] } }
-    }
-
+    @choice = Choice.find params[:id]
+     @choice_data = {
+       id: @choice.id,
+       texto: @choice.question.texto,
+       answers: @choice.answers.map { |answer| { id: answer.id, texto: answer.texto } }
+     }
     erb :choice
   end
 
@@ -196,3 +175,8 @@ end
 #FROM choices
 #INNER JOIN answers ON choices.id = answers.choice_id
 #WHERE choices.id = 2;
+
+# bundle exec irb -I. -r server.rb
+# choice = Choice.first
+# question = Question.find 4
+# question.choice.answers
