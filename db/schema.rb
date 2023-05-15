@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_15_120718) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_12_114400) do
   create_table "answers", force: :cascade do |t|
     t.string "texto"
     t.boolean "esCorrecta"
@@ -43,7 +43,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_15_120718) do
   create_table "true_falses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "texto"
   end
 
   create_table "users", force: :cascade do |t|
