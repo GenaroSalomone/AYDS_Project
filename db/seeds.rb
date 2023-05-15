@@ -5,6 +5,7 @@ question2 = Question.create(texto: "¿Cuál es la diferencia entre lenguaje de p
 question3 = Question.create(texto: "¿Qué es el modelo cliente-servidor y cómo se utiliza en aplicaciones web?")
 question4 = Question.create(texto: "¿Quién es Alan Turing?")
 question5 = Question.create(texto: "¿Cuál de los siguientes lenguajes de programación son ORIENTADOS A OBJETOS?")
+question6 = Question.create(texto: "El lenguaje ensamblador es un lenguaje de bajo nivel.")
 
 # Respuestas correctas de tipo multiple choice
 choice1 = Choice.create(texto: "Es un modelo de arquitectura que separa la lógica de presentación y la lógica de negocio.", question: question3)
@@ -20,6 +21,10 @@ choice2_3 = Choice.create(texto: "Es un actor.", question: nil)
 choice3_1 = Choice.create(texto: "C++", question: nil)
 choice3_2 = Choice.create(texto: "Java", question: nil)
 choice3_3 = Choice.create(texto: "Java Script", question: nil)
+
+#Respuestas de tipo True False
+
+
 
 
 #Ejemplo
