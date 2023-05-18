@@ -31,30 +31,30 @@ class App < Sinatra::Application
     end
   end
 
-  get '/' do
-    erb :index
+  get '/' do 
+    erb :index # se ejecuta index
   end
-
+  
   get '/registrarse' do
-    erb :signup
+    erb :signup  # localhost:4567/registrarse
   end
 
   delete '/users/:id' do
     user = User.find(params[:id])
     if user.destroy
-      @message = "Borrado exitoso!"
-      erb :message
+      @message = "Borrado exitoso!" # en @message se almacena el msj
+      erb :message                  # se invoca message.erb
     else
       @error_message = "Hubo un error al borrar el usuario: #{user.errors.full_messages.join(', ')}"
       erb :message
     end
   end
 
-  post '/registrarse' do
+  post '/registrarse' do # envia informacion al server (/registrarse)
     # Obtener los datos del formulario
     username = params[:username]
-    email = params[:email]
     password = params[:password]
+    email = params[:email]
 
     # Crear un nuevo registro en la base de datos
     user = User.create(username: username, email: email, password: password)
@@ -141,15 +141,15 @@ class App < Sinatra::Application
 
 end
 # Start the server using rackup
-# 1-rackup -p 4567 : Working
-# 2-bundle exec rackup -p 4567 : Working
+# 1- rackup -p 4567 : Working
+# 2- bundle exec rackup -p 4567 : Working (levanta el server)
 # 3-docker compose up app : Working
 # Container ayds_project-app-1
-# bundle exec rake db:migrate
+# bundle exec rake db:migrate  (Run the migration)
 # bundle exec irb -I. -r server.rb
-# user = User.new(name: "John")
+# user = User.new(username: "Cristian")
 # user.save
-# User.all
+# User.all (muestra los usuarios con sus datos registrados)
 # User.find_by(name: "John")
 # puts john.inspect -> imprime el registro en la BD .
 # no puedo hacer esto dentro de docker:docker-compose exec app bundle exec irb -I. -r server.rb -> no abre la consola
