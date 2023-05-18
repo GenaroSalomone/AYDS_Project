@@ -1,6 +1,4 @@
-class Choice < ActiveRecord::Base
-  #Herencia
-  belongs_to :question
+class Choice < Question
 
   #Relacion con respuesta
   has_many :answers, foreign_key: 'choice_id'

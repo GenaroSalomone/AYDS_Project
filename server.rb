@@ -31,10 +31,10 @@ class App < Sinatra::Application
     end
   end
 
-  get '/' do 
+  get '/' do
     erb :index # se ejecuta index
   end
-  
+
   get '/registrarse' do
     erb :signup  # localhost:4567/registrarse
   end
@@ -69,7 +69,7 @@ class App < Sinatra::Application
   end
 
   post '/crearChoice' do
-    question_id = params[:question_id]
+    texto = params[:texto]
     answer_id1 = params[:answer_id1]
     answer_id2 = params[:answer_id2]
     answer_id3 = params[:answer_id3]
@@ -78,7 +78,7 @@ class App < Sinatra::Application
     answers = Answer.where(id: [answer_id1, answer_id2, answer_id3, answer_id4])
 
     if answers.size == 4
-      choice = Choice.new(question_id: question_id)
+      choice = Choice.new(texto: texto)
       choice.answers = answers
 
       if choice.save

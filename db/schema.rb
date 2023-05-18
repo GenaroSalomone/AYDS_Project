@@ -10,12 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_12_114400) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_18_194537) do
   create_table "answers", force: :cascade do |t|
     t.string "texto"
     t.boolean "esCorrecta"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
     t.integer "choice_id"
     t.index ["choice_id"], name: "index_answers_on_choice_id"
   end
@@ -24,13 +24,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_12_114400) do
     t.string "respuestaCorrecta"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "question_id", null: false
+    t.index ["question_id"], name: "index_autocomplets_on_question_id"
   end
 
   create_table "choices", force: :cascade do |t|
-    t.integer "question_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["question_id"], name: "index_choices_on_question_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -43,6 +43,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_12_114400) do
   create_table "true_falses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "question_id", null: false
+    t.index ["question_id"], name: "index_true_falses_on_question_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -54,5 +56,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_12_114400) do
   end
 
   add_foreign_key "answers", "choices"
-  add_foreign_key "choices", "questions"
+  add_foreign_key "autocomplets", "questions"
+  add_foreign_key "true_falses", "questions"
 end
