@@ -60,8 +60,8 @@ class App < Sinatra::Application
     user = User.create(username: username, email: email, password: password)
 
     if user.save
-      @message = "¡Registro exitoso!"
-      erb :message
+      @message = "¡Comience a realizar la trivia!"
+      erb :buttonIn # se invoca buttonIn.erb, es distinto al message.erb
     else
       @error_message = "Hubo un error al registrar el usuario: #{user.errors.full_messages.join(', ')}"
       erb :message
