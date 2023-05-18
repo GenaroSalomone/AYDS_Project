@@ -7,11 +7,8 @@
   <% if @message %>
     <h1>¡Éxito!</h1>
     <p><%= @message %></p>
-    <form> <!-- agregar un atributo para un post que lleve a la trivia-->
-      <input type="button" value="Start trivia" />  <!-- boton -->
-    </form>
   <% elsif @error_message %>
-    <h1>Error al registrarse!</h1> 
+    <h1>Error</h1> 
     <p><%= @error_message %></p>
   <% end %>
 </body>
