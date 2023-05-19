@@ -70,30 +70,37 @@ class App < Sinatra::Application
 
   post '/crearChoice' do
     texto = params[:texto]
-    answer_id1 = params[:answer_id1]
-    answer_id2 = params[:answer_id2]
-    answer_id3 = params[:answer_id3]
-    answer_id4 = params[:answer_id4]
 
-    answers = Answer.where(id: [answer_id1, answer_id2, answer_id3, answer_id4])
+    choice = Choice.create(texto: texto)
 
-    if answers.size == 4
-      choice = Choice.new(texto: texto)
-      choice.answers = answers
-
-      if choice.save
-        @message = "¡Registro exitoso!"
-        erb :message
-      else
-        @error_message = "Hubo un error al registrar la elección: #{choice.errors.full_messages.join(', ')}"
-        erb :message
-      end
+    if choice.persisted?
+      @message = "¡Registro exitoso!"
+      erb :message
     else
-      @error_message = "Debes seleccionar exactamente 4 respuestas."
+      @error_message = "Hubo un error al registrar la elección: #{choice.errors.full_messages.join(', ')}"
       erb :message
     end
   end
 
+  post '/crearAnswer' do
+    texto = params[:texto]
+    esCorrecta = params[:esCorrecta]
+    question_id = params[:question_id]
+
+    answer = Answer.create(texto: texto, esCorrecta: esCorrecta, question_id: question_id)
+
+    if answer.save
+      @message = "¡Registro exitoso!"
+      erb :message
+    else
+      @error_message = "Hubo un error al registrar la respuesta: #{answer.errors.full_messages.join(', ')}"
+      erb :message
+    end
+  end
+
+  #Answer.create(texto: 'hola', esCorrecta: true, created_at: Time.now, updated_at: Time.now, choice_id: 28)
+  #INSERT INTO answers (texto, esCorrecta, created_at, updated_at, choice_id)
+  #VALUES ('hola', 1, datetime('now'), datetime('now'), 28)
 
   post '/crearQuestion' do
     texto = params[:texto]
@@ -109,20 +116,7 @@ class App < Sinatra::Application
     end
   end
 
-  post '/crearAnswer' do
-    texto = params[:texto]
-    esCorrecta = params[:esCorrecta]
 
-    answer = Answer.create(texto: texto, esCorrecta: esCorrecta)
-
-    if answer.save
-      @message = "¡Registro exitoso!"
-      erb :message
-    else
-      @error_message = "Hubo un error al registrar el usuario: #{user.errors.full_messages.join(', ')}"
-      erb :message
-    end
-  end
 
   get '/welcome' do
     logger.info 'USANDO LOGGER INFO EN WELCOME PATH'
@@ -130,12 +124,13 @@ class App < Sinatra::Application
   end
 
   get '/choice/:id' do
-    @choice = Choice.find params[:id]
-     @choice_data = {
-       id: @choice.id,
-       texto: @choice.question.texto,
-       answers: @choice.answers.map { |answer| { id: answer.id, texto: answer.texto } }
-     }
+    #@choice = Choice.find params[:id]
+    @question = Question.find params[:id]
+    @question_data = {
+       id: @question.id,
+       texto: @question.texto,
+       answers: @question.answer.map { |answer| { id: answer.id, texto: answer.texto } }
+      }
     erb :choice
   end
 

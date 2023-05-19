@@ -10,14 +10,14 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_18_194537) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_19_120712) do
   create_table "answers", force: :cascade do |t|
     t.string "texto"
     t.boolean "esCorrecta"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.integer "choice_id"
-    t.index ["choice_id"], name: "index_answers_on_choice_id"
+    t.integer "question_id"
+    t.index ["question_id"], name: "index_answers_on_question_id"
   end
 
   create_table "autocomplets", force: :cascade do |t|
@@ -55,7 +55,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_18_194537) do
     t.string "email"
   end
 
-  add_foreign_key "answers", "choices"
+  add_foreign_key "answers", "questions"
   add_foreign_key "autocomplets", "questions"
   add_foreign_key "true_falses", "questions"
 end
