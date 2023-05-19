@@ -8,8 +8,8 @@
     <h1>¡Registro exitoso!</h1>
     <p><%= @message %></p>
   <% end %>
-<form>
-  <input type="button" value="Start trivia" />
+<form action="/question" method="get">
+  <input type="submit" value="Start trivia" />
 </form>
 </body>
 </html>
