@@ -23,8 +23,10 @@
 
   <h2>Answers:</h2>
   <ul>
-    <% @choice_data[:answers].each do |answer| %>
-      <li><%= answer[:texto] %></li>
+    <% @answer_data[:answers].each do |answer| %>
+      <li>
+        <p><%= answer[:texto] %></p>
+      </li>
     <% end %>
   </ul>
 </body>

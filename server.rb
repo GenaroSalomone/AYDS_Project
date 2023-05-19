@@ -104,9 +104,7 @@ class App < Sinatra::Application
 
   post '/crearQuestion' do
     texto = params[:texto]
-
     question = Question.create(texto: texto)
-
     if question.save
       @message = "¡Registro exitoso!"
       erb :message
@@ -116,21 +114,21 @@ class App < Sinatra::Application
     end
   end
 
-
-
   get '/welcome' do
     logger.info 'USANDO LOGGER INFO EN WELCOME PATH'
     'Welcome path'
   end
 
   get '/choice/:id' do
-    #@choice = Choice.find params[:id]
-    @question = Question.find params[:id]
-    @question_data = {
-       id: @question.id,
-       texto: @question.texto,
-       answers: @question.answer.map { |answer| { id: answer.id, texto: answer.texto } }
-      }
+    @choice = Choice.find(params[:id])
+    @answers = Answer.where(question_id: @choice.id)
+    @choice_data = {
+      id: @choice.id,
+      texto: @choice.texto
+    }
+    @answer_data = {
+      answers: @answers.map { |answer| { texto: answer.texto, question_id: answer.question_id } }
+    }
     erb :choice
   end
 
