@@ -22,6 +22,8 @@ class App < Sinatra::Application
     logger = Logger.new(STDOUT)
     logger.level = Logger::DEBUG if development?
     set :logger, logger
+
+    set :public_folder, File.dirname(__FILE__) + '/public' # Agregar esta línea aquí
   end
 
   configure :development do
@@ -131,6 +133,12 @@ class App < Sinatra::Application
     }
     erb :choice
   end
+
+
+
+
+
+
 
 end
 # Start the server using rackup
