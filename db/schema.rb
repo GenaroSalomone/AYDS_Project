@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_19_120712) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_20_142113) do
   create_table "answers", force: :cascade do |t|
     t.string "texto"
     t.boolean "esCorrecta"
@@ -53,6 +53,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_19_120712) do
     t.string "username"
     t.string "password"
     t.string "email"
+    t.string "password_digest"
   end
 
   add_foreign_key "answers", "questions"
