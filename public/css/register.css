@@ -1,0 +1,67 @@
+/* register.css */
+/* register.css */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    text-align: center;
+    background-color: #fff; /* Cambia el color de fondo a blanco */
+   }
+
+   h1 {
+    font-size: 36px;
+    margin-bottom: 30px;
+    color: #333; /* Cambia el color del texto a gris oscuro */
+   }
+
+   form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Alinear los elementos del formulario a la izquierda */
+   }
+
+   label {
+    display: block;
+    margin-bottom: 10px;
+    color: #333; /* Cambia el color del texto a gris oscuro */
+   }
+
+   input[type="text"],
+   input[type="password"],
+   input[type="email"] {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin-bottom: 10px;
+   }
+
+   input[type="submit"] {
+    background-color:#fff; /* Cambia el color de fondo a blanco */
+    border:1px solid #333; /* Agrega un borde gris oscuro alrededor del botón */
+    border-radius:4px;
+    color:#333; /* Cambia el color del texto a gris oscuro */
+    cursor:pointer;
+    font-size:16px;
+    padding:10px 20px;
+    box-shadow:none; /* Elimina la sombra del botón */
+    transition:none; /* Elimina la transición suave para el hover */
+   }
+
+   input[type="submit"]:hover {
+    background-color:#caff85; /* Cambia el color de fondo en el hover a gris claro */
+   }
+
+   .form-group {
+    display:flex;
+    align-items:center;
+    margin-bottom:10px;
+   }
+
+   .form-group label {
+    margin-right:10px;
+   }

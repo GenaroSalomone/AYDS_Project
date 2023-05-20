@@ -29,6 +29,7 @@ GEM
       i18n (>= 1.6, < 2)
       minitest (>= 5.1)
       tzinfo (~> 2.0)
+    bcrypt (3.1.18)
     concurrent-ruby (1.2.2)
     i18n (1.13.0)
       concurrent-ruby (~> 1.0)
@@ -55,6 +56,7 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
+  bcrypt
   multi_json
   rake
   sinatra!

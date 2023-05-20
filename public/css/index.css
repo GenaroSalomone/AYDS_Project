@@ -9,47 +9,50 @@ body {
     justify-content: center;
     height: 100vh;
     text-align: center;
-    background-color: #b0ffe1d0;
-  }
+    background-color: #fff; /* Cambia el color de fondo a blanco */
+   }
 
-  /* Estilos para el encabezado principal */
-  h1 {
-    font-size: 24px;
+   /* Estilos para el encabezado principal */
+   h1 {
+    font-size: 30px;
     margin-bottom: 20px;
-  }
+    color: #333; /* Cambia el color del texto a gris oscuro */
+   }
 
-  /* Estilos para el párrafo de bienvenida */
-  p {
+   /* Estilos para el párrafo de bienvenida */
+   p {
     font-size: 18px;
     margin-bottom: 20px;
-  }
+    color: #333; /* Cambia el color del texto a gris oscuro */
+   }
 
-  /* Estilos para la pregunta */
-  h2 {
+   /* Estilos para la pregunta */
+   h2 {
     font-size: 20px;
     margin-bottom: 10px;
-  }
+    color: #333; /* Cambia el color del texto a gris oscuro */
+   }
 
-/* Estilos para los botones */
-  .button-container {
+   /* Estilos para los botones */
+   .button-container {
     margin-top: 20px;
     display: flex;
     justify-content: center;
-  }
+   }
 
-  button {
-    background-color: #d9d9d9;
-    border: none;
+   button {
+    background-color: #fff; /* Cambia el color de fondo a blanco */
+    border: 1px solid #333; /* Agrega un borde gris oscuro alrededor del botón */
     border-radius: 4px;
-    color: #333;
-    cursor: pointer;
+    color: #333; /* Cambia el color del texto a gris oscuro */
+    cursor:pointer;
     font-size: 16px;
     padding: 10px 20px;
     margin-right: 5px; /* Ajusta el espacio entre los botones */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    transition: background-color 0.3s; /* Transición suave para el hover */
-  }
+    box-shadow:none; /* Elimina la sombra del botón */
+    transition:none; /* Elimina la transición suave para el hover */
+   }
 
-  button:hover {
-    background-color: #75cf75; /* Cambia el color de fondo en el hover a verde claro */
-  }
+   button:hover {
+    background-color:#caff85; /* Cambia el color de fondo en el hover a gris claro */
+   }

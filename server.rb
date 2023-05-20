@@ -7,7 +7,7 @@ require_relative 'models/question'
 require_relative 'models/choice'
 require_relative 'models/answer'
 require 'json'
-
+#require 'bcrypt'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
@@ -38,7 +38,11 @@ class App < Sinatra::Application
   end
 
   get '/registrarse' do
-    erb :signup  # localhost:4567/registrarse
+    erb :register  # localhost:4567/registrarse
+  end
+
+  get '/login' do
+    erb :login
   end
 
   delete '/users/:id' do
@@ -52,23 +56,31 @@ class App < Sinatra::Application
     end
   end
 
-  post '/registrarse' do # envia informacion al server (/registrarse)
+  post '/registrarse' do
     # Obtener los datos del formulario
     username = params[:username]
     password = params[:password]
+    confirm_password = params[:confirm_password]
     email = params[:email]
 
+    # Verificar si las contraseñas coinciden
+    if password == confirm_password
     # Crear un nuevo registro en la base de datos
-    user = User.create(username: username, email: email, password: password)
+      user = User.create(username: username, email: email, password: password)
 
-    if user.save
-      @message = "¡Comience a realizar la trivia!"
-      erb :buttonIn # se invoca buttonIn.erb, es distinto al message.erb
+      if user.save
+        @message = "¡Comience a realizar la trivia!"
+        erb :buttonIn
+      else
+        @error_message = "Hubo un error al registrar el usuario: #{user.errors.full_messages.join(', ')}"
+        erb :message
+      end
     else
-      @error_message = "Hubo un error al registrar el usuario: #{user.errors.full_messages.join(', ')}"
+      @error_message = "Las contraseñas no coinciden"
       erb :message
     end
-  end
+   end
+
 
   post '/crearChoice' do
     texto = params[:texto]
