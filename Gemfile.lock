@@ -1,19 +1,19 @@
 GIT
   remote: https://github.com/sinatra/sinatra.git
-  revision: b4f61f59cf8f938db261a6561a69ca61d01e8581
+  revision: 5f4dde19719505989905782a61a19c545df7f9f9
   specs:
-    rack-protection (3.0.0)
+    rack-protection (3.0.6)
       rack
-    sinatra (3.0.0)
-      mustermann (~> 1.0)
-      rack (~> 2.2)
-      rack-protection (= 3.0.0)
+    sinatra (3.0.6)
+      mustermann (~> 3.0)
+      rack (~> 2.2, >= 2.2.4)
+      rack-protection (= 3.0.6)
       tilt (~> 2.0)
-    sinatra-contrib (3.0.0)
+    sinatra-contrib (3.0.6)
       multi_json
-      mustermann (~> 1.0)
-      rack-protection (= 3.0.0)
-      sinatra (= 3.0.0)
+      mustermann (~> 3.0)
+      rack-protection (= 3.0.6)
+      sinatra (= 3.0.6)
       tilt (~> 2.0)
 
 GEM
@@ -31,12 +31,13 @@ GEM
       tzinfo (~> 2.0)
     bcrypt (3.1.18)
     concurrent-ruby (1.2.2)
+    dotenv (2.8.1)
     i18n (1.13.0)
       concurrent-ruby (~> 1.0)
     mini_portile2 (2.8.2)
     minitest (5.18.0)
     multi_json (1.15.0)
-    mustermann (1.1.2)
+    mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
     rack (2.2.7)
     rake (13.0.6)
@@ -44,9 +45,11 @@ GEM
     sinatra-activerecord (2.0.26)
       activerecord (>= 4.1)
       sinatra (>= 1.0)
-    sqlite3 (1.6.2)
+    sinatra-session (1.0.0)
+      sinatra (>= 1.0)
+    sqlite3 (1.6.3)
       mini_portile2 (~> 2.8.0)
-    sqlite3 (1.6.2-x86_64-linux)
+    sqlite3 (1.6.3-x86_64-linux)
     tilt (2.1.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
@@ -56,16 +59,18 @@ PLATFORMS
   x86_64-linux
 
 DEPENDENCIES
-  bcrypt
+  bcrypt (~> 3.1.18)
+  dotenv
   multi_json
   rake
   sinatra!
   sinatra-activerecord
   sinatra-contrib!
+  sinatra-session
   sqlite3
 
 RUBY VERSION
    ruby 2.7.5p203
 
 BUNDLED WITH
-   2.2.22
+   2.4.12

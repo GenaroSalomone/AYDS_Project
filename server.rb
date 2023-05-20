@@ -7,7 +7,10 @@ require_relative 'models/question'
 require_relative 'models/choice'
 require_relative 'models/answer'
 require 'json'
-#require 'bcrypt'
+require 'bcrypt'
+require 'sinatra/session'
+require 'dotenv/load'
+require 'securerandom'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
@@ -32,6 +35,9 @@ class App < Sinatra::Application
       puts 'Reloaded...'
     end
   end
+
+  enable :sessions
+  set :session_secret, SecureRandom.hex(64)
 
   get '/' do
     erb :index # se ejecuta index
@@ -70,7 +76,7 @@ class App < Sinatra::Application
 
       if user.save
         @message = "¡Comience a realizar la trivia!"
-        erb :buttonIn
+        erb :register_success
       else
         @error_message = "Hubo un error al registrar el usuario: #{user.errors.full_messages.join(', ')}"
         erb :message
@@ -81,6 +87,36 @@ class App < Sinatra::Application
     end
    end
 
+   post '/login' do
+    # Obtener los datos del formulario
+    username = params[:username]
+    password = params[:password]
+
+    # Buscar al usuario en la base de datos
+    user = User.find_by(username: username)
+
+    # Verificar si el usuario existe y si la contraseña es correcta
+    if user && user.authenticate(password)
+      # Iniciar sesión al usuario
+      session[:user_id] = user.id
+
+      # Redirigir al usuario a una página protegida
+      redirect '/protected_page'
+    else
+      @error_message = "Nombre de usuario o contraseña incorrectos"
+      erb :message
+    end
+  end
+
+  get '/protected_page' do
+    if session[:user_id]
+      # Usuario autenticado, mostrar página protegida
+      erb :protected_page
+    else
+      # Usuario no autenticado, redirigir a la página de inicio de sesión
+      redirect '/login'
+    end
+  end
 
   post '/crearChoice' do
     texto = params[:texto]
@@ -112,10 +148,6 @@ class App < Sinatra::Application
     end
   end
 
-  #Answer.create(texto: 'hola', esCorrecta: true, created_at: Time.now, updated_at: Time.now, choice_id: 28)
-  #INSERT INTO answers (texto, esCorrecta, created_at, updated_at, choice_id)
-  #VALUES ('hola', 1, datetime('now'), datetime('now'), 28)
-
   post '/crearQuestion' do
     texto = params[:texto]
     question = Question.create(texto: texto)
@@ -126,11 +158,6 @@ class App < Sinatra::Application
       @error_message = "Hubo un error al registrar el usuario: #{user.errors.full_messages.join(', ')}"
       erb :message
     end
-  end
-
-  get '/welcome' do
-    logger.info 'USANDO LOGGER INFO EN WELCOME PATH'
-    'Welcome path'
   end
 
   get '/choice/:id' do
@@ -168,6 +195,7 @@ end
 # no puedo hacer esto dentro de docker:docker-compose exec app bundle exec irb -I. -r server.rb -> no abre la consola
 
 
+# docker compose up app
 # docker compose exec app bundle exec irb -I. -r server.rb -> WORKING
 # sqlite3 db/duo_development.sqlite3
 # .schema users --indent
@@ -175,7 +203,7 @@ end
 # bundle exec rake db:migrate:status -> VER MIGRACIONES
 # seeds.rb en la altura bd. db.seeds para correr
 
-#rake db:create_migration NAME=create_users
+#bundle exec rake db:create_migration add_digest
 
 #Asi se veria la herencia entre choice y question, donde mediante esa consulta se veria el texto de la choice.
 #SELECT choices.id, questions.texto

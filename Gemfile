@@ -12,6 +12,8 @@ end
 gem 'sinatra-activerecord'
 gem 'sqlite3'
 gem 'rake'
-#gem 'bcrypt'
+gem 'bcrypt', '~> 3.1.18'
+gem 'sinatra-session'
+gem 'dotenv'
 
 

@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Registro exitoso</title>
+  <link rel="stylesheet" type="text/css" href="/css/register_success.css">
+</head>
+<body>
+  <% if @message %>
+    <h1>¡Registro exitoso!</h1>
+    <p><%= @message %></p>
+  <% end %>
+
+  <form action="/login" method="get">
+    <input type="submit" value="Ir al inicio de sesión" />
+  </form>
+</body>
+</html>
