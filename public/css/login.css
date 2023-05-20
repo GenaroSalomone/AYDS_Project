@@ -8,25 +8,25 @@ body {
     justify-content: center;
     height: 100vh;
     text-align: center;
-    background-color: #fff; /* Cambia el color de fondo a blanco */
+    background-color: #fff;
    }
 
    h1 {
     font-size: 36px;
     margin-bottom: 30px;
-    color: #333; /* Cambia el color del texto a gris oscuro */
+    color: #333;
    }
 
    form {
     display: flex;
     flex-direction: column;
-    align-items: flex-start; /* Alinear los elementos del formulario a la izquierda */
+    align-items: flex-start;
    }
 
    label {
     display: block;
     margin-bottom: 10px;
-    color: #333; /* Cambia el color del texto a gris oscuro */
+    color: #333;
    }
 
    input[type="text"],
@@ -39,17 +39,17 @@ body {
    }
 
    input[type="submit"] {
-    background-color:#fff; /* Cambia el color de fondo a blanco */
-    border:1px solid #333; /* Agrega un borde gris oscuro alrededor del botón */
+    background-color:#fff;
+    border:1px solid #333;
     border-radius:4px;
-    color:#333; /* Cambia el color del texto a gris oscuro */
+    color:#333;
     cursor:pointer;
     font-size:16px;
     padding:10px 20px;
-    box-shadow:none; /* Elimina la sombra del botón */
-    transition:none; /* Elimina la transición suave para el hover */
+    box-shadow:none;
+    transition:none;
    }
 
    input[type="submit"]:hover {
-    background-color:#caff85; /* Cambia el color de fondo en el hover a gris claro */
+    background-color:#caff85;
    }
