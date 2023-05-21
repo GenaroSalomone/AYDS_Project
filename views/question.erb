@@ -10,7 +10,7 @@
   <h1>Pregunta:</h1>
   <% if @question %>
     <p><%= @question.text %></p>
-    <h2>Respuestas:</h2>
+    <h2>Opciones:</h2>
     <form action="/answer" method="post">
       <input type="hidden" name="trivia_id" value="<%= @trivia.id %>">
       <input type="hidden" name="question_index" value="<%= @question_index %>">
