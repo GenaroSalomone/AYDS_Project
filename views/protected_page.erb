@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Página protegida</title>
-  <link rel="stylesheet" type="text/css" href="/css/protected.css">
+ <title>Página protegida</title>
+ <link rel="stylesheet" type="text/css" href="/css/protected.css">
 </head>
 <body>
-  <h1>Bienvenido a la página protegida</h1>
-  <p>Usted ha sido autenticado correctamente. Que empiece el juego.</p>
+ <h1>Bienvenido a la página protegida</h1>
+ <p>Usted ha sido autenticado correctamente. Que empiece el juego.</p>
+ <form action="/trivia" method="post">
+  <h2>Seleccione la dificultad de la trivia:</h2>
+  <div class="button-container">
+    <button class="button" name="difficulty" value="beginner">Principiante</button>
+    <button class="button" name="difficulty" value="difficult">Difícil</button>
+  </div>
+</form>
 </body>
 </html>

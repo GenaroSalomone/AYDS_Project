@@ -1,0 +1,37 @@
+<!-- question.erb -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pregunta</title>
+  <link rel="stylesheet" type="text/css" href="/css/question.css">
+</head>
+<body>
+  <h1>Pregunta:</h1>
+  <% if @question %>
+    <p><%= @question.text %></p>
+    <h2>Respuestas:</h2>
+    <form action="/answer" method="post">
+      <input type="hidden" name="trivia_id" value="<%= @trivia.id %>">
+      <input type="hidden" name="question_index" value="<%= @question_index %>">
+      <% @answers.each do |answer| %>
+        <label>
+          <div class="answer-container">
+            <input type="radio" name="selected_answer" value="<%= answer.id %>"
+              <% if answer.id == @selected_answer %>
+                checked
+              <% end %>
+            >
+            <span class="answer-text"><%= answer.text %></span>
+          </div>
+        </label>
+      <% end %>
+      <div class="button-container">
+        <button type="submit">Siguiente</button>
+      </div>
+    </form>
+  <% else %>
+    <p>No hay pregunta disponible.</p>
+  <% end %>
+</body>
+</html>
