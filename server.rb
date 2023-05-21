@@ -2,21 +2,29 @@ require 'sinatra'
 require 'bundler/setup'
 require 'logger'
 require "sinatra/activerecord"
-require_relative 'models/user'
-require_relative 'models/question'
-require_relative 'models/choice'
-require_relative 'models/answer'
-require 'json'
 require 'bcrypt'
 require 'sinatra/session'
 require 'dotenv/load'
 require 'securerandom'
+require 'enumerize'
+require_relative 'models/user'
+require_relative 'models/question'
+require_relative 'models/choice'
+require_relative 'models/answer'
+require_relative 'models/difficulty'
+require_relative 'models/trivia'
+require_relative 'models/question_trivia'
+require_relative 'models/question_answer'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
 class App < Sinatra::Application
   def initialize(app = nil)
     super()
+  end
+
+  def current_user
+    User.find(session[:user_id]) if session[:user_id]
   end
 
   configure :production, :development do
@@ -26,7 +34,7 @@ class App < Sinatra::Application
     logger.level = Logger::DEBUG if development?
     set :logger, logger
 
-    set :public_folder, File.dirname(__FILE__) + '/public' # Agregar esta línea aquí
+    set :public_folder, File.dirname(__FILE__) + '/public'
   end
 
   configure :development do
@@ -40,26 +48,15 @@ class App < Sinatra::Application
   set :session_secret, SecureRandom.hex(64)
 
   get '/' do
-    erb :index # se ejecuta index
+    erb :index
   end
 
   get '/registrarse' do
-    erb :register  # localhost:4567/registrarse
+    erb :register
   end
 
   get '/login' do
     erb :login
-  end
-
-  delete '/users/:id' do
-    user = User.find(params[:id])
-    if user.destroy
-      @message = "Borrado exitoso!" # en @message se almacena el msj
-      erb :message                  # se invoca message.erb
-    else
-      @error_message = "Hubo un error al borrar el usuario: #{user.errors.full_messages.join(', ')}"
-      erb :message
-    end
   end
 
   post '/registrarse' do
@@ -73,7 +70,6 @@ class App < Sinatra::Application
     if password == confirm_password
     # Crear un nuevo registro en la base de datos
       user = User.create(username: username, email: email, password: password)
-
       if user.save
         @message = "¡Comience a realizar la trivia!"
         erb :register_success
@@ -118,11 +114,32 @@ class App < Sinatra::Application
     end
   end
 
+  post '/trivia' do
+    user = current_user
+    difficulty_level = params[:difficulty]
+    difficulty = Difficulty.find_by(level: difficulty_level)
+    trivia = Trivia.new(user: user, difficulty: difficulty)
+    questions = Question.all
+    trivia.questions << questions
+    trivia.save
+    @trivia = trivia
+    associated_questions = trivia.questions
+    first_question = associated_questions.first
+    @question = first_question if first_question.present?
+    if first_question.present?
+      @answers = Answer.where(question_id: first_question.id)
+      @answer_data = {
+        answers: @answers.map { |answer| { text: answer.text } }
+      }
+    end
+    @question_index = 0
+    erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers }
+  end
+
+  #peticion post para crear una choice
   post '/crearChoice' do
     texto = params[:texto]
-
     choice = Choice.create(texto: texto)
-
     if choice.persisted?
       @message = "¡Registro exitoso!"
       erb :message
@@ -132,13 +149,12 @@ class App < Sinatra::Application
     end
   end
 
+  #peticion post para crear una answer
   post '/crearAnswer' do
     texto = params[:texto]
     esCorrecta = params[:esCorrecta]
     question_id = params[:question_id]
-
     answer = Answer.create(texto: texto, esCorrecta: esCorrecta, question_id: question_id)
-
     if answer.save
       @message = "¡Registro exitoso!"
       erb :message
@@ -148,6 +164,7 @@ class App < Sinatra::Application
     end
   end
 
+  #peticion post para crear una question
   post '/crearQuestion' do
     texto = params[:texto]
     question = Question.create(texto: texto)
@@ -160,6 +177,7 @@ class App < Sinatra::Application
     end
   end
 
+  #peticion prueba para obtener informacion desde answer hasta choice
   get '/choice/:id' do
     @choice = Choice.find(params[:id])
     @answers = Answer.where(question_id: @choice.id)
@@ -171,6 +189,18 @@ class App < Sinatra::Application
       answers: @answers.map { |answer| { texto: answer.texto, question_id: answer.question_id } }
     }
     erb :choice
+  end
+
+  #peticion delete para borrar un user dado un id
+  delete '/users/:id' do
+    user = User.find(params[:id])
+    if user.destroy
+      @message = "Borrado exitoso!" # en @message se almacena el msj
+      erb :message                  # se invoca message.erb
+    else
+      @error_message = "Hubo un error al borrar el usuario: #{user.errors.full_messages.join(', ')}"
+      erb :message
+    end
   end
 
 
