@@ -1,8 +1,7 @@
 class Question < ActiveRecord::Base
-  # Relación de herencia
-  has_one :true_false #, optional: true
-  has_one :autocompletado #, optional: true
-  #Sin el opcional, no estaria diciendo que una question es las 3 a la vez, o el opcional esta implicito
+  has_many :question_answers
+  has_many :answers, through: :question_answers
+  has_one :difficulty
 end
 
 

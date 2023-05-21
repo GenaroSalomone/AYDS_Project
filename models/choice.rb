@@ -1,6 +1,5 @@
 class Choice < Question
-
-  #Relacion con respuesta
-  has_many :answers
-
+  has_many :question_answers
+  has_many :answers, as: :question, through: :question_answers
+  has_one :difficulty
 end

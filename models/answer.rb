@@ -1,7 +1,5 @@
 class Answer < ActiveRecord::Base
-  belongs_to :choice, foreign_key: 'choice_id'
-  belongs_to :autocomplete, foreign_key: 'autocomplete_id'
-  belongs_to :true_false, foreign_key: 'true_false_id'
-  belongs_to :question, foreign_key: 'question_id'
-
+  belongs_to :question, polymorphic: true
+  has_many :question_answers
+  has_many :questions, through: :question_answers
 end
