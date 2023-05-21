@@ -26,7 +26,6 @@ Question.transaction do
   )
   Answer.create!(
     question: choice_1,
-    choice: choice_1,
     text: "Un componente físico de una computadora.",
     correct: false
   )
@@ -92,7 +91,6 @@ Question.transaction do
 
   # Pregunta 4
   choice_4 = Choice.create!(
-    question: choice_4,
     text: "¿Qué es un algoritmo?",
     difficulty: beginner_difficulty
   )
@@ -120,13 +118,12 @@ Question.transaction do
 
   # Pregunta 5
   choice_5 = Choice.create!(
-    question: choice_5,
     text: "¿Qué es el machine learning?",
     difficulty: beginner_difficulty
   )
 
   Answer.create!(
-    choice: choice_5,
+    question: choice_5,
     text: "Una rama de la inteligencia artificial que permite a las máquinas aprender y tomar decisiones sin ser programadas explícitamente.",
     correct: true
   )
@@ -145,6 +142,7 @@ Question.transaction do
     text: "Un método para el desarrollo rápido de aplicaciones web.",
     correct: false
   )
+
   Question.update_all(difficulty_id: beginner_difficulty.id)
 end
 
