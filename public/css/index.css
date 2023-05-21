@@ -1,4 +1,3 @@
-/* Estilos para el cuerpo de la página */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -9,31 +8,27 @@ body {
     justify-content: center;
     height: 100vh;
     text-align: center;
-    background-color: #fff; /* Cambia el color de fondo a blanco */
+    background-color: #fff;
    }
 
-   /* Estilos para el encabezado principal */
    h1 {
     font-size: 30px;
     margin-bottom: 20px;
-    color: #333; /* Cambia el color del texto a gris oscuro */
+    color: #333;
    }
 
-   /* Estilos para el párrafo de bienvenida */
    p {
     font-size: 18px;
     margin-bottom: 20px;
-    color: #333; /* Cambia el color del texto a gris oscuro */
+    color: #333;
    }
 
-   /* Estilos para la pregunta */
    h2 {
     font-size: 20px;
     margin-bottom: 10px;
-    color: #333; /* Cambia el color del texto a gris oscuro */
+    color: #333;
    }
 
-   /* Estilos para los botones */
    .button-container {
     margin-top: 20px;
     display: flex;
@@ -41,18 +36,18 @@ body {
    }
 
    button {
-    background-color: #fff; /* Cambia el color de fondo a blanco */
-    border: 1px solid #333; /* Agrega un borde gris oscuro alrededor del botón */
+    background-color: #fff;
+    border: 1px solid #333;
     border-radius: 4px;
-    color: #333; /* Cambia el color del texto a gris oscuro */
+    color: #333;
     cursor:pointer;
     font-size: 16px;
     padding: 10px 20px;
-    margin-right: 5px; /* Ajusta el espacio entre los botones */
-    box-shadow:none; /* Elimina la sombra del botón */
-    transition:none; /* Elimina la transición suave para el hover */
+    margin-right: 5px;
+    box-shadow:none;
+    transition:none;
    }
 
    button:hover {
-    background-color:#caff85; /* Cambia el color de fondo en el hover a gris claro */
+    background-color:#caff85;
    }
