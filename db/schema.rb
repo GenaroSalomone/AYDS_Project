@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_20_142113) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_21_182655) do
   create_table "answers", force: :cascade do |t|
-    t.string "texto"
-    t.boolean "esCorrecta"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+    t.boolean "selected", default: false
+    t.string "text"
+    t.boolean "correct"
     t.integer "question_id"
+    t.string "question_type"
     t.index ["question_id"], name: "index_answers_on_question_id"
   end
 
@@ -31,13 +33,48 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_20_142113) do
   create_table "choices", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "difficulty_id"
+    t.index ["difficulty_id"], name: "index_choices_on_difficulty_id"
+  end
+
+  create_table "difficulties", force: :cascade do |t|
+    t.string "level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "question_answers", force: :cascade do |t|
+    t.integer "question_id"
+    t.integer "answer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["answer_id"], name: "index_question_answers_on_answer_id"
+    t.index ["question_id"], name: "index_question_answers_on_question_id"
   end
 
   create_table "questions", force: :cascade do |t|
-    t.string "texto"
+    t.string "text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "type"
+    t.integer "difficulty_id"
+    t.index ["difficulty_id"], name: "index_questions_on_difficulty_id"
+  end
+
+  create_table "questions_trivias", id: false, force: :cascade do |t|
+    t.integer "trivia_id"
+    t.integer "question_id"
+    t.index ["question_id"], name: "index_questions_trivias_on_question_id"
+    t.index ["trivia_id"], name: "index_questions_trivias_on_trivia_id"
+  end
+
+  create_table "trivias", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "difficulty_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["difficulty_id"], name: "index_trivias_on_difficulty_id"
+    t.index ["user_id"], name: "index_trivias_on_user_id"
   end
 
   create_table "true_falses", force: :cascade do |t|
@@ -58,5 +95,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_20_142113) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "autocomplets", "questions"
-  add_foreign_key "true_falses", "questions"
+  add_foreign_key "choices", "difficulties"
+  add_foreign_key "question_answers", "answers"
+  add_foreign_key "question_answers", "questions"
+  add_foreign_key "questions", "difficulties"
+  add_foreign_key "questions_trivias", "questions"
 end
