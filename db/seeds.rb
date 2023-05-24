@@ -57,7 +57,7 @@ Question.transaction do
   )
   Answer.create!(
     question: choice_2,
-    text: "CSS",
+    text: "Ruby",
     correct: false
   )
   Answer.create!(
@@ -147,7 +147,145 @@ Question.transaction do
     correct: false
   )
 
-  Question.update_all(difficulty_id: beginner_difficulty.id)
-end
+   # Pregunta 6
+   choice_6 = Choice.create!(
+    text: "¿Qué es un bucle?",
+    difficulty: beginner_difficulty
+  )
 
+  Answer.create!(
+    question: choice_6,
+    text: "Una estructura de control que repite un bloque de código varias veces.",
+    correct: true
+  )
+
+  Answer.create!(
+    question: choice_6,
+    text: "Un tipo de dato utilizado para almacenar texto.",
+    correct: false
+  )
+  Answer.create!(
+    question: choice_6,
+    text: "Un método para organizar y almacenar datos en una estructura jerárquica.",
+    correct: false
+  )
+  Answer.create!(
+    question: choice_6,
+    text: "Una técnica para verificar la corrección de un programa.",
+    correct: false
+  )
+
+  # Pregunta 7
+  choice_7 = Choice.create!(
+    text: "¿Qué es un algoritmo de búsqueda?",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: choice_7,
+    text: "Un conjunto de pasos para encontrar un elemento específico dentro de una colección de datos.",
+    correct: true
+  )
+
+  Answer.create!(
+    question: choice_7,
+    text: "Una forma de organizar y estructurar el código fuente de un programa.",
+    correct: false
+  )
+  Answer.create!(
+    question: choice_7,
+    text: "Un método para optimizar el rendimiento de un programa.",
+    correct: false
+  )
+  Answer.create!(
+    question: choice_7,
+    text: "Una técnica para garantizar la seguridad de un sistema informático.",
+    correct: false
+  )
+
+  # Pregunta 8
+  choice_8 = Choice.create!(
+    text: "¿Qué es el debugging?",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: choice_8,
+    text: "El proceso de encontrar y corregir errores en un programa.",
+    correct: true
+  )
+
+  Answer.create!(
+    question: choice_8,
+    text: "Un tipo de lenguaje de programación orientado a objetos.",
+    correct: false
+  )
+  Answer.create!(
+    question: choice_8,
+    text: "Un enfoque para el desarrollo ágil de software.",
+    correct: false
+  )
+  Answer.create!(
+    question: choice_8,
+    text: "Un método para realizar pruebas automatizadas en un programa.",
+    correct: false
+  )
+
+  # Pregunta 9
+  choice_9 = Choice.create!(
+    text: "¿Qué es un repositorio de código?",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: choice_9,
+    text: "Un lugar donde se almacena y gestiona el código fuente de un proyecto.",
+    correct: true
+  )
+
+  Answer.create!(
+    question: choice_9,
+    text: "Un tipo de estructura de datos utilizada para almacenar y organizar información.",
+    correct: false
+  )
+  Answer.create!(
+    question: choice_9,
+    text: "Una técnica para proteger un programa contra posibles vulnerabilidades.",
+    correct: false
+  )
+  Answer.create!(
+    question: choice_9,
+    text: "Un método para optimizar el rendimiento de un programa.",
+    correct: false
+  )
+
+  # Pregunta 10
+  choice_10 = Choice.create!(
+    text: "¿Qué es un framework?",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: choice_10,
+    text: "Un conjunto de herramientas y bibliotecas que facilita el desarrollo de aplicaciones.",
+    correct: true
+  )
+
+  Answer.create!(
+    question: choice_10,
+    text: "Una técnica para el diseño de interfaces de usuario.",
+    correct: false
+  )
+  Answer.create!(
+    question: choice_10,
+    text: "Un enfoque para la resolución de problemas en la programación.",
+    correct: false
+  )
+  Answer.create!(
+    question: choice_10,
+    text: "Un lenguaje de programación utilizado para el desarrollo web.",
+    correct: false
+  )
+
+end
 
