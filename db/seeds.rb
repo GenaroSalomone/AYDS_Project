@@ -1,7 +1,11 @@
-# choice = Choice.create(text: 'Texto de la pregunta')
-# answer = Answer.create(text: 'Texto de la respuesta', correct: true, question: choice)
-# answer.question
-#
+
+ActiveRecord::Base.connection.execute('PRAGMA foreign_keys = OFF;')
+if ENV['RACK_ENV'] == 'development'
+  # Eliminar los registros existentes antes de crear nuevos
+  [Choice, Answer, Question, Difficulty].each(&:destroy_all)
+end
+ActiveRecord::Base.connection.execute('PRAGMA foreign_keys = ON;')
+
 # Crea la dificultad "beginner"
 beginner_difficulty = Difficulty.create!(level: "beginner")
 
