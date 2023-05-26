@@ -13,7 +13,6 @@ require_relative 'models/choice'
 require_relative 'models/answer'
 require_relative 'models/difficulty'
 require_relative 'models/trivia'
-require_relative 'models/question_trivia'
 require_relative 'models/question_answer'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
@@ -124,10 +123,10 @@ class App < Sinatra::Application
     trivia.questions << Question.order("RANDOM()").limit(10)
 
     trivia.save
+    session[:trivia_id] = trivia.id # Guardar el ID de la trivia en la sesión
     @trivia = trivia
 
-    associated_questions = trivia.questions
-    first_question = associated_questions.first
+    first_question = trivia.questions.first
     @question = first_question if first_question.present?
 
     if first_question.present?
@@ -137,13 +136,9 @@ class App < Sinatra::Application
       }
     end
 
-    # Crear una instancia de QuestionTrivia para la primera pregunta
-    QuestionTrivia.create(trivia: trivia, question: first_question) if first_question.present?
-
     @question_index = 0
     erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers }
   end
-
 
   post '/answer' do
     trivia_id = params[:trivia_id]
@@ -155,7 +150,8 @@ class App < Sinatra::Application
     selected_answer = Answer.find(selected_answer_id)
 
     # Crear una nueva fila en la tabla QuestionAnswer con los IDs de la pregunta y la respuesta seleccionada
-    QuestionAnswer.create(question_id: current_question.id, answer_id: selected_answer.id)
+    question_answer = QuestionAnswer.find_by(question_id: current_question.id, trivia_id: trivia_id)
+    question_answer.update(answer_id: selected_answer.id)
     selected_answer.update(selected: true)
 
     # Obtener la siguiente pregunta y sus respuestas
