@@ -1,0 +1,118 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  text-align: center;
+  line-height: 1.5;
+  background-color: #fff;
+  }
+
+h1 {
+  font-size: 36px; /* Aumentar el tamaño de la fuente para el título */
+  margin-bottom: 20px;
+  color: #333;
+}
+
+h2 {
+  font-size: 28px; /* Aumentar el tamaño de la fuente para los subtítulos */
+  margin-bottom: 10px;
+  color: #333;
+}
+
+h3 {
+  font-size: 24px; /* Aumentar el tamaño de la fuente para los subtítulos */
+  margin-bottom: 10px;
+  color: #333;
+}
+
+p {
+  font-size: 20px; /* Ajusta el tamaño de fuente según tus preferencias */
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  overflow: auto;
+  overflow-x: auto; /* Habilitar desplazamiento horizontal */
+  overflow-y: auto; /* Habilitar desplazamiento vertical */
+  text-align: center; /* Centrar el texto */
+}
+
+.container::-webkit-scrollbar {
+  width: 8px; /* Ancho de la barra de desplazamiento */
+}
+
+.container::-webkit-scrollbar-track {
+  background-color: transparent; /* Color de fondo de la barra de desplazamiento */
+}
+
+.container::-webkit-scrollbar-thumb {
+  background-color: transparent; /* Color del pulgar de la barra de desplazamiento */
+}
+
+.question-result {
+  margin-bottom: 30px;
+}
+
+.correct {
+  color: green;
+  font-weight: bold;
+  font-size: 24px; /* Aumentar el tamaño de la fuente para respuestas correctas */
+}
+
+.incorrect {
+  color: red;
+  font-weight: bold;
+  font-size: 24px; /* Aumentar el tamaño de la fuente para respuestas incorrectas */
+}
+
+.question {
+  margin-bottom: 20px;
+}
+
+.question p {
+  margin: 10px 0;
+}
+
+.question strong {
+  font-weight: bold;
+}
+
+.button-container {
+  margin-top: 20px;
+}
+
+.button {
+  display: inline-block;
+  padding: 10px 20px;
+  background-color: #333;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 5px;
+}
+
+.button:hover {
+  background-color: #555;
+}
+
+h2.score {
+  font-size: 36px; /* Aumentar el tamaño de la fuente del puntaje total */
+  margin-top: 30px; /* Agregar un margen superior al puntaje total */
+}
+
+.correct-message {
+  color: green;
+  font-weight: bold;
+  font-size: 30px;
+}
+
+.incorrect-message {
+  color: red;
+  font-weight: bold;
+  font-size: 30px;
+}
