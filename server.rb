@@ -119,21 +119,59 @@ class App < Sinatra::Application
     difficulty_level = params[:difficulty]
     difficulty = Difficulty.find_by(level: difficulty_level)
     trivia = Trivia.new(user: user, difficulty: difficulty)
-    questions = Question.all
-    trivia.questions << questions
+
+    # Seleccionar 10 preguntas aleatorias para la trivia
+    trivia.questions << Question.order("RANDOM()").limit(10)
+
     trivia.save
     @trivia = trivia
+
     associated_questions = trivia.questions
     first_question = associated_questions.first
     @question = first_question if first_question.present?
+
     if first_question.present?
       @answers = Answer.where(question_id: first_question.id)
       @answer_data = {
         answers: @answers.map { |answer| { text: answer.text } }
       }
     end
+
+    # Crear una instancia de QuestionTrivia para la primera pregunta
+    QuestionTrivia.create(trivia: trivia, question: first_question) if first_question.present?
+
     @question_index = 0
     erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers }
+  end
+
+
+  post '/answer' do
+    trivia_id = params[:trivia_id]
+    question_index = params[:question_index].to_i
+    selected_answer_id = params[:selected_answer]
+
+    @trivia = Trivia.find(trivia_id)
+    current_question = @trivia.questions[question_index]
+    selected_answer = Answer.find(selected_answer_id)
+
+    # Crear una nueva fila en la tabla QuestionAnswer con los IDs de la pregunta y la respuesta seleccionada
+    QuestionAnswer.create(question_id: current_question.id, answer_id: selected_answer.id)
+    selected_answer.update(selected: true)
+
+    # Obtener la siguiente pregunta y sus respuestas
+    next_question = @trivia.questions[question_index + 1]
+    if next_question.present? && question_index < 9
+      @question_index = question_index + 1
+      @question = next_question
+      @answers = Answer.where(question_id: next_question.id)
+      @answer_data = {
+        answers: @answers.map { |answer| { text: answer.text } }
+      }
+      erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers }
+    else
+      # No hay más preguntas para mostrar
+      redirect '/results'
+    end
   end
 
   #peticion post para crear una choice
