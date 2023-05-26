@@ -7,7 +7,7 @@
   <link rel="stylesheet" type="text/css" href="/css/question.css">
 </head>
 <body>
-  <h1>Pregunta:</h1>
+  <h1>Pregunta <%= @question_index + 1%>:</h1>
   <% if @question %>
     <p><%= @question.text %></p> <!-- se muestra la pregunta -->
     <h2>Opciones:</h2>
