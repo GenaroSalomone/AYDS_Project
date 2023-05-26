@@ -128,12 +128,8 @@ class App < Sinatra::Application
 
     associated_questions = trivia.questions
     first_question = associated_questions.first
-<<<<<<< HEAD
     @question = first_question if first_question.present?
 
-=======
-    @question = first_question if first_question.present? # @question recibe la pregunta n
->>>>>>> 4be770357990e02a9a79b49f361a4fc544c56b1a
     if first_question.present?
       @answers = Answer.where(question_id: first_question.id)
       @answer_data = {
