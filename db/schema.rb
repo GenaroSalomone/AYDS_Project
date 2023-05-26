@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_21_182655) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_26_151449) do
   create_table "answers", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
@@ -48,8 +48,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_182655) do
     t.integer "answer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "trivia_id"
     t.index ["answer_id"], name: "index_question_answers_on_answer_id"
     t.index ["question_id"], name: "index_question_answers_on_question_id"
+    t.index ["trivia_id"], name: "index_question_answers_on_trivia_id"
   end
 
   create_table "questions", force: :cascade do |t|
@@ -59,13 +61,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_182655) do
     t.string "type"
     t.integer "difficulty_id"
     t.index ["difficulty_id"], name: "index_questions_on_difficulty_id"
-  end
-
-  create_table "questions_trivias", id: false, force: :cascade do |t|
-    t.integer "trivia_id"
-    t.integer "question_id"
-    t.index ["question_id"], name: "index_questions_trivias_on_question_id"
-    t.index ["trivia_id"], name: "index_questions_trivias_on_trivia_id"
   end
 
   create_table "trivias", force: :cascade do |t|
@@ -99,5 +94,4 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_21_182655) do
   add_foreign_key "question_answers", "answers"
   add_foreign_key "question_answers", "questions"
   add_foreign_key "questions", "difficulties"
-  add_foreign_key "questions_trivias", "questions"
 end

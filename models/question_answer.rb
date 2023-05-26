@@ -3,4 +3,5 @@ class QuestionAnswer < ActiveRecord::Base
   self.table_name = 'question_answers'
   belongs_to :question
   belongs_to :answer
+  belongs_to :trivia
 end
