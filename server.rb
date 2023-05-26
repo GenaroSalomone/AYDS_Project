@@ -170,6 +170,32 @@ class App < Sinatra::Application
     end
   end
 
+  get '/results' do
+    trivia_id = session[:trivia_id]
+    @trivia = Trivia.find(trivia_id)
+    @user = @trivia.user
+
+    @results = []
+    @score = 0
+
+    @trivia.question_answers.each do |question_answer|
+      question = question_answer.question
+      selected_answer = Answer.find_by(id: question_answer.answer_id, question_id: question_answer.question_id)
+      correct_answer = Answer.find_by(question_id: question_answer.question_id, correct: true)
+
+      result = {
+        question: question,
+        selected_answer: selected_answer,
+        correct_answer: correct_answer,
+        correct: selected_answer == correct_answer
+      }
+
+      @results << result
+      @score += 1 if result[:correct]
+    end
+
+    erb :results
+  end
   #peticion post para crear una choice
   post '/crearChoice' do
     texto = params[:texto]
