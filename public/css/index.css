@@ -8,17 +8,18 @@ body {
     justify-content: center;
     height: 100vh;
     text-align: center;
+    line-height: 3.0;
     background-color: #fff;
    }
 
    h1 {
-    font-size: 30px;
+    font-size: 35px;
     margin-bottom: 20px;
     color: #333;
    }
 
    h2 {
-    font-size: 18px;
+    font-size: 25px;
     margin-bottom: 20px;
     color: #333;
    }

@@ -9,7 +9,7 @@
 <body>
   <h1>Pregunta:</h1>
   <% if @question %>
-    <p><%= @question.text %></p>
+    <p><%= @question.text %></p> <!-- se muestra la pregunta -->
     <h2>Opciones:</h2>
     <form action="/answer" method="post">
       <input type="hidden" name="trivia_id" value="<%= @trivia.id %>">
@@ -27,7 +27,7 @@
         </label>
       <% end %>
       <div class="button-container">
-        <button type="submit">Siguiente</button>
+        <button type="submit">Siguiente pregunta</button>
       </div>
     </form>
   <% else %>

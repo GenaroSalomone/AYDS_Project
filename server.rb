@@ -71,14 +71,14 @@ class App < Sinatra::Application
     # Crear un nuevo registro en la base de datos
       user = User.create(username: username, email: email, password: password)
       if user.save
-        @message = "¡Comience a realizar la trivia!"
+        @message = "Vuelva a logearse por favor, valla a inicio de sesión."
         erb :register_success
       else
         @error_message = "Hubo un error al registrar el usuario: #{user.errors.full_messages.join(', ')}"
         erb :message
       end
     else
-      @error_message = "Las contraseñas no coinciden"
+      @error_message = "Las contraseñas no coinciden."
       erb :message
     end
    end
@@ -99,7 +99,7 @@ class App < Sinatra::Application
       # Redirigir al usuario a una página protegida
       redirect '/protected_page'
     else
-      @error_message = "Nombre de usuario o contraseña incorrectos"
+      @error_message = "Usuario o contraseña incorrectos."
       erb :message
     end
   end
@@ -128,8 +128,12 @@ class App < Sinatra::Application
 
     associated_questions = trivia.questions
     first_question = associated_questions.first
+<<<<<<< HEAD
     @question = first_question if first_question.present?
 
+=======
+    @question = first_question if first_question.present? # @question recibe la pregunta n
+>>>>>>> 4be770357990e02a9a79b49f361a4fc544c56b1a
     if first_question.present?
       @answers = Answer.where(question_id: first_question.id)
       @answer_data = {
@@ -240,12 +244,6 @@ class App < Sinatra::Application
       erb :message
     end
   end
-
-
-
-
-
-
 
 end
 # Start the server using rackup
