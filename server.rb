@@ -165,9 +165,8 @@ class App < Sinatra::Application
       }
       erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers }
     else
-      # No hay más preguntas para mostrar
       redirect '/results'
-    end
+    end  
   end
 
   get '/results' do
@@ -176,7 +175,8 @@ class App < Sinatra::Application
     @user = @trivia.user
 
     @results = []
-    @score = 0
+    @score = 0 # el puntaje en un inicio es cero
+    @idx = 0 # se inicializa el indice
 
     @trivia.question_answers.each do |question_answer|
       question = question_answer.question
@@ -191,11 +191,12 @@ class App < Sinatra::Application
       }
 
       @results << result
-      @score += 1 if result[:correct]
+      @score += 1 if result[:correct] # se incrementa el puntaje si la answer elegida es la correcta
     end
 
     erb :results
   end
+
   #peticion post para crear una choice
   post '/crearChoice' do
     texto = params[:texto]
