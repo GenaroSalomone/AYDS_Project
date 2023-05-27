@@ -287,5 +287,65 @@ Question.transaction do
     correct: false
   )
 
+  #Pregunta 11
+  choice_11 = Choice.create!(
+    text: "¿Cuál de los siguientes lenguajes de programación es funcional?",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: choice_11,
+    text: "LISP", 
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_11,
+    text: "Haskell", 
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_11,
+    text: "ML", 
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_11,
+    text: "Todos", 
+    correct: true
+  )
+
+  #Pregunta 12
+  choice_12 = Choice.create!(
+    text: "¿Cómo funcionan los métodos encolar y desencolar de una Cola de Prioridad?",
+    difficulty: beginner_difficulty
+  )
+ 
+  Answer.create!(
+    question: choice_12,
+    text: "Se encola un elemento al final y se desencola un elemento al principio.", 
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_12,
+    text: "Se encola un elemento al medio y se desencola el mismo elemento.", 
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_12,
+    text: "Se encola un elemento con una cierta prioridad y se desencola un elemento al principio.", 
+    correct: true
+  )
+
+  Answer.create!(
+    question: choice_12,
+    text: "Ninguna de las opciones anteriores.", 
+    correct: false
+  )
+
 end
 
