@@ -14,6 +14,7 @@ require_relative 'models/answer'
 require_relative 'models/difficulty'
 require_relative 'models/trivia'
 require_relative 'models/question_answer'
+require_relative 'models/true_false'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
@@ -137,7 +138,8 @@ class App < Sinatra::Application
     end
 
     @question_index = 0
-    erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers }
+    @time_limit_seconds = difficulty_level == "beginner" ? 15 : 10 # Limite de tiempo temporizador
+    erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds }
   end
 
   post '/answer' do
@@ -163,10 +165,11 @@ class App < Sinatra::Application
       @answer_data = {
         answers: @answers.map { |answer| { text: answer.text } }
       }
-      erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers }
+      @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10 # Limite de tiempo temporizador
+      erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds }
     else
       redirect '/results'
-    end  
+    end
   end
 
   get '/results' do
