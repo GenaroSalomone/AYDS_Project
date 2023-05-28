@@ -14,13 +14,13 @@ body {
 }
 
 h1 {
-  font-size: 40px; /* Tamaño aumentado para la pregunta */
+  font-size: 40px;
   margin-bottom: 20px;
   color: #333;
 }
 
 p {
-  font-size: 24px; /* Tamaño aumentado para las respuestas */
+  font-size: 24px;
   margin-bottom: 20px;
   color: #333;
 }
@@ -34,15 +34,15 @@ h2 {
 .answer-container {
   display: flex;
   align-items: center;
-  margin-bottom: 20px; /* Mayor espacio entre las respuestas */
+  margin-bottom: 20px;
   cursor: pointer;
-  padding: 15px; /* Aumenta el espacio interno del rectángulo hover */
-  border-radius: 8px; /* Mayor redondez para el rectángulo hover */
-  transition: background-color 0.2s ease; /* Animación suave para el hover */
+  padding: 15px;
+  border-radius: 8px;
+  transition: background-color 0.2s ease;
 }
 
 .answer-container:hover {
-  background-color: #caff85; /* Color de fondo del hover, mismo que el del botón "Siguiente" */
+  background-color: #caff85;
 }
 
 .answer-container input[type="radio"] {
@@ -51,7 +51,7 @@ h2 {
 
 .answer-text {
   display: inline-block;
-  font-size: 20px; /* Tamaño aumentado para las respuestas */
+  font-size: 20px;
 }
 
 .button-container {
@@ -76,3 +76,83 @@ button {
 button:hover {
   background-color: #caff85;
 }
+
+#timer-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  border: 2px solid #000000;
+  background-color: #5de09f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#timer {
+  font-size: 36px;
+  color: #000000;
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+}
+
+.message-container {
+  background-color: #ffffff;
+  border: 1px solid #000000;
+  padding: 20px;
+  text-align: center;
+}
+
+.message-text {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.message-button {
+  background-color: #fff;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #333;
+  cursor:pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  margin-right: 5px;
+  box-shadow:none;
+  transition:none;
+}
+
+.button-style {
+  background-color: #fff;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #333;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  margin-right: 5px;
+  box-shadow: none;
+  transition: none;
+}
+
+.button-style:hover {
+  background-color:#caff85;
+}
+
+.incorrect-answer + .answer-text {
+  color: red;
+  font-weight: bold;
+}
+
