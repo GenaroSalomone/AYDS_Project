@@ -12,15 +12,15 @@
     function validateForm() {
       var selectedOption = document.querySelector('input[name="selected_answer"]:checked');
       if (!selectedOption) {
-        alert("Debe seleccionar una opción.");
-        return false;
+        // Si no se seleccionó ninguna opción, asignar selected_answer como null
+        document.querySelector('input[name="selected_answer"]').value = null;
       }
       return true;
     }
   </script>
 </head>
 <body>
-  <h1>Pregunta <%= @question_index + 1%>:</h1>
+  <h1>Pregunta <%= @question_index + 1 %> :</h1>
   <% if @question %>
     <p><%= @question.text %></p> <!-- Se muestra la pregunta -->
     <h2>Opciones:</h2>
@@ -60,39 +60,24 @@
         messageContainer.innerHTML = `
           <div class="message-box">
             <p>Se terminó el tiempo, respuesta marcada como incorrecta!</p>
-            <button class="button-style">Entendido</button>
+            <button id="entendido-btn" class="button-style">Entendido</button>
           </div>
         `;
         overlay.appendChild(messageContainer);
         document.body.appendChild(overlay);
+
+        // Asignar el evento click al botón "Entendido"
+        var entendidoBtn = document.getElementById("entendido-btn");
+        entendidoBtn.addEventListener("click", function() {
+          document.querySelector('input[name="selected_answer"]').value = null; // Establecer selected_answer como null
+          document.querySelector('form').submit(); // Enviar el formulario para avanzar a la siguiente pregunta
+        });
       }
 
       // Función para avanzar a la siguiente pregunta
       function nextQuestion() {
-  var selectedOption = document.querySelector('input[name="selected_answer"]:checked');
-  if (!selectedOption) {
-    // Enviar solicitud AJAX indicando que la respuesta seleccionada fue incorrecta
-    $.ajax({
-      url: '/answer',
-      type: 'POST',
-      data: {
-        trivia_id: '<%= @trivia.id %>',
-        question_index: '<%= @question_index %>',
-        selected_answer: ''
-      },
-      success: function(response) {
-        // Redireccionar a la siguiente pregunta o a los resultados
-        window.location.href = response.redirect_url;
-      },
-      error: function() {
-        alert('Ha ocurrido un error.');
+        document.querySelector('form').submit();
       }
-    });
-  } else {
-    // Enviar el formulario normalmente si se seleccionó una respuesta
-    document.querySelector('form').submit();
-  }
-}
 
       // Función para iniciar el temporizador
       function startTimer(duration, display) {
@@ -103,7 +88,6 @@
           if (--timer < 0) {
             clearInterval(intervalId);
             showTimeUpMessage();
-            $('#submit-btn').click(); // Enviar el formulario automáticamente al finalizar el tiempo
           }
         }, 1000);
       }
