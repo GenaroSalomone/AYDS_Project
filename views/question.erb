@@ -5,7 +5,9 @@
 <head>
   <title>Pregunta</title>
   <link rel="stylesheet" type="text/css" href="/css/question.css">
-  <!--Pequeño codigo javascript para manejar validacion de que sea necesaria la seleccion de la respuesta -->
+  <!-- Importación de librería JS para implementar el temporizador -->
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <!-- Código JavaScript para manejar la validación de la selección de respuesta -->
   <script>
     function validateForm() {
       var selectedOption = document.querySelector('input[name="selected_answer"]:checked');
@@ -20,7 +22,7 @@
 <body>
   <h1>Pregunta <%= @question_index + 1%>:</h1>
   <% if @question %>
-    <p><%= @question.text %></p> <!-- se muestra la pregunta -->
+    <p><%= @question.text %></p> <!-- Se muestra la pregunta -->
     <h2>Opciones:</h2>
     <form action="/answer" method="post" onsubmit="return validateForm()">
       <input type="hidden" name="trivia_id" value="<%= @trivia.id %>">
@@ -37,10 +39,84 @@
           </div>
         </label>
       <% end %>
+      <div id="timer-container" data-time-limit-seconds="<%= @time_limit_seconds %>">
+        <span id="timer"></span>
+      </div>
       <div class="button-container">
         <button type="submit">Siguiente pregunta</button>
       </div>
     </form>
+
+    <div id="message-container"></div>
+
+    <script>
+      // Función para mostrar el mensaje de tiempo agotado
+      function showTimeUpMessage() {
+        var overlay = document.createElement("div");
+        overlay.classList.add("overlay");
+
+        var messageContainer = document.createElement("div");
+        messageContainer.classList.add("message-container");
+        messageContainer.innerHTML = `
+          <div class="message-box">
+            <p>Se terminó el tiempo, respuesta marcada como incorrecta!</p>
+            <button class="button-style">Entendido</button>
+          </div>
+        `;
+        overlay.appendChild(messageContainer);
+        document.body.appendChild(overlay);
+      }
+
+      // Función para avanzar a la siguiente pregunta
+      function nextQuestion() {
+  var selectedOption = document.querySelector('input[name="selected_answer"]:checked');
+  if (!selectedOption) {
+    // Enviar solicitud AJAX indicando que la respuesta seleccionada fue incorrecta
+    $.ajax({
+      url: '/answer',
+      type: 'POST',
+      data: {
+        trivia_id: '<%= @trivia.id %>',
+        question_index: '<%= @question_index %>',
+        selected_answer: ''
+      },
+      success: function(response) {
+        // Redireccionar a la siguiente pregunta o a los resultados
+        window.location.href = response.redirect_url;
+      },
+      error: function() {
+        alert('Ha ocurrido un error.');
+      }
+    });
+  } else {
+    // Enviar el formulario normalmente si se seleccionó una respuesta
+    document.querySelector('form').submit();
+  }
+}
+
+      // Función para iniciar el temporizador
+      function startTimer(duration, display) {
+        var timer = duration, seconds;
+        var intervalId = setInterval(function () {
+          seconds = parseInt(timer % 60, 10);
+          display.text(seconds);
+          if (--timer < 0) {
+            clearInterval(intervalId);
+            showTimeUpMessage();
+            $('#submit-btn').click(); // Enviar el formulario automáticamente al finalizar el tiempo
+          }
+        }, 1000);
+      }
+
+      // Obtener el límite de tiempo en segundos desde el atributo data del elemento #timer-container
+      var timeLimitSeconds = parseInt($('#timer-container').data('time-limit-seconds'));
+
+      // Iniciar el temporizador
+      $(document).ready(function () {
+        startTimer(timeLimitSeconds, $('#timer'));
+      });
+    </script>
+
   <% else %>
     <p>No hay pregunta disponible.</p>
   <% end %>
