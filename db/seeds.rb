@@ -308,25 +308,25 @@ Question.transaction do
 
   Answer.create!(
     question: choice_11,
-    text: "LISP", 
+    text: "LISP",
     correct: false
   )
 
   Answer.create!(
     question: choice_11,
-    text: "Haskell", 
+    text: "Haskell",
     correct: false
   )
 
   Answer.create!(
     question: choice_11,
-    text: "ML", 
+    text: "ML",
     correct: false
   )
 
   Answer.create!(
     question: choice_11,
-    text: "Todos", 
+    text: "Todos",
     correct: true
   )
 
@@ -335,87 +335,32 @@ Question.transaction do
     text: "¿Cómo funcionan los métodos encolar y desencolar de una Cola de Prioridad?",
     difficulty: beginner_difficulty
   )
- 
-  Answer.create!(
-    question: choice_12,
-    text: "Se encola un elemento al final y se desencola un elemento al principio.", 
-    correct: false
-  )
 
   Answer.create!(
     question: choice_12,
-    text: "Se encola un elemento al medio y se desencola el mismo elemento.", 
+    text: "Se encola un elemento al final y se desencola un elemento al principio.",
     correct: false
   )
 
   Answer.create!(
     question: choice_12,
-    text: "Se encola un elemento con una cierta prioridad y se desencola un elemento al principio.", 
+    text: "Se encola un elemento al medio y se desencola el mismo elemento.",
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_12,
+    text: "Se encola un elemento con una cierta prioridad y se desencola un elemento al principio.",
     correct: true
   )
 
   Answer.create!(
     question: choice_12,
-    text: "Ninguna de las opciones anteriores.", 
+    text: "Ninguna de las opciones anteriores.",
     correct: false
   )
 
-  # Pregunta 13
-  choice_13 = Choice.create!(
-    text: "La sentencia: int x = 5; tiene un tipado dinámico.",
-    difficulty: beginner_difficulty
-  )
-
-  Answer.create!(
-    question: choice_13,
-    text: "True", 
-    correct: false
-  )
-
-  Answer.create!(
-    question: choice_13,
-    text: "False", 
-    correct: true
-  )
-
-  # Pregunta 14 
-  choice_14 = Choice.create!(
-    text: "Los errores en tiempo de compilación son más sencillos de detectar que los errores en tiempo de ejecución",
-    difficulty: beginner_difficulty
-  )
-
-  Answer.create!(
-    question: choice_14,
-    text: "True", 
-    correct: true
-  )
-
-  Answer.create!(
-    question: choice_14,
-    text: "False", 
-    correct: false
-  )
-
-  # Pregunta 15
-  choice_15 = Choice.create!(
-    text: "La libreria stdio.h (standar input output), generalmente se la incluye en programas basados en lenguaje C.",
-    difficulty: beginner_difficulty
-  )
-
-  Answer.create!(
-    question: choice_15,
-    text: "True", 
-    correct: true
-  )
-
-  Answer.create!(
-    question: choice_15,
-    text: "False", 
-    correct: false
-  )
-
-
-  # PREGUNTAS NIVEL EXPERTO
+  # PREGUNTAS NIVEL EXPERTO (CHOICE)
 
   #Pregunta 16
   choice_16 = Choice.create!(
@@ -425,44 +370,26 @@ Question.transaction do
 
   Answer.create!(
     question: choice_16,
-    text: "SKYNET", 
+    text: "SKYNET",
     correct: false
   )
 
   Answer.create!(
     question: choice_16,
-    text: "ENIAC", 
+    text: "ENIAC",
     correct: true
   )
 
   Answer.create!(
     question: choice_16,
-    text: "EDVAC", 
+    text: "EDVAC",
     correct: false
   )
 
   Answer.create!(
     question: choice_16,
-    text: "IBM 650", 
+    text: "IBM 650",
     correct: false
-  )
-
-  # Pregunta 17
-  choice_17 = Choice.create!(
-    text: "El orden de evaluación del lenguaje Haskell es Orden Aplicativo.",
-    difficulty: difficult_difficulty
-  )
-
-  Answer.create!(
-    question: choice_17,
-    text: "True", 
-    correct: false
-  )
-
-  Answer.create!(
-    question: choice_17,
-    text: "False", 
-    correct: true
   )
 
   # Pregunta 18
@@ -473,25 +400,25 @@ Question.transaction do
 
   Answer.create!(
     question: choice_18,
-    text: "C++", 
+    text: "C++",
     correct: false
   )
 
   Answer.create!(
     question: choice_18,
-    text: "RUBY", 
+    text: "RUBY",
     correct: false
   )
 
   Answer.create!(
     question: choice_18,
-    text: "PYTHON", 
+    text: "PYTHON",
     correct: false
   )
 
   Answer.create!(
     question: choice_18,
-    text: "Todas las opciones.", 
+    text: "Todas las opciones.",
     correct: true
   )
 
@@ -503,43 +430,25 @@ Question.transaction do
 
   Answer.create!(
     question: choice_19,
-    text: "4 BITS", 
+    text: "4 BITS",
     correct: false
   )
 
   Answer.create!(
     question: choice_19,
-    text: "6 BITS", 
+    text: "6 BITS",
     correct: false
   )
 
   Answer.create!(
     question: choice_19,
-    text: "8 BITS", 
+    text: "8 BITS",
     correct: true
   )
 
   Answer.create!(
     question: choice_19,
-    text: "Ninguna de las opciones.", 
-    correct: false
-  )
-
-  # Pregunta 20
-  choice_20 = Choice.create!(
-    text: "La estructura de datos ARREGLOS, tiene acceso secuencial y directo a sus elementos.",
-    difficulty: difficult_difficulty
-  )
-
-  Answer.create!(
-    question: choice_20,
-    text: "True", 
-    correct: true
-  )
-
-  Answer.create!(
-    question: choice_20,
-    text: "False", 
+    text: "Ninguna de las opciones.",
     correct: false
   )
 
@@ -551,73 +460,55 @@ Question.transaction do
 
   Answer.create!(
     question: choice_21,
-    text: "Factorial", 
+    text: "Factorial",
     correct: false
   )
 
   Answer.create!(
     question: choice_21,
-    text: "Lineal", 
+    text: "Lineal",
     correct: false
   )
 
   Answer.create!(
     question: choice_21,
-    text: "Logaritmico", 
+    text: "Logaritmico",
     correct: false
   )
 
   Answer.create!(
     question: choice_21,
-    text: "Constante", 
+    text: "Constante",
     correct: true
   )
 
   # Pregunta 22
   choice_22 = Choice.create!(
-    text: "¿Qué hace el algoritmo de DIKJSTRA?",
+    text: "¿Qué hace el algoritmo de Dijkstra?",
     difficulty: difficult_difficulty
   )
 
   Answer.create!(
     question: choice_22,
-    text: "Calcula las distancias más largas entre los nodos.", 
+    text: "Calcula las distancias más largas entre los nodos.",
     correct: false
   )
 
   Answer.create!(
     question: choice_22,
-    text: "Calcula las distancias más cortas entre los nodos.", 
+    text: "Calcula las distancias más cortas entre los nodos.",
     correct: true
   )
 
   Answer.create!(
     question: choice_22,
-    text: "Calcula las distancias negativas entre los nodos.", 
+    text: "Calcula las distancias negativas entre los nodos.",
     correct: false
   )
 
   Answer.create!(
     question: choice_22,
-    text: "Todas las opciones.", 
-    correct: false
-  )
-
-  # Pregunta 23
-  choice_23 = Choice.create!(
-    text: "La memoria RAM pierde toda su información almacenada cuando se apaga la computadora.",
-    difficulty: difficult_difficulty
-  )
-
-  Answer.create!(
-    question: choice_23,
-    text: "True", 
-    correct: true
-  )
-
-  Answer.create!(
-    question: choice_23,
-    text: "False", 
+    text: "Todas las opciones.",
     correct: false
   )
 
@@ -633,25 +524,25 @@ Question.transaction do
 
   Answer.create!(
     question: choice_24,
-    text: "2", 
+    text: "2",
     correct: true
   )
 
   Answer.create!(
     question: choice_24,
-    text: "1", 
+    text: "1",
     correct: false
   )
 
   Answer.create!(
     question: choice_24,
-    text: "x", 
+    text: "x",
     correct: false
   )
 
   Answer.create!(
     question: choice_24,
-    text: "x + 1", 
+    text: "x + 1",
     correct: false
   )
 
@@ -663,26 +554,136 @@ Question.transaction do
 
   Answer.create!(
     question: choice_25,
-    text: "Dos", 
+    text: "Dos",
     correct: false
   )
 
   Answer.create!(
     question: choice_25,
-    text: "Uno", 
+    text: "Uno",
     correct: false
   )
 
   Answer.create!(
     question: choice_25,
-    text: "Cuatro", 
+    text: "Cuatro",
     correct: false
   )
 
   Answer.create!(
     question: choice_25,
-    text: "Tres", 
+    text: "Tres",
     correct: true
+  )
+
+  #Preguntas nivel facil - TRUE FALSE
+  true_false1 = True_False.create!(
+    text: "La sentencia: int x = 5; tiene un tipado dinámico.",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: true_false1,
+    text: "True",
+    correct: false
+  )
+
+  Answer.create!(
+    question: true_false1,
+    text: "False",
+    correct: true
+  )
+
+  # Pregunta 14
+  true_false2 = True_False.create!(
+    text: "Los errores en tiempo de compilación son más sencillos de detectar que los errores en tiempo de ejecución",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: true_false2,
+    text: "True",
+    correct: true
+  )
+
+  Answer.create!(
+    question: true_false2,
+    text: "False",
+    correct: false
+  )
+
+  # Pregunta 15
+  true_false3 = True_False.create!(
+    text: "La libreria stdio.h (standar input output), generalmente se la incluye en programas basados en lenguaje C.",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: true_false3,
+    text: "True",
+    correct: true
+  )
+
+  Answer.create!(
+    question: true_false3,
+    text: "False",
+    correct: false
+  )
+
+  #Preguntas nivel dificil - TRUE FALSE
+
+   # Pregunta 17
+  true_false4 = True_False.create!(
+    text: "El orden de evaluación del lenguaje Haskell es Orden Aplicativo.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: true_false4,
+    text: "True",
+    correct: false
+  )
+
+  Answer.create!(
+    question: true_false4,
+    text: "False",
+    correct: true
+  )
+
+  # Pregunta 20
+  true_false5 = True_False.create!(
+    text: "La estructura de datos ARREGLOS, tiene acceso secuencial y directo a sus elementos.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: true_false5,
+    text: "True",
+    correct: true
+  )
+
+  Answer.create!(
+    question: true_false5,
+    text: "False",
+    correct: false
+  )
+
+  # Pregunta 23
+  true_false6 = True_False.create!(
+    text: "La memoria RAM pierde toda su información almacenada cuando se apaga la computadora.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: true_false6,
+    text: "True",
+    correct: true
+  )
+
+  Answer.create!(
+    question: true_false6,
+    text: "False",
+    correct: false
   )
 
 end

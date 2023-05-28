@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_26_151449) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_28_120240) do
   create_table "answers", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
@@ -75,8 +75,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_26_151449) do
   create_table "true_falses", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "question_id", null: false
-    t.index ["question_id"], name: "index_true_falses_on_question_id"
+    t.integer "difficulty_id"
+    t.index ["difficulty_id"], name: "index_true_falses_on_difficulty_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -94,4 +94,5 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_26_151449) do
   add_foreign_key "question_answers", "answers"
   add_foreign_key "question_answers", "questions"
   add_foreign_key "questions", "difficulties"
+  add_foreign_key "true_falses", "difficulties"
 end
