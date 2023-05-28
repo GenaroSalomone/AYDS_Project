@@ -44,10 +44,6 @@ GEM
       ruby2_keywords (~> 0.0.1)
     rack (2.2.7)
     rake (13.0.6)
-    ruby-duration (3.2.3)
-      activesupport (>= 3.0.0)
-      i18n
-      iso8601
     ruby2_keywords (0.0.5)
     sinatra-activerecord (2.0.26)
       activerecord (>= 4.1)
@@ -71,7 +67,6 @@ DEPENDENCIES
   enumerize
   multi_json
   rake
-  ruby-duration
   sinatra!
   sinatra-activerecord
   sinatra-contrib!
