@@ -5,13 +5,24 @@
 <head>
   <title>Pregunta</title>
   <link rel="stylesheet" type="text/css" href="/css/question.css">
+  <!--Pequeño codigo javascript para manejar validacion de que sea necesaria la seleccion de la respuesta -->
+  <script>
+    function validateForm() {
+      var selectedOption = document.querySelector('input[name="selected_answer"]:checked');
+      if (!selectedOption) {
+        alert("Debe seleccionar una opción.");
+        return false;
+      }
+      return true;
+    }
+  </script>
 </head>
 <body>
   <h1>Pregunta <%= @question_index + 1%>:</h1>
   <% if @question %>
     <p><%= @question.text %></p> <!-- se muestra la pregunta -->
     <h2>Opciones:</h2>
-    <form action="/answer" method="post">
+    <form action="/answer" method="post" onsubmit="return validateForm()">
       <input type="hidden" name="trivia_id" value="<%= @trivia.id %>">
       <input type="hidden" name="question_index" value="<%= @question_index %>">
       <% @answers.each do |answer| %>
