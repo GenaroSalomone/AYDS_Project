@@ -10,20 +10,20 @@
   <!-- Código JavaScript para manejar la validación de la selección de respuesta -->
   <script>
     function validateForm() {
-  var selectedOption = document.querySelector('input[name="selected_answer"]:checked');
-  var timeRemaining = parseInt($('#timer').text());
+      var selectedOption = document.querySelector('input[name="selected_answer"]:checked');
+      var timeRemaining = parseInt($('#timer').text());
 
-  if (!selectedOption && timeRemaining > 0) {
-    // Si no se seleccionó ninguna opción y todavía hay tiempo restante, mostrar mensaje de alerta
-    alert("Debe seleccionar una respuesta antes de continuar.");
-    return false;
-  }
-  // Si se cumple la validación existente, se asigna selected_answer como null
-  if (!selectedOption) {
-    document.querySelector('input[name="selected_answer"]').value = null;
-  }
-  return true;
-  }
+      if (!selectedOption && timeRemaining > 0) {
+        // Si no se seleccionó ninguna opción y todavía hay tiempo restante, mostrar mensaje de alerta
+        alert("Debe seleccionar una respuesta antes de continuar.");
+        return false;
+      }
+      // Si se cumple la validación existente, se asigna selected_answer como null
+      if (!selectedOption) {
+        document.querySelector('input[name="selected_answer"]').value = null;
+      }
+      return true;
+    }
   </script>
 </head>
 <body>
