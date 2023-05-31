@@ -4,6 +4,7 @@ class Difficulty < ActiveRecord::Base
   has_many :questions
   has_many :choices
   has_many :true_falses
+  has_many :autocomplets
 
   enumerize :level, in: [:beginner, :difficult], default: :beginner
 end
