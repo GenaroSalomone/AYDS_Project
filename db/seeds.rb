@@ -14,9 +14,9 @@ difficult_difficulty = Difficulty.create!(level: "difficult")
 =begin
 
 POR CONVENCION:
-Preguntas principiantes: 1) Choices -> choice_pri_numero 
+Preguntas principiantes: 1) Choices -> choice_pri_numero
                          2) True_Falses -> true_false_pri_numero
-                         
+
 Preguntas expertas: 1) Choices -> choice_exp_numero
                     2) True_Falses -> true_false_exp_numero
 
@@ -447,6 +447,60 @@ Question.transaction do
     correct: false
   )
 
+  #Preguntas nivel principiante - AUTOCOMPLETE
+  autocomplete_q1 = Autocomplete.create!(
+    text: "El primer ordenador electrónico fue construido en el año ____________.",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_q1,
+    answers_autocomplete: ["1946", "mil novecientos cuarenta y seis", "Mil novecientos cuarenta y seis"]
+  )
+
+  # Pregunta 2
+  autocomplete_q2 = Autocomplete.create!(
+    text: "El término 'Inteligencia Artificial' fue acuñado por ____________ en el año 1956.",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_q2,
+    answers_autocomplete: ["John McCarthy", "john mccarthy", "John Mccarthy", "john Mccarthy"]
+  )
+
+  # Pregunta 3
+  autocomplete_q3 = Autocomplete.create!(
+    text: "El primer sistema operativo de Microsoft se llamaba ____________.",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_q3,
+    answers_autocomplete: ["MS-DOS", "ms-dos", "Ms-Dos", "ms-Dos"]
+  )
+
+  # Pregunta 4
+  autocomplete_q4 = Autocomplete.create!(
+    text: "El concepto de 'Internet de las cosas' se refiere a la interconexión de ____________.",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_q4,
+    answers_autocomplete: ["Dispositivos físicos", "dispositivos fisicos", "Dispositivos Físicos", "dispositivos físicos"]
+  )
+
+  # Pregunta 5
+  autocomplete_q5 = Autocomplete.create!(
+    text: "El primer teléfono móvil comercial se lanzó en el año ____________.",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_q5,
+    answers_autocomplete: ["1983", "mil novecientos ochenta y tres", "Mil novecientos ochenta y tres"]
+  )
   ####################################################################
 
   # PREGUNTAS NIVEL EXPERTO (CHOICE)

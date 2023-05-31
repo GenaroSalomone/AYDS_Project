@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_05_28_120240) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_31_111046) do
   create_table "answers", force: :cascade do |t|
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
@@ -19,15 +19,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_28_120240) do
     t.boolean "correct"
     t.integer "question_id"
     t.string "question_type"
+    t.text "answers_autocomplete", default: ""
     t.index ["question_id"], name: "index_answers_on_question_id"
   end
 
   create_table "autocomplets", force: :cascade do |t|
-    t.string "respuestaCorrecta"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "question_id", null: false
-    t.index ["question_id"], name: "index_autocomplets_on_question_id"
+    t.integer "difficulty_id"
+    t.index ["difficulty_id"], name: "index_autocomplets_on_difficulty_id"
   end
 
   create_table "choices", force: :cascade do |t|
@@ -88,9 +88,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_05_28_120240) do
     t.string "password_digest"
   end
 
-  add_foreign_key "answers", "questions"
-  add_foreign_key "autocomplets", "questions"
-  add_foreign_key "choices", "difficulties"
   add_foreign_key "question_answers", "answers"
   add_foreign_key "question_answers", "questions"
   add_foreign_key "questions", "difficulties"
