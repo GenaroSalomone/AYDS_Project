@@ -16,3 +16,4 @@ gem 'bcrypt', '~> 3.1.18'
 gem 'sinatra-session'
 gem 'dotenv'
 gem 'enumerize'
+

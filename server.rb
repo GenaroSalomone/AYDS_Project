@@ -15,6 +15,7 @@ require_relative 'models/difficulty'
 require_relative 'models/trivia'
 require_relative 'models/question_answer'
 require_relative 'models/true_false'
+require_relative 'models/autocomplete'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
