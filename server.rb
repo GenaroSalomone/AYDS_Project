@@ -121,8 +121,13 @@ class App < Sinatra::Application
     difficulty = Difficulty.find_by(level: difficulty_level)
     trivia = Trivia.new(user: user, difficulty: difficulty)
 
-    # Seleccionar 10 preguntas aleatorias para la trivia
-    trivia.questions << Question.order("RANDOM()").limit(10)
+    # Seleccionar 10 preguntas aleatorias para la trivia, teniendo en cuenta si la dificultad
+    # es beginner o difficult 
+    if difficulty_level == "beginner"
+      trivia.questions << difficulty.questions.order("RANDOM()").limit(10)
+    else
+      trivia.questions << difficulty.questions.order("RANDOM()").limit(10)
+    end
 
     trivia.save
     session[:trivia_id] = trivia.id # Guardar el ID de la trivia en la sesión
@@ -150,12 +155,12 @@ class App < Sinatra::Application
 
     @trivia = Trivia.find(trivia_id)
     current_question = @trivia.questions[question_index]
-    selected_answer = selected_answer_id.present? ? Answer.find(selected_answer_id) : nil
+    selected_answer = Answer.find(selected_answer_id)
 
     # Crear una nueva fila en la tabla QuestionAnswer con los IDs de la pregunta y la respuesta seleccionada
     question_answer = QuestionAnswer.find_by(question_id: current_question.id, trivia_id: trivia_id)
-    question_answer.update(answer_id: selected_answer&.id)
-    selected_answer&.update(selected: true)
+    question_answer.update(answer_id: selected_answer.id)
+    selected_answer.update(selected: true)
 
     # Obtener la siguiente pregunta y sus respuestas
     next_question = @trivia.questions[question_index + 1]
@@ -167,7 +172,6 @@ class App < Sinatra::Application
         answers: @answers.map { |answer| { text: answer.text } }
       }
       @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10 # Limite de tiempo temporizador
-
       erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds }
     else
       redirect '/results'
