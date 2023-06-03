@@ -105,8 +105,10 @@ class App < Sinatra::Application
     end
   end
 
-  get '/protected_page' do
+  get '/protected_page' do 
     if session[:user_id]
+      user_id = session[:user_id]
+      @username = User.find(user_id).username # en username se almacena el nombre de usuario logeado
       # Usuario autenticado, mostrar página protegida
       erb :protected_page
     else
@@ -274,6 +276,7 @@ class App < Sinatra::Application
   end
 
 end
+
 # Start the server using rackup
 # 1- rackup -p 4567 : Working
 # 2- bundle exec rackup -p 4567 : Working (levanta el server)
