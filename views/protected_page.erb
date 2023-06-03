@@ -5,8 +5,8 @@
  <link rel="stylesheet" type="text/css" href="/css/protected.css">
 </head>
 <body>
- <h1>Bienvenido a la página protegida</h1>
- <p>Usted ha sido autenticado correctamente. Que comience el juego!</p>
+ <h1>Buenos días <%= @username %>, ésta es la página protegida.</h1>
+ <p>La autenticación fue correcta. Que comience el juego!!</p>
  <form action="/trivia" method="post">
   <h2>Seleccione la dificultad de la trivia:</h2>
   <div class="button-container">
