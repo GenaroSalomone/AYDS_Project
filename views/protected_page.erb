@@ -5,10 +5,10 @@
  <link rel="stylesheet" type="text/css" href="/css/protected.css">
 </head>
 <body>
- <h1>Buenos días <%= @username %>, ésta es la página protegida.</h1>
+ <h1>Bienvenido <%= @username %>, está es la página protegida.</h1>
  <p>La autenticación fue correcta. Que comience el juego!!</p>
  <form action="/trivia" method="post">
-  <h2>Seleccione la dificultad de la trivia:</h2>
+  <h2>Seleccione la dificultad de la trivia para continuar:</h2>
   <div class="button-container">
     <button class="button" name="difficulty" value="beginner">Principiante</button>
     <button class="button" name="difficulty" value="difficult">Experto</button>

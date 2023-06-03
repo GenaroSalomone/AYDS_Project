@@ -1,5 +1,4 @@
 <!-- question.erb -->
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -24,38 +23,67 @@
       }
       return true;
     }
+
+    function autocompleteValidateForm() {
+      var autocompleteInput = document.getElementById('autocomplete-input');
+      var timeRemaining = parseInt($('#timer').text());
+
+      if (autocompleteInput.value.trim().length === 0 && timeRemaining > 0) {
+        // Si no se ha ingresado ningún carácter y todavía hay tiempo restante, mostrar mensaje de alerta
+        alert("Debe ingresar al menos un carácter antes de continuar.");
+        return false;
+      }
+
+      return true;
+    }
   </script>
 </head>
 <body>
   <h1>Pregunta <%= @question_index + 1 %> :</h1>
   <% if @question %>
     <p><%= @question.text %></p> <!-- Se muestra la pregunta -->
-    <h2>Opciones:</h2>
-    <form action="/answer" method="post" onsubmit="return validateForm()">
-      <input type="hidden" name="trivia_id" value="<%= @trivia.id %>">
-      <input type="hidden" name="question_index" value="<%= @question_index %>">
-      <% @answers.each do |answer| %>
-        <label>
-          <div class="answer-container">
-            <input type="radio" name="selected_answer" value="<%= answer.id %>"
-              <% if answer.id == @selected_answer %>
-                checked
-              <% end %>
-            >
-            <span class="answer-text"><%= answer.text %></span>
-          </div>
-        </label>
-      <% end %>
-      <div id="timer-container" data-time-limit-seconds="<%= @time_limit_seconds %>">
-        <span id="timer"></span>
-      </div>
-      <div class="button-container">
-        <button type="submit">Siguiente pregunta</button>
-      </div>
-    </form>
+    <% if @question.is_a?(Autocomplete) %>
+      <h2>Ingrese su respuesta:</h2>
+      <form action="/answer" method="post" onsubmit="return autocompleteValidateForm()">
+        <input type="hidden" name="trivia_id" value="<%= @trivia.id %>">
+        <input type="hidden" name="question_index" value="<%= @question_index %>">
+        <div class="q-autocomplete-container">
+          <input type="text" id="autocomplete-input" name="autocomplete_input" class="q-autocomplete-input">
+        </div>
+        <div id="timer-container" data-time-limit-seconds="<%= @time_limit_seconds %>">
+          <span id="timer"></span>
+        </div>
+        <div class="button-container">
+          <button type="submit">Siguiente pregunta</button>
+        </div>
+      </form>
+    <% else %>
+      <h2>Opciones:</h2>
+      <form action="/answer" method="post" onsubmit="return validateForm()">
+        <input type="hidden" name="trivia_id" value="<%= @trivia.id %>">
+        <input type="hidden" name="question_index" value="<%= @question_index %>">
+        <% @answers.each do |answer| %>
+          <label>
+            <div class="answer-container">
+              <input type="radio" name="selected_answer" value="<%= answer.id %>"
+                <% if answer.id == @selected_answer %>
+                  checked
+                <% end %>
+              >
+              <span class="answer-text"><%= answer.text %></span>
+            </div>
+          </label>
+        <% end %>
+        <div id="timer-container" data-time-limit-seconds="<%= @time_limit_seconds %>">
+          <span id="timer"></span>
+        </div>
+        <div class="button-container">
+          <button type="submit">Siguiente pregunta</button>
+        </div>
+      </form>
+    <% end %>
 
     <div id="message-container"></div>
-
     <script>
       // Función para mostrar el mensaje de tiempo agotado
       function showTimeUpMessage() {
@@ -76,7 +104,7 @@
         // Asignar el evento click al botón "Entendido"
         var entendidoBtn = document.getElementById("entendido-btn");
         entendidoBtn.addEventListener("click", function() {
-          document.querySelector('input[name="selected_answer"]').value = null; // Establecer selected_answer como null
+          //document.querySelector('input[name="selected_answer"]').value = null; // Establecer selected_answer como null
           document.querySelector('form').submit(); // Enviar el formulario para avanzar a la siguiente pregunta
         });
       }
