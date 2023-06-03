@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_02_143510) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_03_201722) do
   create_table "answers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_02_143510) do
     t.boolean "correct"
     t.string "question_type"
     t.text "answers_autocomplete", default: ""
+    t.string "autocomplete_input"
     t.index ["question_id"], name: "index_answers_on_question_id"
   end
 
