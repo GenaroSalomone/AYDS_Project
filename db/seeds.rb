@@ -447,20 +447,20 @@ Question.transaction do
     correct: false
   )
 
-  #Preguntas nivel principiante - AUTOCOMPLETE
+  # Preguntas AUTOCOMPLETADO, nivel principiante
   autocomplete_q1 = Autocomplete.create!(
-    text: "El primer ordenador electrónico fue construido en el año ____________.",
+    text: "El primer ordenador electrónico fue construido en el año _ _ _ _. La respuesta es un número.",
     difficulty: beginner_difficulty
   )
 
   Answer.create!(
     question: autocomplete_q1,
-    answers_autocomplete: ["1946", "mil novecientos cuarenta y seis", "Mil novecientos cuarenta y seis"]
+    answers_autocomplete: ["1946"]
   )
 
   # Pregunta 2
   autocomplete_q2 = Autocomplete.create!(
-    text: "El término 'Inteligencia Artificial' fue acuñado por ____________ en el año 1956.",
+    text: "El término 'Inteligencia Artificial' fue acuñado por _ _ _ _ en el año 1956.",
     difficulty: beginner_difficulty
   )
 
@@ -471,7 +471,7 @@ Question.transaction do
 
   # Pregunta 3
   autocomplete_q3 = Autocomplete.create!(
-    text: "El primer sistema operativo de Microsoft se llamaba ____________.",
+    text: "El primer sistema operativo de Microsoft se llamaba _ _ _ _.",
     difficulty: beginner_difficulty
   )
 
@@ -482,7 +482,7 @@ Question.transaction do
 
   # Pregunta 4
   autocomplete_q4 = Autocomplete.create!(
-    text: "El concepto de 'Internet de las cosas' se refiere a la interconexión de ____________.",
+    text: "El concepto de 'Internet de las cosas' se refiere a la interconexión de _ _ _ _.",
     difficulty: beginner_difficulty
   )
 
@@ -493,14 +493,15 @@ Question.transaction do
 
   # Pregunta 5
   autocomplete_q5 = Autocomplete.create!(
-    text: "El primer teléfono móvil comercial se lanzó en el año ____________.",
+    text: "El primer teléfono móvil comercial se lanzó en el año _ _ _ _. La respuesta es un número.",
     difficulty: beginner_difficulty
   )
 
   Answer.create!(
     question: autocomplete_q5,
-    answers_autocomplete: ["1983", "mil novecientos ochenta y tres", "Mil novecientos ochenta y tres"]
+    answers_autocomplete: ["1983"]
   )
+
   ####################################################################
 
   # PREGUNTAS NIVEL EXPERTO (CHOICE)
