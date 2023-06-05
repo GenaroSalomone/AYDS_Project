@@ -85,8 +85,9 @@ p {
   font-weight: bold;
 }
 
-.button-container {
+.button-container a.button {
   margin-top: 20px;
+  margin-right: 35px;
 }
 
 .button {
