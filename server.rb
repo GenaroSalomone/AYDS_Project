@@ -72,7 +72,7 @@ class App < Sinatra::Application
     # Crear un nuevo registro en la base de datos
       user = User.create(username: username, email: email, password: password)
       if user.save
-        @message = "Vuelva a logearse por favor, valla a inicio de sesión."
+        @message = "Vuelva a logearse por favor, vaya a inicio de sesión."
         erb :register_success
       else
         @error_message = "Hubo un error al registrar el usuario: #{user.errors.full_messages.join(', ')}"
@@ -105,7 +105,7 @@ class App < Sinatra::Application
     end
   end
 
-  get '/protected_page' do 
+  get '/protected_page' do
     if session[:user_id]
       user_id = session[:user_id]
       @username = User.find(user_id).username # en username se almacena el nombre de usuario logeado
@@ -124,7 +124,7 @@ class App < Sinatra::Application
     trivia = Trivia.new(user: user, difficulty: difficulty)
 
     # Seleccionar 10 preguntas aleatorias para la trivia, teniendo en cuenta si la dificultad
-    # es beginner o difficult 
+    # es beginner o difficult
     if difficulty_level == "beginner"
       trivia.questions << difficulty.questions.order("RANDOM()").limit(10)
     else
@@ -164,17 +164,31 @@ class App < Sinatra::Application
     question_answer.update(answer_id: selected_answer&.id)
     selected_answer&.update(selected: true)
 
+    # Agregar manejo de respuestas para preguntas de autocompletado
+    autocomplete_input = params[:autocomplete_input].to_s.strip
+    if current_question.is_a?(Autocomplete)
+      answer_autocomplete = Answer.find_by(question_id: current_question.id)
+      answer_autocomplete.update(autocomplete_input: autocomplete_input)
+    end
+
     # Obtener la siguiente pregunta y sus respuestas
     next_question = @trivia.questions[question_index + 1]
     if next_question.present? && question_index < 9
       @question_index = question_index + 1
       @question = next_question
-      @answers = Answer.where(question_id: next_question.id)
-      @answer_data = {
-        answers: @answers.map { |answer| { text: answer.text } }
-      }
-      @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10 # Limite de tiempo temporizador
-      erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds }
+      if next_question.is_a?(Autocomplete)
+        @answers = []  # No se necesitan respuestas para las preguntas de autocompletado
+        @answer_data = nil  # No se necesita información adicional de respuestas
+        @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
+        erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds }
+      else
+        @answers = Answer.where(question_id: next_question.id)
+        @answer_data = {
+          answers: @answers.map { |answer| { text: answer.text } }
+        }
+        @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
+        erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds }
+      end
     else
       redirect '/results'
     end
@@ -186,8 +200,8 @@ class App < Sinatra::Application
     @user = @trivia.user
 
     @results = []
-    @score = 0 # el puntaje en un inicio es cero
-    @idx = 0 # se inicializa el indice
+    @score = 0
+    @idx = 0
 
     @trivia.question_answers.each do |question_answer|
       question = question_answer.question
@@ -198,15 +212,26 @@ class App < Sinatra::Application
         question: question,
         selected_answer: selected_answer,
         correct_answer: correct_answer,
-        correct: selected_answer == correct_answer
+        correct: false,
+        autocomplete_input: nil
       }
 
+      if question.is_a?(Autocomplete)
+        answer = Answer.find_by(question_id: question.id)
+        result[:correct] = answer.answers_autocomplete.include?(answer.autocomplete_input)
+        result[:autocomplete_input] = answer.autocomplete_input
+        result[:correct_answer] = answer.answers_autocomplete[0]
+      else
+        result[:correct] = selected_answer == correct_answer
+      end
+
       @results << result
-      @score += 1 if result[:correct] # se incrementa el puntaje si la answer elegida es la correcta
+      @score += 1 if result[:correct]
     end
 
-    erb :results
+    erb :results, locals: { results: @results, score: @score }
   end
+
 
   #peticion post para crear una choice
   post '/crearChoice' do
