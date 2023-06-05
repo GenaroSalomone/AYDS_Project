@@ -21,7 +21,7 @@
               <p><strong>Respuesta esperada:</strong> <%= result[:correct_answer] %></p>
               <p><span class="correct-message">¡Correcto!</span></p>
             <% else %>
-              <% if  result[:autocomplete_input] == "" %>
+              <% if result[:autocomplete_input] == "" %>
                 <p><strong>Respuesta ingresada:</strong> No se ha ingresado respuesta</p>
               <% else %>
                 <p><strong>Respuesta ingresada:</strong> <%= result[:autocomplete_input] %></p>

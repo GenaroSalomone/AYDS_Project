@@ -7,7 +7,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- Código JavaScript para manejar la validación de la selección de respuesta -->
   <script>
-    function validateForm() {
+    async function validateForm() {
       var selectedOption = document.querySelector('input[name="selected_answer"]:checked');
       var timeRemaining = parseInt($('#timer').text());
 
@@ -23,7 +23,7 @@
       return true;
     }
 
-    function autocompleteValidateForm() {
+    async function autocompleteValidateForm() {
       var autocompleteInput = document.getElementById('autocomplete-input');
       var timeRemaining = parseInt($('#timer').text());
 
@@ -50,9 +50,12 @@
       overlay.appendChild(messageContainer);
       document.body.appendChild(overlay);
 
-      var entendidoBtn = document.getElementById("entendido-btn");
-      entendidoBtn.addEventListener("click", function() {
-        overlay.remove();
+      return new Promise(function(resolve, reject) {
+        var entendidoBtn = document.getElementById("entendido-btn");
+        entendidoBtn.addEventListener("click", function() {
+          overlay.remove();
+          resolve(); // Resuelve la promesa cuando se hace clic en el botón "Entendido"
+        });
       });
     }
 
