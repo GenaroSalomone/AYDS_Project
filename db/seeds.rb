@@ -449,13 +449,13 @@ Question.transaction do
 
   # Preguntas AUTOCOMPLETADO, nivel principiante
   autocomplete_q1 = Autocomplete.create!(
-    text: "El primer ordenador electrónico fue construido en el año _ _ _ _. La respuesta es un número.",
+    text: "El primer ordenador electrónico fue construido en el año _ _ _ _. ",
     difficulty: beginner_difficulty
   )
 
   Answer.create!(
     question: autocomplete_q1,
-    answers_autocomplete: ["1946"]
+    answers_autocomplete: ["1946", "mil novecientos cuarenta y seis", "Mil novecientos cuarenta y seis"]
   )
 
   # Pregunta 2
@@ -471,7 +471,7 @@ Question.transaction do
 
   # Pregunta 3
   autocomplete_q3 = Autocomplete.create!(
-    text: "El primer sistema operativo de Microsoft se llamaba _ _ _ _.",
+    text: "El primer sistema operativo de Microsoft se llamaba _ _ _ _ .",
     difficulty: beginner_difficulty
   )
 
@@ -493,13 +493,13 @@ Question.transaction do
 
   # Pregunta 5
   autocomplete_q5 = Autocomplete.create!(
-    text: "El primer teléfono móvil comercial se lanzó en el año _ _ _ _. La respuesta es un número.",
+    text: "El primer teléfono móvil comercial se lanzó en el año _ _ _ _. ",
     difficulty: beginner_difficulty
   )
 
   Answer.create!(
     question: autocomplete_q5,
-    answers_autocomplete: ["1983"]
+    answers_autocomplete: ["1983", "mil novecientos ochenta y tres", "Mil novecientos ochenta y tres"]
   )
 
   ####################################################################
