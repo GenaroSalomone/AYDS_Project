@@ -1,4 +1,3 @@
-<!-- question.erb -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -14,7 +13,7 @@
 
       if (!selectedOption && timeRemaining > 0) {
         // Si no se seleccionó ninguna opción y todavía hay tiempo restante, mostrar mensaje de alerta
-        alert("Debe seleccionar una respuesta antes de continuar.");
+        showMessage("Debe seleccionar una respuesta antes de continuar.");
         return false;
       }
       // Si se cumple la validación existente, se asigna selected_answer como null
@@ -30,11 +29,32 @@
 
       if (autocompleteInput.value.trim().length === 0 && timeRemaining > 0) {
         // Si no se ha ingresado ningún carácter y todavía hay tiempo restante, mostrar mensaje de alerta
-        alert("Debe ingresar al menos un carácter antes de continuar.");
+        showMessage("Debe ingresar al menos un carácter antes de continuar.");
         return false;
       }
 
       return true;
+    }
+
+    function showMessage(message) {
+      var overlay = document.createElement("div");
+      overlay.classList.add("overlay");
+
+      var messageContainer = document.createElement("div");
+      messageContainer.classList.add("message-container");
+      messageContainer.innerHTML = `
+        <div class="message-box">
+          <p>${message}</p>
+          <button id="entendido-btn" class="button-style">Entendido</button>
+        </div>
+      `;
+      overlay.appendChild(messageContainer);
+      document.body.appendChild(overlay);
+
+      var entendidoBtn = document.getElementById("entendido-btn");
+      entendidoBtn.addEventListener("click", function() {
+        overlay.remove();
+      });
     }
   </script>
 </head>
@@ -83,9 +103,8 @@
       </form>
     <% end %>
 
-    <div id="message-container"></div>
+    <div id="message-box-container"></div>
     <script>
-      // Función para mostrar el mensaje de tiempo agotado
       function showTimeUpMessage() {
         var overlay = document.createElement("div");
         overlay.classList.add("overlay");
@@ -101,35 +120,33 @@
         overlay.appendChild(messageContainer);
         document.body.appendChild(overlay);
 
-        // Asignar el evento click al botón "Entendido"
         var entendidoBtn = document.getElementById("entendido-btn");
         entendidoBtn.addEventListener("click", function() {
           var autocompleteInput = document.getElementById('autocomplete-input');
           if (autocompleteInput) {
-            autocompleteInput.value = null; // Establecer el campo de autocompletado en null
+            autocompleteInput.value = null;
           } else {
-            document.querySelector('input[name="selected_answer"]').value = null; // Establecer selected_answer como null para otras preguntas
+            document.querySelector('input[name="selected_answer"]').value = null;
           }
-          document.querySelector('form').submit(); // Enviar el formulario para avanzar a la siguiente pregunta
+          overlay.remove();
+          document.querySelector('form').submit();
         });
       }
 
-      // Función para avanzar a la siguiente pregunta
       function nextQuestion() {
         document.querySelector('form').submit();
       }
 
-      // Función para iniciar el temporizador
       function startTimer(duration, display) {
         var timerContainer = document.getElementById("timer-container");
         var timer = duration, seconds;
         var triviaDifficultyLevel = "<%= @trivia.difficulty.level%>";
-        timerContainer.className = "green"; // nombre de la clase que se asigna en timerContainer
+        timerContainer.className = "green";
         var intervalId = setInterval(function () {
           seconds = parseInt(timer % 60, 10);
           display.text(seconds);
-          // Teniendo en cuenta la dificultad y tiempo transcurrido, el cronometro cambia de color
-          timer --;
+
+          timer--;
           if (triviaDifficultyLevel == "beginner") {
             if (timer <= 15 && timer >= 10){
               timerContainer.className = "green";
@@ -156,17 +173,14 @@
         }, 1000);
       }
 
-      // Obtener el límite de tiempo en segundos desde el atributo data del elemento #timer-container
-      var timeLimitSeconds = parseInt($('#timer-container').data('time-limit-seconds'));
-
-      // Iniciar el temporizador
       $(document).ready(function () {
-        startTimer(timeLimitSeconds, $('#timer'));
+        var timeLimit = parseInt($("#timer-container").data("time-limit-seconds"));
+        var display = $('#timer');
+        startTimer(timeLimit, display);
       });
     </script>
-
   <% else %>
-    <p>No hay pregunta disponible.</p>
+    <h2>No se encontró la pregunta</h2>
   <% end %>
 </body>
 </html>
