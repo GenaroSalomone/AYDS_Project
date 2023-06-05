@@ -48,6 +48,16 @@ class App < Sinatra::Application
   enable :sessions
   set :session_secret, SecureRandom.hex(64)
 
+  enable :sessions
+
+  before do
+    # Verificar si hay una trivia en sesión
+    if session[:trivia_id]
+      @trivia = Trivia.find_by(id: session[:trivia_id])
+      redirect '/trivia' if @trivia.nil?  # Redirigir si la trivia no existe
+    end
+  end
+
   get '/' do
     erb :index
   end
@@ -133,72 +143,80 @@ class App < Sinatra::Application
 
     trivia.save
     session[:trivia_id] = trivia.id # Guardar el ID de la trivia en la sesión
-    @trivia = trivia
-
-    first_question = trivia.questions.first
-    @question = first_question if first_question.present?
-
-    if first_question.present?
-      @answers = Answer.where(question_id: first_question.id)
-      @answer_data = {
-        answers: @answers.map { |answer| { text: answer.text } }
-      }
-    end
-
-    @question_index = 0
-    @time_limit_seconds = difficulty_level == "beginner" ? 15 : 10 # Limite de tiempo temporizador
-    erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds }
+    redirect '/question/0' # Redirigir a la primera pregunta
   end
 
-  post '/answer' do
-    trivia_id = params[:trivia_id]
-    question_index = params[:question_index].to_i
-    selected_answer_id = params[:selected_answer]
+  get '/question/:index' do
+    redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
 
-    @trivia = Trivia.find(trivia_id)
-    current_question = @trivia.questions[question_index]
-    selected_answer = selected_answer_id.present? ? Answer.find(selected_answer_id) : nil
+    index = params[:index].to_i
+    question = @trivia.questions[index]
 
-    # Crear una nueva fila en la tabla QuestionAnswer con los IDs de la pregunta y la respuesta seleccionada
-    question_answer = QuestionAnswer.find_by(question_id: current_question.id, trivia_id: trivia_id)
-    question_answer.update(answer_id: selected_answer&.id)
-    selected_answer&.update(selected: true)
-
-    # Agregar manejo de respuestas para preguntas de autocompletado
-    autocomplete_input = params[:autocomplete_input].to_s.strip
-    if current_question.is_a?(Autocomplete)
-      answer_autocomplete = Answer.find_by(question_id: current_question.id)
-      answer_autocomplete.update(autocomplete_input: autocomplete_input)
-    end
-
-    # Obtener la siguiente pregunta y sus respuestas
-    next_question = @trivia.questions[question_index + 1]
-    if next_question.present? && question_index < 9
-      @question_index = question_index + 1
-      @question = next_question
-      if next_question.is_a?(Autocomplete)
-        @answers = []  # No se necesitan respuestas para las preguntas de autocompletado
-        @answer_data = nil  # No se necesita información adicional de respuestas
-        @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
-        erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds }
-      else
-        @answers = Answer.where(question_id: next_question.id)
-        @answer_data = {
-          answers: @answers.map { |answer| { text: answer.text } }
-        }
-        @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
-        erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds }
-      end
+    if question.nil? || index >= 10
+      redirect '/results' # Redirigir a los resultados si no hay más preguntas
     else
-      redirect '/results'
+      @question = question
+      @answers = Answer.where(question_id: question.id)
+      @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
+      @question_index = index # Inicializar @question_index con el valor de index
+      erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds }
+    end
+  end
+
+  post '/answer/:index' do
+    redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
+
+    index = params[:index].to_i
+    question = @trivia.questions[index]
+
+    if question.nil? || index >= 10
+      redirect '/results' # Redirigir a los resultados si no hay más preguntas
+    else
+      selected_answer_id = params[:selected_answer]
+      selected_answer = Answer.find_by(id: selected_answer_id, question_id: question.id)
+
+      if selected_answer.nil? && !question.is_a?(Autocomplete)
+        redirect "/question/#{index}" # Redirigir a la misma pregunta si no se seleccionó una respuesta
+      else
+        # Crear una nueva fila en la tabla QuestionAnswer con los IDs de la pregunta y la respuesta seleccionada
+        session[:answered_questions] ||= [] # Inicializar la lista si no existe en la sesión
+        session[:answered_questions] << index # Agregar el índice de la pregunta respondida a la lista
+        question_answer = QuestionAnswer.find_or_initialize_by(question_id: question.id, trivia_id: @trivia.id)
+        if !selected_answer.nil?
+          question_answer.answer_id = selected_answer.id
+          question_answer.save
+          selected_answer.update(selected: true)
+        end
+
+        # Agregar manejo de respuestas para preguntas de autocompletado
+        autocomplete_input = params[:autocomplete_input].to_s.strip
+        if question.is_a?(Autocomplete)
+          answer_autocomplete = Answer.find_by(question_id: question.id)
+          answer_autocomplete.update(autocomplete_input: autocomplete_input)
+        end
+
+        next_index = index + 1
+        redirect "/confirm/#{next_index}" # Redirigir a la página de confirmación intermedia usando GET
+      end
+    end
+  end
+
+  get '/confirm/:index' do
+    index = params[:index].to_i
+    previous_index = index - 1
+
+    # Verificar si la pregunta anterior ha sido respondida
+    if session[:answered_questions].include?(previous_index)
+      redirect "/question/#{index}" # Redirigir a la siguiente pregunta si la pregunta anterior ha sido respondida
+    else
+      redirect '/' # Redirigir a la página inicial de la trivia si se intenta acceder directamente a la página de confirmación intermedia
     end
   end
 
   get '/results' do
-    trivia_id = session[:trivia_id]
-    @trivia = Trivia.find(trivia_id)
-    @user = @trivia.user
+    redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
 
+    @user = @trivia.user
     @results = []
     @score = 0
     @idx = 0
