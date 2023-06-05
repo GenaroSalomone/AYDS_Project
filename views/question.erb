@@ -116,14 +116,38 @@
 
       // Función para iniciar el temporizador
       function startTimer(duration, display) {
+        var timerContainer = document.getElementById("timer-container"); 
         var timer = duration, seconds;
+        var triviaDifficultyLevel = "<%= @trivia.difficulty.level%>";
+        timerContainer.className = "green"; // nombre de la clase que se asigna en timerContainer
         var intervalId = setInterval(function () {
           seconds = parseInt(timer % 60, 10);
           display.text(seconds);
-          if (--timer < 0) {
-            clearInterval(intervalId);
-            showTimeUpMessage();
-          }
+          // Teniendo en cuenta la dificultad y tiempo transcurrido, el cronometro cambia de color
+          timer --;
+          if (triviaDifficultyLevel == "beginner") {
+            if (timer <= 15 && timer >= 10){
+              timerContainer.className = "green";
+            } else if (timer < 10 && timer >= 5){
+              timerContainer.className = "yellow";
+            } else if (timer < 5 && timer >= 1){
+              timerContainer.className = "red";
+            } else if (timer < 0){
+              clearInterval(intervalId);
+              showTimeUpMessage();
+            }
+          } else if (triviaDifficultyLevel == "difficult") {
+              if (timer <= 10 && timer >= 7){
+                timerContainer.className = "green";
+              } else if (timer < 7 && timer >= 4){
+                timerContainer.className = "yellow";
+              } else if (timer < 4 && timer >= 1){
+                timerContainer.className = "red";
+              } else if (timer < 0){
+                clearInterval(intervalId);
+                showTimeUpMessage();
+              }  
+          }  
         }, 1000);
       }
 
