@@ -32,7 +32,6 @@
         showMessage("Debe ingresar al menos un carácter antes de continuar.");
         return false;
       }
-
       return true;
     }
 
@@ -56,6 +55,55 @@
         overlay.remove();
       });
     }
+
+    // Función para mostrar el mensaje cuando se intenta reenviar un formulario bloqueado por JavaScript
+    function showErrorMessage(message) {
+      var overlay = document.createElement("div");
+      overlay.classList.add("overlay");
+
+      var messageContainer = document.createElement("div");
+      messageContainer.classList.add("message-container");
+      messageContainer.innerHTML = `
+        <div class="message-box">
+          <p>${message}</p>
+          <button id="entendido-btn" class="button-style">Empezar otra trivia</button>
+        </div>
+      `;
+      overlay.appendChild(messageContainer);
+      document.body.appendChild(overlay);
+
+      var entendidoBtn = document.getElementById("entendido-btn");
+      entendidoBtn.addEventListener("click", function() {
+        overlay.remove();
+        window.location.href = "/protected_page"; // Redirige al usuario a la página "/protected_page"
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+      var form = document.querySelector('form'); // Obtener el formulario
+      var submitButton = form.querySelector('button[type="submit"]'); // Obtener el botón de envío
+      var formSubmitted = false; // Variable para controlar si el formulario se ha enviado
+
+      form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Evita el envío del formulario
+
+        if (formSubmitted) {
+          // Si el formulario ya se ha enviado antes, muestra el mensaje de error
+          showErrorMessage("Respuesta respondida, por favor, inicie otra trivia.");
+          return;
+        }
+
+        formSubmitted = true; // Marca el formulario como enviado
+        submitButton.disabled = true; // Desactivar el botón de envío después de que se envíe el formulario
+
+        setTimeout(function() {
+          submitButton.disabled = false;
+        }, 1000);
+
+        form.submit(); // Envía el formulario normalmente sin bloquear el reenvío
+      });
+    });
+
   </script>
 </head>
 <body>
@@ -64,7 +112,7 @@
     <p><%= @question.text %></p> <!-- Se muestra la pregunta -->
     <% if @question.is_a?(Autocomplete) %>
       <h2>Ingrese su respuesta:</h2>
-      <form action="/answer" method="post" onsubmit="return autocompleteValidateForm()">
+      <form action="/answer/<%= @question_index %>" method="post" onsubmit="return autocompleteValidateForm()">
         <input type="hidden" name="trivia_id" value="<%= @trivia.id %>">
         <input type="hidden" name="question_index" value="<%= @question_index %>">
         <div class="q-autocomplete-container">
@@ -79,7 +127,7 @@
       </form>
     <% else %>
       <h2>Opciones:</h2>
-      <form action="/answer" method="post" onsubmit="return validateForm()">
+      <form action="/answer/<%= @question_index %>" method="post" onsubmit="return validateForm()">
         <input type="hidden" name="trivia_id" value="<%= @trivia.id %>">
         <input type="hidden" name="question_index" value="<%= @question_index %>">
         <% @answers.each do |answer| %>
@@ -129,12 +177,14 @@
             document.querySelector('input[name="selected_answer"]').value = null;
           }
           overlay.remove();
-          document.querySelector('form').submit();
+          nextQuestion();
         });
       }
 
       function nextQuestion() {
-        document.querySelector('form').submit();
+        var questionIndex = parseInt(document.querySelector('input[name="question_index"]').value);
+        questionIndex++; // Incrementa el índice de la pregunta para avanzar a la siguiente
+        window.location.href = "/question/" + questionIndex; // Redirecciona a la siguiente pregunta
       }
 
       function startTimer(duration, display) {
