@@ -1,41 +1,57 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="UTF-8">
-  <title>Resultado</title>
-  <link rel="stylesheet" type="text/css" href="/css/results.css">
-</head>
-<body>
-  <div class="container">
-    <h1>Bien jugado <%= @user.username %>, has realizado la trivia #<%= @trivia.id %></h1>
-    <h2>Resultado total:</h2>
+  <head>
+    <meta charset="UTF-8">
+    <title>Resultado</title>
+    <link rel="stylesheet" type="text/css" href="/css/results.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Bien jugado <%= @user.username %>, has realizado la trivia #<%= @trivia.id %></h1>
+      <h2>Resultado total:</h2>
 
-    <% @results.each do |result| %>
-      <% @idx += 1 %>
-      <div class="question-result">
-        <h3>Pregunta <%= @idx %> :</h3>
-        <p><strong><%= result[:question].text %></strong></p>
-        <% if result[:selected_answer].present? %>
-          <p><strong>Respuesta seleccionada:</strong> <%= result[:selected_answer].text %></p>
-        <% else %>
-          <p><strong>Respuesta seleccionada:</strong> Ninguna respuesta seleccionada.</p>
-        <% end %>
-        <% if result[:correct] %>
-          <p><strong>Respuesta correcta:</strong> <%= result[:correct_answer].text %></p>
-          <p><span class="correct-message">¡Correcto!</span></p>
-        <% else %>
-          <p><strong>Respuesta correcta:</strong> <%= result[:correct_answer].text %></p>
-          <p><span class="incorrect-message">Incorrecto</span></p>
-        <% end %>
+      <% @results.each do |result| %>
+        <% @idx += 1 %>
+        <div class="question-result">
+          <h3>Pregunta <%= @idx %> :</h3>
+          <p><strong><%= result[:question].text %></strong></p>
+          <% if result[:question].is_a?(Autocomplete) %>
+            <% if result[:correct] %>
+              <p><strong>Respuesta ingresada:</strong> <%= result[:autocomplete_input] %></p>
+              <p><strong>Respuesta esperada:</strong> <%= result[:correct_answer] %></p>
+              <p><span class="correct-message">¡Correcto!</span></p>
+            <% else %>
+              <% if  result[:autocomplete_input] == "" %>
+                <p><strong>Respuesta ingresada:</strong> No se ha ingresado respuesta</p>
+              <% else %>
+                <p><strong>Respuesta ingresada:</strong> <%= result[:autocomplete_input] %></p>
+              <% end %>
+              <p><strong>Respuesta esperada:</strong> <%= result[:correct_answer] %></p>
+              <p><span class="incorrect-message">Incorrecto</span></p>
+            <% end %>
+          <% else %>
+            <% if result[:selected_answer].present? %>
+              <p><strong>Respuesta seleccionada:</strong> <%= result[:selected_answer].text %></p>
+            <% else %>
+              <p><strong>Respuesta seleccionada:</strong> Ninguna respuesta seleccionada.</p>
+            <% end %>
+            <% if result[:correct] %>
+              <p><strong>Respuesta correcta:</strong> <%= result[:correct_answer].text %></p>
+              <p><span class="correct-message">¡Correcto!</span></p>
+            <% else %>
+              <p><strong>Respuesta correcta:</strong> <%= result[:correct_answer].text %></p>
+              <p><span class="incorrect-message">Incorrecto</span></p>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <h2 class="score">Puntaje total: <%= @score %></h2>
+
+      <div class="button-container">
+        <a href="/protected_page" class="button">Realizar otra trivia</a>
+        <a href="/" class="button">Salir</a>
       </div>
-    <% end %>
-
-    <h2 class="score">Puntaje total: <%= @score %></h2>
-
-    <div class="button-container">
-      <a href="/protected_page" class="button">Realizar otra trivia</a>
-      <a href="/" class="button">Salir</a>
     </div>
-  </div>
-</body>
+  </body>
 </html>

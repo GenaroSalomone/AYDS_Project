@@ -104,7 +104,12 @@
         // Asignar el evento click al botón "Entendido"
         var entendidoBtn = document.getElementById("entendido-btn");
         entendidoBtn.addEventListener("click", function() {
-          //document.querySelector('input[name="selected_answer"]').value = null; // Establecer selected_answer como null
+          var autocompleteInput = document.getElementById('autocomplete-input');
+          if (autocompleteInput) {
+            autocompleteInput.value = null; // Establecer el campo de autocompletado en null
+          } else {
+            document.querySelector('input[name="selected_answer"]').value = null; // Establecer selected_answer como null para otras preguntas
+          }
           document.querySelector('form').submit(); // Enviar el formulario para avanzar a la siguiente pregunta
         });
       }
@@ -116,7 +121,7 @@
 
       // Función para iniciar el temporizador
       function startTimer(duration, display) {
-        var timerContainer = document.getElementById("timer-container"); 
+        var timerContainer = document.getElementById("timer-container");
         var timer = duration, seconds;
         var triviaDifficultyLevel = "<%= @trivia.difficulty.level%>";
         timerContainer.className = "green"; // nombre de la clase que se asigna en timerContainer
@@ -146,8 +151,8 @@
               } else if (timer < 0){
                 clearInterval(intervalId);
                 showTimeUpMessage();
-              }  
-          }  
+              }
+          }
         }, 1000);
       }
 
