@@ -6,9 +6,7 @@ if ENV['RACK_ENV'] == 'development'
 end
 ActiveRecord::Base.connection.execute('PRAGMA foreign_keys = ON;')
 
-# Crea la dificultad "beginner" (Principiante)
 beginner_difficulty = Difficulty.create!(level: "beginner")
-# Crea la dificultad "difdicult" (Experto)
 difficult_difficulty = Difficulty.create!(level: "difficult")
 
 =begin
@@ -16,21 +14,19 @@ difficult_difficulty = Difficulty.create!(level: "difficult")
 POR CONVENCION:
 Preguntas principiantes: 1) Choices -> choice_pri_numero
                          2) True_Falses -> true_false_pri_numero
+                         3) Autocompletes -> autocomplete_pri_numero
 
 Preguntas expertas: 1) Choices -> choice_exp_numero
                     2) True_Falses -> true_false_exp_numero
-
+                    3) Autocompletes -> autocomplete_exp_numero
 =end
 
-
-
-# Crea las preguntas y respuestas
 Question.transaction do
 
   # PREGUNTAS NIVEL PRINCIPIANTE
 
   # Pregunta 1
-  choice_pri_1 = Choice.create!(
+  choice_pri_1 = Choice.create!( #ayuda
     text: "¿Qué es un compilador?",
     difficulty: beginner_difficulty
   )
@@ -85,7 +81,7 @@ Question.transaction do
   )
 
   # Pregunta 3
-  choice_pri_3 = Choice.create!(
+  choice_pri_3 = Choice.create!( #ayuda
     text: "¿Qué es el overclocking?",
     difficulty: beginner_difficulty
   )
@@ -139,7 +135,7 @@ Question.transaction do
   )
 
   # Pregunta 5
-  choice_pri_5 = Choice.create!(
+  choice_pri_5 = Choice.create!( #ayuda
     text: "¿Qué es el machine learning?",
     difficulty: beginner_difficulty
   )
@@ -195,7 +191,7 @@ Question.transaction do
   )
 
   # Pregunta 7
-  choice_pri_7 = Choice.create!(
+  choice_pri_7 = Choice.create!( #ayuda
     text: "¿Qué es un algoritmo de búsqueda?",
     difficulty: beginner_difficulty
   )
@@ -224,7 +220,7 @@ Question.transaction do
   )
 
   # Pregunta 8
-  choice_pri_8 = Choice.create!(
+  choice_pri_8 = Choice.create!( #ayuda
     text: "¿Qué es el debugging?",
     difficulty: beginner_difficulty
   )
@@ -284,7 +280,7 @@ Question.transaction do
   )
 
   # Pregunta 10
-  choice_pri_10 = Choice.create!(
+  choice_pri_10 = Choice.create!( #ayuda
     text: "¿Qué es un framework?",
     difficulty: beginner_difficulty
   )
@@ -344,7 +340,7 @@ Question.transaction do
   )
 
   #Pregunta 12
-  choice_pri_12 = Choice.create!(
+  choice_pri_12 = Choice.create!( #ayuda
     text: "¿Cómo funcionan los métodos encolar y desencolar de una Cola de Prioridad?",
     difficulty: beginner_difficulty
   )
@@ -376,7 +372,7 @@ Question.transaction do
   # Preguntas nivel principiante - TRUE FALSE
 
   # Pregunta 1
-  true_false_pri_1 = True_False.create!(
+  true_false_pri_1 = True_False.create!( #ayuda
     text: "La sentencia: int x = 5; tiene un tipado dinámico.",
     difficulty: beginner_difficulty
   )
@@ -394,7 +390,7 @@ Question.transaction do
   )
 
   # Pregunta 2
-  true_false_pri_2 = True_False.create!(
+  true_false_pri_2 = True_False.create!( #ayuda
     text: "Los errores en tiempo de compilación son más sencillos de detectar que los errores en tiempo de ejecución",
     difficulty: beginner_difficulty
   )
@@ -412,7 +408,7 @@ Question.transaction do
   )
 
   # Pregunta 3
-  true_false_pri_3 = True_False.create!(
+  true_false_pri_3 = True_False.create!( #ayuda
     text: "La libreria stdio.h (standar input output), generalmente se la incluye en programas basados en lenguaje C.",
     difficulty: beginner_difficulty
   )
@@ -448,57 +444,26 @@ Question.transaction do
   )
 
   # Preguntas AUTOCOMPLETADO, nivel principiante
-  autocomplete_q1 = Autocomplete.create!(
-    text: "El primer ordenador electrónico fue construido en el año _ _ _ _. ",
+  
+  # Pregunta 1
+  autocomplete_pri_1 = Autocomplete.create!( #ayuda
+    text: "El primer ordenador electrónico fue construido en el año _ _ _ _ . ",
     difficulty: beginner_difficulty
   )
 
   Answer.create!(
-    question: autocomplete_q1,
+    question: autocomplete_pri_1,
     answers_autocomplete: ["1946", "mil novecientos cuarenta y seis", "Mil novecientos cuarenta y seis"]
   )
 
   # Pregunta 2
-  autocomplete_q2 = Autocomplete.create!(
-    text: "El término 'Inteligencia Artificial' fue acuñado por _ _ _ _ en el año 1956.",
+  autocomplete_pri_2 = Autocomplete.create!( #ayuda
+    text: "El primer teléfono móvil comercial se lanzó en el año _ _ _ _ . ",
     difficulty: beginner_difficulty
   )
 
   Answer.create!(
-    question: autocomplete_q2,
-    answers_autocomplete: ["John McCarthy", "john mccarthy", "John Mccarthy", "john Mccarthy"]
-  )
-
-  # Pregunta 3
-  autocomplete_q3 = Autocomplete.create!(
-    text: "El primer sistema operativo de Microsoft se llamaba _ _ _ _ .",
-    difficulty: beginner_difficulty
-  )
-
-  Answer.create!(
-    question: autocomplete_q3,
-    answers_autocomplete: ["MS-DOS", "ms-dos", "Ms-Dos", "ms-Dos"]
-  )
-
-  # Pregunta 4
-  autocomplete_q4 = Autocomplete.create!(
-    text: "El concepto de 'Internet de las cosas' se refiere a la interconexión de _ _ _ _.",
-    difficulty: beginner_difficulty
-  )
-
-  Answer.create!(
-    question: autocomplete_q4,
-    answers_autocomplete: ["Dispositivos físicos", "dispositivos fisicos", "Dispositivos Físicos", "dispositivos físicos"]
-  )
-
-  # Pregunta 5
-  autocomplete_q5 = Autocomplete.create!(
-    text: "El primer teléfono móvil comercial se lanzó en el año _ _ _ _. ",
-    difficulty: beginner_difficulty
-  )
-
-  Answer.create!(
-    question: autocomplete_q5,
+    question: autocomplete_pri_2,
     answers_autocomplete: ["1983", "mil novecientos ochenta y tres", "Mil novecientos ochenta y tres"]
   )
 
@@ -658,11 +623,7 @@ Question.transaction do
 
   # Pregunta 6
   choice_exp_6 = Choice.create!(
-    text: "¿Qué imprime el siguiente programa?
-            x := 1;
-            Leer(x);
-            x := x + 1;
-            Escribir(x);",
+    text: "¿Qué imprime el siguiente programa? x := 1; Leer(x); x := x + 1; Escribir(x);",
     difficulty: difficult_difficulty
   )
 
@@ -775,6 +736,41 @@ Question.transaction do
     question: true_false_exp_3,
     text: "False",
     correct: false
+  )
+
+  # Preguntas nivel experto - AUTOCOMPLETADO
+  
+  # Pregunta 1
+  autocomplete_exp_1 = Autocomplete.create!(
+    text: "El primer sistema operativo de Microsoft se llamaba _ _ _ _ .",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_exp_1,
+    answers_autocomplete: ["MS-DOS", "ms-dos", "Ms-Dos", "ms-Dos"]
+  )
+
+  # Pregunta 2
+  autocomplete_exp_2 = Autocomplete.create!(
+    text: "El concepto de 'Internet de las cosas' se refiere a la interconexión de _ _ _ _ .",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_exp_2,
+    answers_autocomplete: ["Dispositivos físicos", "dispositivos fisicos", "Dispositivos Físicos", "dispositivos físicos"]
+  )
+
+  # Pregunta 3
+  autocomplete_exp_3 = Autocomplete.create!(
+    text: "El término 'Inteligencia Artificial' fue acuñado por _ _ _ _ en el año 1956.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_exp_3,
+    answers_autocomplete: ["John McCarthy", "john mccarthy", "John Mccarthy", "john Mccarthy"]
   )
 
 end
