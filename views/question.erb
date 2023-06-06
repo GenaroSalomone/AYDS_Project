@@ -127,6 +127,25 @@
         <div class="button-container">
           <button type="submit">Siguiente pregunta</button>
         </div>
+        <!-- boton para ayuda -->
+        <div class="button-container">
+          <button type="button" onclick="showHelp()">¿Necesita una ayuda?</button> 
+        </div>
+
+        <div id="help-msg" style="display: none;">Aún no estoy completo</div>
+        <script>
+        // Se muestra el mensaje de ayuda por pantalla
+          function showHelp() {
+            var msj = document.getElementById("help-msg");
+            // Si se da un click en el boton, se despliega un mensaje, si se vuelve a dar click, se oculta
+            if (msj.style.display === "none") {
+              msj.style.display = "block";
+            } else {
+              msj.style.display = "none";
+            }
+          }
+        </script>
+
       </form>
     <% else %>
       <h2>Opciones:</h2>
@@ -151,6 +170,24 @@
         <div class="button-container">
           <button type="submit">Siguiente pregunta</button>
         </div>
+
+        <div class="button-container">
+          <button type="button" onclick="showHelp()">¿Necesita una ayuda?</button> 
+        </div>
+
+        <div id="help-msg" style="display: none;">Aún no estoy completo</div>
+        <script>
+          
+          function showHelp() {
+            var msj = document.getElementById("help-msg");
+            if (msj.style.display === "none") {
+              msj.style.display = "block";
+            } else {
+              msj.style.display = "none";
+            }
+          }
+        </script>
+
       </form>
     <% end %>
 
@@ -198,27 +235,26 @@
         var intervalId = setInterval(function () {
           seconds = parseInt(timer % 60, 10);
           display.text(seconds);
-
           timer--;
           if (triviaDifficultyLevel == "beginner") {
-            if (timer <= 15 && timer >= 10){
+            if (timer >= 10){
               timerContainer.className = "green";
-            } else if (timer < 10 && timer >= 5){
+            } else if (timer >= 5){
               timerContainer.className = "yellow";
-            } else if (timer < 5 && timer >= 1){
+            } else if (timer >= 0){
               timerContainer.className = "red";
-            } else if (timer < 0){
+            } else {
               clearInterval(intervalId);
               showTimeUpMessage();
             }
           } else if (triviaDifficultyLevel == "difficult") {
-              if (timer <= 10 && timer >= 7){
+              if (timer >= 7){
                 timerContainer.className = "green";
-              } else if (timer < 7 && timer >= 4){
+              } else if (timer >= 4){
                 timerContainer.className = "yellow";
-              } else if (timer < 4 && timer >= 1){
+              } else if (timer >= 0){
                 timerContainer.className = "red";
-              } else if (timer < 0){
+              } else {
                 clearInterval(intervalId);
                 showTimeUpMessage();
               }
