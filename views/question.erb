@@ -7,7 +7,7 @@
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   <!-- Código JavaScript para manejar la validación de la selección de respuesta -->
   <script>
-    async function validateForm() {
+     function validateForm() {
       var selectedOption = document.querySelector('input[name="selected_answer"]:checked');
       var timeRemaining = parseInt($('#timer').text());
 
@@ -23,7 +23,7 @@
       return true;
     }
 
-    async function autocompleteValidateForm() {
+    function autocompleteValidateForm() {
       var autocompleteInput = document.getElementById('autocomplete-input');
       var timeRemaining = parseInt($('#timer').text());
 
@@ -32,6 +32,7 @@
         showMessage("Debe ingresar al menos un carácter antes de continuar.");
         return false;
       }
+
       return true;
     }
 
@@ -50,69 +51,18 @@
       overlay.appendChild(messageContainer);
       document.body.appendChild(overlay);
 
-      return new Promise(function(resolve, reject) {
-        var entendidoBtn = document.getElementById("entendido-btn");
-        entendidoBtn.addEventListener("click", function() {
-          overlay.remove();
-          resolve(); // Resuelve la promesa cuando se hace clic en el botón "Entendido"
-        });
-      });
-    }
-
-    // Función para mostrar el mensaje cuando se intenta reenviar un formulario bloqueado por JavaScript
-    function showErrorMessage(message) {
-      var overlay = document.createElement("div");
-      overlay.classList.add("overlay");
-
-      var messageContainer = document.createElement("div");
-      messageContainer.classList.add("message-container");
-      messageContainer.innerHTML = `
-        <div class="message-box">
-          <p>${message}</p>
-          <button id="entendido-btn" class="button-style">Empezar otra trivia</button>
-        </div>
-      `;
-      overlay.appendChild(messageContainer);
-      document.body.appendChild(overlay);
-
       var entendidoBtn = document.getElementById("entendido-btn");
       entendidoBtn.addEventListener("click", function() {
         overlay.remove();
-        window.location.href = "/protected_page"; // Redirige al usuario a la página "/protected_page"
       });
     }
-
-    document.addEventListener('DOMContentLoaded', function() {
-      var form = document.querySelector('form'); // Obtener el formulario
-      var submitButton = form.querySelector('button[type="submit"]'); // Obtener el botón de envío
-      var formSubmitted = false; // Variable para controlar si el formulario se ha enviado
-
-      form.addEventListener('submit', function(event) {
-        event.preventDefault(); // Evita el envío del formulario
-
-        if (formSubmitted) {
-          // Si el formulario ya se ha enviado antes, muestra el mensaje de error
-          showErrorMessage("Respuesta respondida, por favor, inicie otra trivia.");
-          return;
-        }
-
-        formSubmitted = true; // Marca el formulario como enviado
-        submitButton.disabled = true; // Desactivar el botón de envío después de que se envíe el formulario
-
-        setTimeout(function() {
-          submitButton.disabled = false;
-        }, 1000);
-
-        form.submit(); // Envía el formulario normalmente sin bloquear el reenvío
-      });
-    });
 
   </script>
 </head>
 <body>
   <h1>Pregunta <%= @question_index + 1 %> :</h1>
   <% if @question %>
-    <p><%= @question.text %></p> 
+    <p><%= @question.text %></p> <!-- Se muestra la pregunta -->
     <% if @question.is_a?(Autocomplete) %>
       <h2>Ingrese su respuesta:</h2>
       <form action="/answer/<%= @question_index %>" method="post" onsubmit="return autocompleteValidateForm()">
@@ -127,33 +77,32 @@
         <div class="button-container">
           <button type="submit">Siguiente pregunta</button>
         </div>
-        <!-- boton para ayuda -->
+         <!-- boton para ayuda -->
         <div class="button-container">
-          <button type="button" onclick="showHelp('<%=@question.id%>')">¿Necesita una ayuda?</button> 
+          <button type="button" onclick="showHelp('<%=@question.id%>')">¿Necesita una ayuda?</button>
         </div>
 
-        <div id="help-msg" style="display: none;"></div>
-
-        <div id="message-container"></div>
-
+        <div id="help-msg" style="display: none;">
+          Este es un mensaje de ayuda
+        </div>
         <script>
-
+          //CAMBIADO ARRIBA TAMBIEN CAMBIE COSAS
           // Funcion para mostrar un mensaje de ayuda
           function showHelp(autocompleteId) {
             var helpMsg = document.getElementById("help-msg");
-            
+
             // Se crea un mapa con los mensajes, según las id autocompletados (nivel principiante)
             var messages = {
               17: "Después de la segunda guerra mundial, entre el año 1945 y 1950.",
               18: "Un año que está entre 1980 y 1990."
             };
-            
+
             // Se verifica si el id de la question (autocomplete en este caso) esta presente en el mapa
             if (messages.hasOwnProperty(autocompleteId) ){
               var msgAux = messages[autocompleteId];
               displayMessage(msgAux);  // se invoca la funcion desplegando el mensaje correspondiente
             }
-            
+
             // Si se da un click en el boton, se despliega un mensaje, si se vuelve a dar click, se oculta
             if (helpMsg.style.display === "none") {
               helpMsg.style.display = "block";
@@ -161,15 +110,14 @@
               helpMsg.style.display = "none";
             }
           }
-           
-          // Funcion para mostrar el mensaje correspondiente al ID 
+
+          // Funcion para mostrar el mensaje correspondiente al ID
           function displayMessage(message) {
             var msgContainer = document.getElementById("message-container");
             msgContainer.textContent = message;
           }
 
         </script>
-
       </form>
     <% else %>
       <h2>Opciones:</h2>
@@ -194,114 +142,98 @@
         <div class="button-container">
           <button type="submit">Siguiente pregunta</button>
         </div>
-
-        <div class="button-container">
-          <button type="button" onclick="showHelp()">¿Necesita una ayuda?</button> 
-        </div>
-
-        <div id="help-msg" style="display: none;">
-          Este es un mensaje de ayuda
-        </div>
-        <script>
-          
-          function showHelp() {
-            var msj = document.getElementById("help-msg");
-
-
-
-
-
-
-            // Si se da un click en el boton, se despliega un mensaje, si se vuelve a dar click, se oculta
-            if (msj.style.display === "none") {
-              msj.style.display = "block";
-            } else {
-              msj.style.display = "none";
-            }  
-          }    
-
-        </script>
-
       </form>
     <% end %>
 
     <div id="message-box-container"></div>
     <script>
       function showTimeUpMessage() {
-        var overlay = document.createElement("div");
-        overlay.classList.add("overlay");
+      var overlay = document.createElement("div");
+      overlay.classList.add("overlay");
 
-        var messageContainer = document.createElement("div");
-        messageContainer.classList.add("message-container");
-        messageContainer.innerHTML = `
-          <div class="message-box">
-            <p>Se terminó el tiempo, respuesta marcada como incorrecta!</p>
-            <button id="entendido-btn" class="button-style">Entendido</button>
-          </div>
-        `;
-        overlay.appendChild(messageContainer);
-        document.body.appendChild(overlay);
+      var messageContainer = document.createElement("div");
+      messageContainer.classList.add("message-container");
+      messageContainer.innerHTML = `
+        <div class="message-box">
+          <p>Se terminó el tiempo, respuesta marcada como incorrecta!</p>
+          <button id="entendido-btn" class="button-style">Entendido</button>
+        </div>
+      `;
+      overlay.appendChild(messageContainer);
+      document.body.appendChild(overlay);
 
-        var entendidoBtn = document.getElementById("entendido-btn");
-        entendidoBtn.addEventListener("click", function() {
-          var autocompleteInput = document.getElementById('autocomplete-input');
-          if (autocompleteInput) {
-            autocompleteInput.value = null;
-          } else {
-            document.querySelector('input[name="selected_answer"]').value = null;
-          }
-          overlay.remove();
-          nextQuestion();
-        });
-      }
-
-      function nextQuestion() {
-        var questionIndex = parseInt(document.querySelector('input[name="question_index"]').value);
-        questionIndex++; // Incrementa el índice de la pregunta para avanzar a la siguiente
-        window.location.href = "/question/" + questionIndex; // Redirecciona a la siguiente pregunta
-      }
-
-      function startTimer(duration, display) {
-        var timerContainer = document.getElementById("timer-container");
-        var timer = duration, seconds;
-        var triviaDifficultyLevel = "<%= @trivia.difficulty.level%>";
-        timerContainer.className = "green";
-        var intervalId = setInterval(function () {
-          seconds = parseInt(timer % 60, 10);
-          display.text(seconds);
-          timer--;
-          if (triviaDifficultyLevel == "beginner") {
-            if (timer >= 10){
-              timerContainer.className = "green";
-            } else if (timer >= 5){
-              timerContainer.className = "yellow";
-            } else if (timer >= 0){
-              timerContainer.className = "red";
-            } else {
-              clearInterval(intervalId);
-              showTimeUpMessage();
-            }
-          } else if (triviaDifficultyLevel == "difficult") {
-              if (timer >= 7){
-                timerContainer.className = "green";
-              } else if (timer >= 4){
-                timerContainer.className = "yellow";
-              } else if (timer >= 0){
-                timerContainer.className = "red";
-              } else {
-                clearInterval(intervalId);
-                showTimeUpMessage();
-              }
-          }
-        }, 1000);
-      }
-
-      $(document).ready(function () {
-        var timeLimit = parseInt($("#timer-container").data("time-limit-seconds"));
-        var display = $('#timer');
-        startTimer(timeLimit, display);
+      var entendidoBtn = document.getElementById("entendido-btn");
+      entendidoBtn.addEventListener("click", function () {
+        var autocompleteInput = document.getElementById("autocomplete-input");
+        if (autocompleteInput) {
+          autocompleteInput.value = null;
+        } else {
+          document.querySelector('input[name="selected_answer"]').value = null;
+        }
+        overlay.remove();
+        nextQuestion();
       });
-    </script>
+
+    }
+
+    function nextQuestion() {
+      document.querySelector("form").submit();
+    }
+
+    function startTimer(duration, display) {
+      var timerContainer = document.getElementById("timer-container");
+      var timer = duration,
+        seconds;
+      var triviaDifficultyLevel = "<%= @trivia.difficulty.level%>";
+      timerContainer.className = "green";
+      var intervalId = setInterval(function () {
+        seconds = parseInt(timer % 60, 10);
+        display.text(seconds);
+
+        timer--;
+        if (triviaDifficultyLevel == "beginner") {
+          if (timer <= 15 && timer >= 10) {
+            timerContainer.className = "green";
+          } else if (timer < 10 && timer >= 5) {
+            timerContainer.className = "yellow";
+          } else if (timer < 5 && timer >= 1) {
+            timerContainer.className = "red";
+          } else if (timer < 0) {
+            clearInterval(intervalId);
+            showTimeUpMessage();
+          }
+        } else if (triviaDifficultyLevel == "difficult") {
+          if (timer <= 10 && timer >= 7) {
+            timerContainer.className = "green";
+          } else if (timer < 7 && timer >= 4) {
+            timerContainer.className = "yellow";
+          } else if (timer < 4 && timer >= 1) {
+            timerContainer.className = "red";
+          } else if (timer < 0) {
+            clearInterval(intervalId);
+            showTimeUpMessage();
+          }
+        }
+      }, 1000);
+    }
+
+    $(document).ready(function () {
+      var timeLimit = parseInt($("#timer-container").data("time-limit-seconds"));
+      var display = $("#timer");
+      startTimer(timeLimit, display);
+    });
+
+    function showHelp() {
+      var msj = document.getElementById("help-msg");
+      // Si se da un click en el boton, se despliega un mensaje, si se vuelve a dar click, se oculta
+      if (msj.style.display === "none") {
+        msj.style.display = "block";
+      } else {
+        msj.style.display = "none";
+      }
+  }
+
+</script>
   <% else %>
     <h2>No se encontró la pregunta</h2>
   <% end %>
