@@ -143,6 +143,11 @@ class App < Sinatra::Application
 
     trivia.save
     session[:trivia_id] = trivia.id # Guardar el ID de la trivia en la sesión
+
+    #unless session[:answered_questions] && !session[:answered_questions].empty?
+      session[:answered_questions] = [] # Restablecer las preguntas respondidas solo si no están inicializadas o están vacías
+    #end
+
     redirect '/question/0' # Redirigir a la primera pregunta
   end
 
@@ -151,15 +156,20 @@ class App < Sinatra::Application
 
     index = params[:index].to_i
     question = @trivia.questions[index]
+    previous_index = index.zero? ? 0 : index - 1
 
-    if question.nil? || index >= 10
-      redirect '/results' # Redirigir a los resultados si no hay más preguntas
+    if index.zero? || session[:answered_questions].include?(previous_index)
+      if question.nil? || index >= 10
+        redirect '/results' # Redirigir a los resultados si no hay más preguntas
+      else
+        @question = question
+        @answers = Answer.where(question_id: question.id)
+        @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
+        @question_index = index # Inicializar @question_index con el valor de index
+        erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds}
+      end
     else
-      @question = question
-      @answers = Answer.where(question_id: question.id)
-      @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
-      @question_index = index # Inicializar @question_index con el valor de index
-      erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds }
+      redirect "/error?code=unanswered"
     end
   end
 
@@ -176,10 +186,12 @@ class App < Sinatra::Application
       selected_answer = Answer.find_by(id: selected_answer_id, question_id: question.id)
 
       if selected_answer.nil? && !question.is_a?(Autocomplete)
-        redirect "/question/#{index}" # Redirigir a la misma pregunta si no se seleccionó una respuesta
+        session[:answered_questions] << index
+        redirect "/question/#{index+1}"
+      elsif session[:answered_questions].include?(index)
+        redirect '/error?code=answered'
       else
         # Crear una nueva fila en la tabla QuestionAnswer con los IDs de la pregunta y la respuesta seleccionada
-        session[:answered_questions] ||= [] # Inicializar la lista si no existe en la sesión
         session[:answered_questions] << index # Agregar el índice de la pregunta respondida a la lista
         question_answer = QuestionAnswer.find_or_initialize_by(question_id: question.id, trivia_id: @trivia.id)
         if !selected_answer.nil?
@@ -196,21 +208,19 @@ class App < Sinatra::Application
         end
 
         next_index = index + 1
-        redirect "/confirm/#{next_index}" # Redirigir a la página de confirmación intermedia usando GET
+        redirect "/question/#{next_index}" # Redirigir a la página de confirmación intermedia usando GET
       end
     end
   end
 
-  get '/confirm/:index' do
-    index = params[:index].to_i
-    previous_index = index - 1
-
-    # Verificar si la pregunta anterior ha sido respondida
-    if session[:answered_questions].include?(previous_index)
-      redirect "/question/#{index}" # Redirigir a la siguiente pregunta si la pregunta anterior ha sido respondida
+  get '/error' do
+    error_code = params[:code]
+    if error_code == "answered"
+      @error_message = "Esta pregunta ya ha sido respondida."
     else
-      redirect '/' # Redirigir a la página inicial de la trivia si se intenta acceder directamente a la página de confirmación intermedia
+      @error_message = "Ha ocurrido un error."
     end
+    erb :error, locals: { error_message: @error_message }
   end
 
   get '/results' do
