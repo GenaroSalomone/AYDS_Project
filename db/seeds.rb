@@ -443,8 +443,93 @@ Question.transaction do
     correct: false
   )
 
+  true_false_pri_5 = True_False.create!(
+    text: "El sistema operativo Linux se basa en el núcleo Windows.",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: true_false_pri_5,
+    text: "True",
+    correct: false
+  )
+
+  Answer.create!(
+    question: true_false_pri_5,
+    text: "False",
+    correct: true
+  )
+
+  true_false_pri_6 = True_False.create!(
+    text: "La inteligencia artificial es capaz de simular el pensamiento humano.",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: true_false_pri_6,
+    text: "True",
+    correct: true
+  )
+
+  Answer.create!(
+    question: true_false_pri_6,
+    text: "False",
+    correct: false
+  )
+
+  true_false_pri_7 = True_False.create!(
+    text: "El lenguaje de programación Java es un lenguaje interpretado.",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: true_false_pri_7,
+    text: "True",
+    correct: false
+  )
+
+  Answer.create!(
+    question: true_false_pri_7,
+    text: "False",
+    correct: true
+  )
+
+  true_false_pri_8 = True_False.create!(
+    text: "El protocolo HTTP significa Hypertext Transfer Protocol.",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: true_false_pri_8,
+    text: "True",
+    correct: true
+  )
+
+  Answer.create!(
+    question: true_false_pri_8,
+    text: "False",
+    correct: false
+  )
+
+  true_false_pri_9 = True_False.create!(
+    text: "El lenguaje de programación Ruby fue creado en Japón.",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: true_false_pri_9,
+    text: "True",
+    correct: true
+  )
+
+  Answer.create!(
+    question: true_false_pri_9,
+    text: "False",
+    correct: false
+  )
+
   # Preguntas AUTOCOMPLETADO, nivel principiante
-  
+
   # Pregunta 1
   autocomplete_pri_1 = Autocomplete.create!( #ayuda
     text: "El primer ordenador electrónico fue construido en el año _ _ _ _ . ",
@@ -465,6 +550,94 @@ Question.transaction do
   Answer.create!(
     question: autocomplete_pri_2,
     answers_autocomplete: ["1983", "mil novecientos ochenta y tres", "Mil novecientos ochenta y tres"]
+  )
+
+  # Pregunta 3
+  autocomplete_pri_3 = Autocomplete.create!(
+    text: "El lenguaje de programación más utilizado en el desarrollo web es _ _ _ _ _ _ _ _ .",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_pri_3,
+    answers_autocomplete: ["JavaScript", "javascript", "Javascript"]
+  )
+
+  # Pregunta 4
+  autocomplete_pri_4 = Autocomplete.create!(
+    text: "La arquitectura de computadoras se encarga del diseño y desarrollo de la _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ .",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_pri_4,
+    answers_autocomplete: ["hardware", "Hardware"]
+  )
+
+  # Pregunta 5
+  autocomplete_pri_5 = Autocomplete.create!(
+    text: "El sistema operativo más utilizado en dispositivos móviles es _ _ _ _ _ _ _ .",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_pri_5,
+    answers_autocomplete: ["Android", "android"]
+  )
+
+  # Pregunta 6
+  autocomplete_pri_6 = Autocomplete.create!(
+    text: "El lenguaje de programación creado por Guido van Rossum es _ _ _ _ _ _ _ .",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_pri_6,
+    answers_autocomplete: ["Python", "python"]
+  )
+
+  # Pregunta 7
+  autocomplete_pri_7 = Autocomplete.create!(
+    text: "El algoritmo de ordenamiento más conocido y eficiente es _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ .",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_pri_7,
+    answers_autocomplete: ["Quicksort", "quicksort"]
+  )
+
+  # Pregunta 8
+  autocomplete_pri_8 = Autocomplete.create!(
+    text: "El sistema de gestión de bases de datos más popular es _ _ _ _ _ _ _ _ _ _ .",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_pri_8,
+    answers_autocomplete: ["MySQL", "mysql", "MYSQL"]
+  )
+
+  # Pregunta 9
+  autocomplete_pri_9 = Autocomplete.create!(
+    text: "El término utilizado para describir el conjunto de instrucciones ejecutadas por un ordenador es _ _ _ _ _ _ _ _ .",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_pri_9,
+    answers_autocomplete: ["programa", "Programa"]
+  )
+
+  # Pregunta 10
+  autocomplete_pri_10 = Autocomplete.create!(
+    text: "El proceso de convertir el código fuente en un programa ejecutable se conoce como _ _ _ _ _ _ _ _ _ _ _ _ .",
+    difficulty: beginner_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_pri_10,
+    answers_autocomplete: ["compilación", "Compilación", "compilacion", "Compilacion"]
   )
 
   ####################################################################
@@ -681,6 +854,151 @@ Question.transaction do
     correct: false
   )
 
+  choice_exp_8 = Choice.create!(
+    text: "¿Cuál de los siguientes lenguajes de programación es funcional?",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: choice_exp_8,
+    text: "Python",
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_exp_8,
+    text: "C++",
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_exp_8,
+    text: "Haskell",
+    correct: true
+  )
+
+  Answer.create!(
+    question: choice_exp_8,
+    text: "Java",
+    correct: false
+  )
+
+  choice_exp_9 = Choice.create!(
+    text: "¿Cuál de las siguientes opciones describe mejor la complejidad temporal del algoritmo de ordenamiento QuickSort?",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: choice_exp_9,
+    text: "O(n)",
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_exp_9,
+    text: "O(n log n)",
+    correct: true
+  )
+
+  Answer.create!(
+    question: choice_exp_9,
+    text: "O(n^2)",
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_exp_9,
+    text: "O(log n)",
+    correct: false
+  )
+
+  choice_exp_10 = Choice.create!(
+    text: "¿Cuál de los siguientes sistemas operativos no está basado en el núcleo Linux?",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: choice_exp_10,
+    text: "Ubuntu",
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_exp_10,
+    text: "Android",
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_exp_10,
+    text: "Windows",
+    correct: true
+  )
+
+  Answer.create!(
+    question: choice_exp_10,
+    text: "Fedora",
+    correct: false
+  )
+
+  choice_exp_11 = Choice.create!(
+    text: "¿Cuál de los siguientes conceptos está relacionado con el principio SOLID?",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: choice_exp_11,
+    text: "Programación estructurada",
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_exp_11,
+    text: "Programación orientada a objetos",
+    correct: true
+  )
+
+  Answer.create!(
+    question: choice_exp_11,
+    text: "Programación funcional",
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_exp_11,
+    text: "Programación concurrente",
+    correct: false
+  )
+
+  choice_exp_12 = Choice.create!(
+    text: "¿Cuál de las siguientes opciones describe mejor el patrón de diseño MVC (Model-View-Controller)?",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: choice_exp_12,
+    text: "Se utiliza para el desarrollo de aplicaciones de realidad virtual",
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_exp_12,
+    text: "Divide una aplicación en tres componentes principales para separar la lógica de negocios, la presentación y la interacción del usuario",
+    correct: true
+  )
+
+  Answer.create!(
+    question: choice_exp_12,
+    text: "Se utiliza para el diseño de bases de datos relacionales",
+    correct: false
+  )
+
+  Answer.create!(
+    question: choice_exp_12,
+    text: "Es un algoritmo de búsqueda y ordenamiento eficiente",
+    correct: false
+  )
+
 
   #Preguntas nivel experto - TRUE FALSE
 
@@ -738,8 +1056,93 @@ Question.transaction do
     correct: false
   )
 
+  true_false_exp_4 = True_False.create!(
+    text: "El lenguaje de programación Python fue lanzado en la década de 1990.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: true_false_exp_4,
+    text: "True",
+    correct: true
+  )
+
+  Answer.create!(
+    question: true_false_exp_4,
+    text: "False",
+    correct: false
+  )
+
+  true_false_exp_5 = True_False.create!(
+    text: "El algoritmo de búsqueda binaria requiere que los elementos estén ordenados previamente en la lista.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: true_false_exp_5,
+    text: "True",
+    correct: true
+  )
+
+  Answer.create!(
+    question: true_false_exp_5,
+    text: "False",
+    correct: false
+  )
+
+  true_false_exp_6 = True_False.create!(
+    text: "La red social Facebook fue lanzada originalmente para ser utilizada solo por estudiantes universitarios.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: true_false_exp_6,
+    text: "True",
+    correct: true
+  )
+
+  Answer.create!(
+    question: true_false_exp_6,
+    text: "False",
+    correct: false
+  )
+
+  true_false_exp_7 = True_False.create!(
+    text: "El lenguaje de programación Java es una variante del lenguaje JavaScript.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: true_false_exp_7,
+    text: "True",
+    correct: false
+  )
+
+  Answer.create!(
+    question: true_false_exp_7,
+    text: "False",
+    correct: true
+  )
+
+  true_false_exp_8 = True_False.create!(
+    text: "El sistema operativo macOS es desarrollado por Apple Inc.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: true_false_exp_8,
+    text: "True",
+    correct: true
+  )
+
+  Answer.create!(
+    question: true_false_exp_8,
+    text: "False",
+    correct: false
+  )
+
   # Preguntas nivel experto - AUTOCOMPLETADO
-  
+
   # Pregunta 1
   autocomplete_exp_1 = Autocomplete.create!(
     text: "El primer sistema operativo de Microsoft se llamaba _ _ _ _ .",
@@ -762,7 +1165,6 @@ Question.transaction do
     answers_autocomplete: ["Dispositivos físicos", "dispositivos fisicos", "Dispositivos Físicos", "dispositivos físicos"]
   )
 
-  # Pregunta 3
   autocomplete_exp_3 = Autocomplete.create!(
     text: "El término 'Inteligencia Artificial' fue acuñado por _ _ _ _ en el año 1956.",
     difficulty: difficult_difficulty
@@ -771,6 +1173,77 @@ Question.transaction do
   Answer.create!(
     question: autocomplete_exp_3,
     answers_autocomplete: ["John McCarthy", "john mccarthy", "John Mccarthy", "john Mccarthy"]
+  )
+
+  autocomplete_exp_4 = Autocomplete.create!(
+    text: "El primer lenguaje de programación de alto nivel fue _ _ _ _ _.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_exp_4,
+    answers_autocomplete: ["Fortran", "FORTRAN"]
+  )
+
+  autocomplete_exp_5 = Autocomplete.create!(
+    text: "La arquitectura de computadoras conocida como 'Von Neumann' fue propuesta por _ _ _ _ _ _ _ _ y _ _ _ _ _ _ _ _ _ _ en el año 1945.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_exp_5,
+    answers_autocomplete: ["John von Neumann", "john von neumann", "John Von Neumann", "john Von Neumann"]
+  )
+
+  autocomplete_exp_6 = Autocomplete.create!(
+    text: "El lenguaje de programación orientado a objetos más utilizado actualmente es _ _ _ _ _ _ _ _ _ _.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_exp_6,
+    answers_autocomplete: ["Java", "JAVA"]
+  )
+
+  autocomplete_exp_7 = Autocomplete.create!(
+    text: "El término 'Big Data' se refiere al manejo y análisis de conjuntos de datos extremadamente _ _ _ _ _ _ _ _ _ _.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_exp_7,
+    answers_autocomplete: ["grandes", "Grandes"]
+  )
+
+  autocomplete_exp_8 = Autocomplete.create!(
+    text: "El lenguaje de programación Python fue creado por Guido van _ _ _ _ _ _ _ en el año 1991.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_exp_8,
+    answers_autocomplete: ["Rossum", "rossum"]
+  )
+
+  autocomplete_exp_9 = Autocomplete.create!(
+    text: "La empresa Microsoft fue fundada por Bill _ _ _ _ _ _ _ y Paul Allen en el año 1975.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_exp_9,
+    answers_autocomplete: ["Gates", "gates"]
+  )
+
+  # Pregunta 3
+  autocomplete_exp_10 = Autocomplete.create!(
+    text: "El primer teléfono inteligente con pantalla táctil fue el iPhone, lanzado por _ _ _ _ _ _ en el año 2007.",
+    difficulty: difficult_difficulty
+  )
+
+  Answer.create!(
+    question: autocomplete_exp_10,
+    answers_autocomplete: ["Apple", "apple"]
   )
 
 end
