@@ -1,0 +1,22 @@
+<!-- error.erb -->
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Error</title>
+  <link rel="stylesheet" type="text/css" href="/css/error.css">
+</head>
+<body>
+  <h1>Error</h1>
+  <% if params[:code] == "unanswered" %>
+    <p>Se intentó acceder directamente a una pregunta sin haber respondido la pregunta anterior.</p>
+    <p>Será redirigido para comenzar una nueva trivia.</p>
+  <% elsif params[:code] == "answered" %>
+    <p>La pregunta ya ha sido respondida.</p>
+    <p>Será redirigido para comenzar una nueva trivia.</p>
+  <% end %>
+  <form action="/protected_page" method="get">
+    <input type="submit" value="Entendido">
+  </form>
+</body>
+</html>
