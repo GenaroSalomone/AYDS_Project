@@ -167,3 +167,42 @@ button:hover {
   font-weight: bold;
 }
 
+.q-autocomplete-input {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  width: 400px;
+  height: 25px;
+  font-size: 20px;
+  text-align: center;
+  font-family: 'Helvetica', Arial, sans-serif;
+}
+
+/* Resto de estilos del recuadro de respuesta */
+
+
+.q-autocomplete-input:focus {
+  outline: none;
+}
+
+.q-autocomplete-input::placeholder {
+  color: #999;
+}
+
+/* Estilos para el botón de submit */
+button[type="submit"] {
+  background-color: #fff;
+  border: 1px solid #333;
+  border-radius: 4px;
+  color: #333;
+  cursor: pointer;
+  font-size: 16px;
+  padding: 10px 20px;
+  box-shadow: none;
+  transition: none;
+}
+
+button[type="submit"]:hover {
+  background-color: #caff85;
+}
