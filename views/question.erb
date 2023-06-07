@@ -112,7 +112,7 @@
 <body>
   <h1>Pregunta <%= @question_index + 1 %> :</h1>
   <% if @question %>
-    <p><%= @question.text %></p> <!-- Se muestra la pregunta -->
+    <p><%= @question.text %></p> 
     <% if @question.is_a?(Autocomplete) %>
       <h2>Ingrese su respuesta:</h2>
       <form action="/answer/<%= @question_index %>" method="post" onsubmit="return autocompleteValidateForm()">
@@ -129,21 +129,45 @@
         </div>
         <!-- boton para ayuda -->
         <div class="button-container">
-          <button type="button" onclick="showHelp()">¿Necesita una ayuda?</button> 
+          <button type="button" onclick="showHelp('<%=@question.id%>')">¿Necesita una ayuda?</button> 
         </div>
 
-        <div id="help-msg" style="display: none;">Aún no estoy completo</div>
+        <div id="help-msg" style="display: none;"></div>
+
+        <div id="message-container"></div>
+
         <script>
-        // Se muestra el mensaje de ayuda por pantalla
-          function showHelp() {
-            var msj = document.getElementById("help-msg");
+
+          // Funcion para mostrar un mensaje de ayuda
+          function showHelp(autocompleteId) {
+            var helpMsg = document.getElementById("help-msg");
+            
+            // Se crea un mapa con los mensajes, según las id autocompletados (nivel principiante)
+            var messages = {
+              17: "Después de la segunda guerra mundial, entre el año 1945 y 1950.",
+              18: "Un año que está entre 1980 y 1990."
+            };
+            
+            // Se verifica si el id de la question (autocomplete en este caso) esta presente en el mapa
+            if (messages.hasOwnProperty(autocompleteId) ){
+              var msgAux = messages[autocompleteId];
+              displayMessage(msgAux);  // se invoca la funcion desplegando el mensaje correspondiente
+            }
+            
             // Si se da un click en el boton, se despliega un mensaje, si se vuelve a dar click, se oculta
-            if (msj.style.display === "none") {
-              msj.style.display = "block";
+            if (helpMsg.style.display === "none") {
+              helpMsg.style.display = "block";
             } else {
-              msj.style.display = "none";
+              helpMsg.style.display = "none";
             }
           }
+           
+          // Funcion para mostrar el mensaje correspondiente al ID 
+          function displayMessage(message) {
+            var msgContainer = document.getElementById("message-container");
+            msgContainer.textContent = message;
+          }
+
         </script>
 
       </form>
@@ -175,17 +199,27 @@
           <button type="button" onclick="showHelp()">¿Necesita una ayuda?</button> 
         </div>
 
-        <div id="help-msg" style="display: none;">Aún no estoy completo</div>
+        <div id="help-msg" style="display: none;">
+          Este es un mensaje de ayuda
+        </div>
         <script>
           
           function showHelp() {
             var msj = document.getElementById("help-msg");
+
+
+
+
+
+
+            // Si se da un click en el boton, se despliega un mensaje, si se vuelve a dar click, se oculta
             if (msj.style.display === "none") {
               msj.style.display = "block";
             } else {
               msj.style.display = "none";
-            }
-          }
+            }  
+          }    
+
         </script>
 
       </form>
