@@ -133,22 +133,41 @@ class App < Sinatra::Application
     difficulty = Difficulty.find_by(level: difficulty_level)
     trivia = Trivia.new(user: user, difficulty: difficulty)
 
-    # Seleccionar 10 preguntas aleatorias para la trivia, teniendo en cuenta si la dificultad
-    # es beginner o difficult
     if difficulty_level == "beginner"
-      trivia.questions << difficulty.questions.order("RANDOM()").limit(10)
+      choice_count = rand(3..6)
+      true_false_count = rand(3..4)
+      remaining_count = 10 - choice_count - true_false_count
+
+      autocomplete_count = [remaining_count, 0].max
+
+      choice_questions = difficulty.questions.where(type: 'Choice').order("RANDOM()").limit(choice_count)
+      true_false_questions = difficulty.questions.where(type: 'True_False').order("RANDOM()").limit(true_false_count)
+      autocomplete_questions = difficulty.questions.where(type: 'Autocomplete').order("RANDOM()").limit(autocomplete_count)
+
+      questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
+      shuffled_questions = questions.shuffle
+      trivia.questions.concat(shuffled_questions)
     else
-      trivia.questions << difficulty.questions.order("RANDOM()").limit(10)
+      choice_count = rand(2..5)
+      true_false_count = rand(2..4)
+      remaining_count = 10 - choice_count - true_false_count
+
+      autocomplete_count = [remaining_count, 0].max
+
+      choice_questions = difficulty.questions.where(type: 'Choice').order("RANDOM()").limit(choice_count)
+      true_false_questions = difficulty.questions.where(type: 'True_False').order("RANDOM()").limit(true_false_count)
+      autocomplete_questions = difficulty.questions.where(type: 'Autocomplete').order("RANDOM()").limit(autocomplete_count)
+
+      questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
+      shuffled_questions = questions.shuffle
+      trivia.questions.concat(shuffled_questions)
     end
 
     trivia.save
-    session[:trivia_id] = trivia.id # Guardar el ID de la trivia en la sesión
+    session[:trivia_id] = trivia.id
+    session[:answered_questions] = []
 
-    #unless session[:answered_questions] && !session[:answered_questions].empty?
-      session[:answered_questions] = [] # Restablecer las preguntas respondidas solo si no están inicializadas o están vacías
-    #end
-
-    redirect '/question/0' # Redirigir a la primera pregunta
+    redirect '/question/0'
   end
 
   get '/question/:index' do
