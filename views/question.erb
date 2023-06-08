@@ -129,6 +129,7 @@
           <button type="submit">Siguiente pregunta</button>
         </div>
          <!-- Boton de ayuda para preguntas autocompletado nivel principiante -->
+         <% if @trivia.difficulty.level == "beginner" %>
         <div class="button-container">
           <button type="button" onclick="showHelp('<%=@question.id%>')">¿Necesita una ayuda?</button>
         </div>
@@ -171,6 +172,7 @@
           }
         </script>
       </form>
+      <% end %>
     <% else %>
       <h2>Opciones:</h2>
       <form action="/answer/<%= @question_index %>" method="post" onsubmit="return validateForm()">
@@ -195,6 +197,7 @@
         <div class="button-container">
           <button type="submit">Siguiente pregunta</button>
         </div>
+        <%if @trivia.difficulty.level == "beginner"%>
         <!--Boton de ayuda para preguntas choices y true-falses -->
         <div class="button-container">
           <button type="button" onclick="showHelp('<%=@question.id%>')">¿Necesita una ayuda?</button>
@@ -248,6 +251,7 @@
 
         </script>
       </form>
+      <% end %>
   <% end %>
 
     <div id="message-box-container"></div>
