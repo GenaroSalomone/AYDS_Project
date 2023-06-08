@@ -10,7 +10,7 @@ body {
   text-align: center;
   line-height: 1.5;
   background-color: #fff;
-  }
+}
 
 h1 {
   font-size: 36px;
@@ -25,14 +25,14 @@ h2 {
 }
 
 h3 {
-  text-align:left;
+  text-align: left;
   font-size: 24px;
   margin-bottom: 10px;
   color: #333;
 }
 
 p {
-  text-align:left;
+  text-align: left;
   font-size: 20px;
 }
 
@@ -59,63 +59,129 @@ p {
 
 .question-result {
   margin-bottom: 30px;
+  background-color: #f4f4f4;
+  border-radius: 5px;
+  padding: 20px;
+  text-align: left;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  transform: none;
 }
 
-.correct {
-  color: green;
+.question-result h3 {
+  margin-bottom: 15px;
+  color: #333;
+  font-size: 28px;
   font-weight: bold;
-  font-size: 24px;
+  text-decoration: underline;
 }
 
-.incorrect {
-  color: red;
-  font-weight: bold;
-  font-size: 24px;
-}
-
-.question {
-  margin-bottom: 20px;
-}
-
-.question p {
+.question-result p {
   margin: 10px 0;
 }
 
-.question strong {
+.question-result .selected-answer {
+  color: #000;
   font-weight: bold;
+  font-size: 26px;
+}
+
+.question-result .correct-answer {
+  color: green;
+  font-weight: bold;
+  text-decoration: underline;
+  text-decoration-color: green;
+  text-decoration-thickness: 2px;
+  font-size: 32px;
+}
+
+.question-result .incorrect-answer {
+  color: red;
+  font-weight: bold;
+  text-decoration: underline;
+  text-decoration-color: red;
+  text-decoration-thickness: 2px;
+  font-size: 32px;
+}
+
+.score {
+  font-size: 36px;
+  margin-top: 30px;
+}
+
+.button-container {
+  margin-top: 20px;
 }
 
 .button-container a.button {
-  margin-top: 20px;
-  margin-right: 35px;
-}
-
-.button {
   display: inline-block;
   padding: 10px 20px;
   background-color: #333;
   color: #fff;
   text-decoration: none;
   border-radius: 5px;
+  margin-right: 10px;
+  transition: background-color 0.3s ease;
 }
 
-.button:hover {
+.button-container a.button:hover {
   background-color: #555;
 }
 
-h2.score {
-  font-size: 36px;
-  margin-top: 30px;
+/* Estilo adicional para el texto de la pregunta */
+.question-result .question-text {
+  font-family: "Courier New", monospace;
+  font-size: 26px;
+  color: #000;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: center;
 }
 
-.correct-message {
-  color: green;
-  font-weight: bold;
-  font-size: 30px;
+/* Estilo adicional para los bloques de información */
+.question-result .info-block {
+  margin-bottom: 15px;
+  text-align: left;
+  color: #000000e8;
+  font-size: 21px;
 }
 
-.incorrect-message {
-  color: red;
-  font-weight: bold;
-  font-size: 30px;
+/* Estilo adicional para el formato extrovertido */
+.question-result {
+  background-color: #ffdf59;
+  color: #333;
 }
+
+.question-result h3 {
+  color: #333;
+  text-align: center;
+}
+
+.question-result p {
+  color: #555;
+  text-align: center;
+}
+
+.score {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+}
+
+.score:hover {
+  background-color: #555;
+}
+
+.button-container a.button {
+  background-color: #333;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.button-container a.button:hover {
+  background-color: #555;
+}
+
+
