@@ -57,6 +57,9 @@ class App < Sinatra::Application
     end
   end
 
+  set :bind, '0.0.0.0'
+  set :port, ENV['PORT'] || 3000
+
   get '/' do
     erb :index
   end
