@@ -20,6 +20,11 @@
       if (!selectedOption) {
         document.querySelector('input[name="selected_answer"]').value = null;
       }
+      // Obtener el tiempo restante del temporizador
+      var timeRemaining = parseInt($('#timer').text());
+
+      // Establecer el tiempo de respuesta en el campo oculto
+      $('#response_time').val(timeRemaining);
       return true;
     }
 
@@ -32,7 +37,11 @@
         showMessage("Debe ingresar al menos un carácter antes de continuar.");
         return false;
       }
+      // Obtener el tiempo restante del temporizador
+      var timeRemaining = parseInt($('#timer').text());
 
+      // Establecer el tiempo de respuesta en el campo oculto
+      $('#response_time').val(timeRemaining);
       return true;
     }
 
@@ -107,6 +116,7 @@
     <% if @question.is_a?(Autocomplete) %>
       <h2>Ingrese su respuesta:</h2>
       <form action="/answer/<%= @question_index %>" method="post" onsubmit="return autocompleteValidateForm()">
+        <input type="hidden" name="response_time" id="response_time" value="">
         <input type="hidden" name="trivia_id" value="<%= @trivia.id %>">
         <input type="hidden" name="question_index" value="<%= @question_index %>">
         <div class="q-autocomplete-container">
@@ -164,6 +174,7 @@
     <% else %>
       <h2>Opciones:</h2>
       <form action="/answer/<%= @question_index %>" method="post" onsubmit="return validateForm()">
+      <input type="hidden" name="response_time" id="response_time" value="">
         <input type="hidden" name="trivia_id" value="<%= @trivia.id %>">
         <input type="hidden" name="question_index" value="<%= @question_index %>">
         <% @answers.each do |answer| %>
@@ -193,7 +204,7 @@
         <script>
           function showHelp(choiceTrueFalseId) {
             var msg = document.getElementById("helpAux-msg");
-              
+
             var messages = {
               1: "Proceso de conversión.",
               2: "Lenguaje de consulta.",
@@ -229,7 +240,7 @@
               msg.style.display = "none";
             }
           }
-          
+
           function displayMessageCTF(message) {
             var msgContainer = document.getElementById("messageChoiceTF-container");
             msgContainer.textContent = message;
