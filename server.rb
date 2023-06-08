@@ -20,6 +20,8 @@ require_relative 'models/ranking'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
+set :bind, '0.0.0.0'
+set :port, ENV['PORT'] || 3000
 class App < Sinatra::Application
   def initialize(app = nil)
     super()
@@ -56,9 +58,6 @@ class App < Sinatra::Application
       redirect '/trivia' if @trivia.nil?  # Redirigir si la trivia no existe
     end
   end
-
-  set :bind, '0.0.0.0'
-  set :port, ENV['PORT'] || 3000
 
   get '/' do
     erb :index
