@@ -5,8 +5,8 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  height: 100vh;
+  justify-content: flex-start;
+  min-height: 100vh;
   line-height: 2.5;
   text-align: center;
   background-color: #fff;
@@ -14,6 +14,7 @@ body {
 
 h1 {
   font-size: 30px;
+  margin-top: 0;
   margin-bottom: 20px;
   color: #333;
 }
@@ -51,4 +52,80 @@ button {
 
 button:hover {
   background-color: #caff85;
+}
+
+.ranking-container {
+  display: flex;
+  justify-content: space-between;
+  width: 90%;
+  margin-top: 20px;
+}
+
+.ranking {
+  flex: 1;
+  max-width: 350px;
+  height: 400px;
+  background-color: #ffe066;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.ranking h3 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.ranking table {
+  width: 100%;
+  text-align: center;
+}
+
+.ranking th,
+.ranking td {
+  padding: 8px;
+}
+
+.ranking th {
+  background-color: #333;
+  color: #fff;
+}
+
+.ranking td {
+  background-color: #f1f1f1;
+}
+
+.ranking td:first-child {
+  font-weight: bold;
+}
+
+.ranking td:nth-child(2) {
+  text-align: left;
+}
+
+.ranking td:last-child {
+  font-weight: bold;
+}
+
+.ranking::-webkit-scrollbar {
+  width: 8px;
+}
+
+.ranking::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 4px;
+}
+
+.ranking::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+.ranking::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
