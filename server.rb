@@ -16,6 +16,7 @@ require_relative 'models/trivia'
 require_relative 'models/question_answer'
 require_relative 'models/true_false'
 require_relative 'models/autocomplete'
+require_relative 'models/ranking'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
@@ -47,8 +48,6 @@ class App < Sinatra::Application
 
   enable :sessions
   set :session_secret, SecureRandom.hex(64)
-
-  enable :sessions
 
   before do
     # Verificar si hay una trivia en sesión
@@ -120,7 +119,14 @@ class App < Sinatra::Application
       user_id = session[:user_id]
       @username = User.find(user_id).username # en username se almacena el nombre de usuario logeado
       # Usuario autenticado, mostrar página protegida
-      erb :protected_page
+      # Obtener los rankings
+      beginner_difficulty = Difficulty.find_by(level: "beginner")
+      difficult_difficulty = Difficulty.find_by(level: "difficult")
+
+      beginner_ranking = Ranking.where(difficulty_id: beginner_difficulty.id).order(score: :desc).limit(10)
+      difficult_ranking = Ranking.where(difficulty_id: difficult_difficulty.id).order(score: :desc).limit(10)
+
+      erb :protected_page, locals: { beginner_ranking: beginner_ranking, difficult_ranking: difficult_ranking }
     else
       # Usuario no autenticado, redirigir a la página de inicio de sesión
       redirect '/login'
@@ -286,6 +292,24 @@ class App < Sinatra::Application
         @score += 0
       end
 
+    end
+
+    ###########################Logica para el ranking
+    # Obtener el usuario actual
+    user = current_user
+
+    # Obtener la dificultad de la trivia
+    difficulty = @trivia.difficulty
+
+    # Buscar el ranking existente del usuario para la dificultad actual
+    ranking = Ranking.find_by(user_id: user.id, difficulty_id: difficulty.id)
+
+    if ranking.nil? || @score > ranking.score
+      # Si no existe un ranking o el nuevo score es mayor al anterior, crear o actualizar el ranking
+      ranking = Ranking.find_or_initialize_by(user_id: user.id, difficulty_id: difficulty.id)
+      ranking.score = @score
+      ranking.difficulty = difficulty
+      ranking.save
     end
 
     erb :results, locals: { results: @results, score: @score }
