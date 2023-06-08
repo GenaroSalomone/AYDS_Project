@@ -1172,7 +1172,7 @@ Question.transaction do
 
   Answer.create!(
     question: autocomplete_exp_3,
-    answers_autocomplete: ["John McCarthy", "john mccarthy", "John Mccarthy", "john Mccarthy"]
+    answers_autocomplete: ["John McCarthy", "john mccarthy", "John Mccarthy", "john Mccarthy", "Mccarthy", "mccarthy"]
   )
 
   autocomplete_exp_4 = Autocomplete.create!( #id 55
@@ -1182,7 +1182,7 @@ Question.transaction do
 
   Answer.create!(
     question: autocomplete_exp_4,
-    answers_autocomplete: ["Fortran", "FORTRAN"]
+    answers_autocomplete: ["Fortran", "FORTRAN", "fortran"]
   )
 
   autocomplete_exp_5 = Autocomplete.create!( #id 56
@@ -1202,7 +1202,7 @@ Question.transaction do
 
   Answer.create!(
     question: autocomplete_exp_6,
-    answers_autocomplete: ["Java", "JAVA"]
+    answers_autocomplete: ["Java", "JAVA", "java"]
   )
 
   autocomplete_exp_7 = Autocomplete.create!( #id 58
@@ -1212,7 +1212,7 @@ Question.transaction do
 
   Answer.create!(
     question: autocomplete_exp_7,
-    answers_autocomplete: ["grandes", "Grandes"]
+    answers_autocomplete: ["grandes", "Grandes", "GRANDES"]
   )
 
   autocomplete_exp_8 = Autocomplete.create!( #id 59
@@ -1222,7 +1222,7 @@ Question.transaction do
 
   Answer.create!(
     question: autocomplete_exp_8,
-    answers_autocomplete: ["Rossum", "rossum"]
+    answers_autocomplete: ["Rossum", "rossum", "ROSSUM"]
   )
 
   autocomplete_exp_9 = Autocomplete.create!( #id 60
@@ -1232,7 +1232,7 @@ Question.transaction do
 
   Answer.create!(
     question: autocomplete_exp_9,
-    answers_autocomplete: ["Gates", "gates"]
+    answers_autocomplete: ["Gates", "gates", "GATES"]
   )
 
   # Pregunta 3
@@ -1243,7 +1243,7 @@ Question.transaction do
 
   Answer.create!(
     question: autocomplete_exp_10,
-    answers_autocomplete: ["Apple", "apple"]
+    answers_autocomplete: ["Apple", "apple", "APPLE"]
   )
 
 end

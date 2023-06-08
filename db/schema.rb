@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_03_201722) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_08_120615) do
   create_table "answers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -50,6 +50,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_03_201722) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "trivia_id"
+    t.integer "response_time", default: 0
     t.index ["answer_id"], name: "index_question_answers_on_answer_id"
     t.index ["question_id"], name: "index_question_answers_on_question_id"
     t.index ["trivia_id"], name: "index_question_answers_on_trivia_id"
