@@ -14,33 +14,33 @@
         <% @idx += 1 %>
         <div class="question-result">
           <h3>Pregunta <%= @idx %> :</h3>
-          <p><strong><%= result[:question].text %></strong></p>
+          <p class="question-text"><strong><%= result[:question].text %></strong></p>
           <% if result[:question].is_a?(Autocomplete) %>
             <% if result[:correct] %>
-              <p><strong>Respuesta ingresada:</strong> <%= result[:autocomplete_input] %></p>
-              <p><strong>Respuesta esperada:</strong> <%= result[:correct_answer] %></p>
-              <p><span class="correct-message">¡Correcto!</span></p>
+              <p class="info-block"><strong>Respuesta ingresada:</strong> <%= result[:autocomplete_input] %></p>
+              <p class="info-block"><strong>Respuesta esperada:</strong> <%= result[:correct_answer] %></p>
+              <p class="correct-answer"><span class="correct-message">¡Correcto!</span></p>
             <% else %>
               <% if result[:autocomplete_input] == "" %>
-                <p><strong>Respuesta ingresada:</strong> No se ha ingresado respuesta</p>
+                <p class="info-block"><strong>Respuesta ingresada:</strong> No se ha ingresado respuesta</p>
               <% else %>
-                <p><strong>Respuesta ingresada:</strong> <%= result[:autocomplete_input] %></p>
+                <p class="info-block"><strong>Respuesta ingresada:</strong> <%= result[:autocomplete_input] %></p>
               <% end %>
-              <p><strong>Respuesta esperada:</strong> <%= result[:correct_answer] %></p>
-              <p><span class="incorrect-message">Incorrecto</span></p>
+              <p class="info-block"><strong>Respuesta esperada:</strong> <%= result[:correct_answer] %></p>
+              <p class="incorrect-answer"><span class="incorrect-message">Incorrecto</span></p>
             <% end %>
           <% else %>
             <% if result[:selected_answer].present? %>
-              <p><strong>Respuesta seleccionada:</strong> <%= result[:selected_answer].text %></p>
+              <p class="info-block"><strong>Respuesta seleccionada:</strong> <%= result[:selected_answer].text %></p>
             <% else %>
-              <p><strong>Respuesta seleccionada:</strong> Ninguna respuesta seleccionada.</p>
+              <p class="info-block"><strong>Respuesta seleccionada:</strong> Ninguna respuesta seleccionada.</p>
             <% end %>
             <% if result[:correct] %>
-              <p><strong>Respuesta correcta:</strong> <%= result[:correct_answer].text %></p>
-              <p><span class="correct-message">¡Correcto!</span></p>
+              <p class="info-block"><strong>Respuesta correcta:</strong> <%= result[:correct_answer].text %></p>
+              <p class="correct-answer"><span class="correct-message">¡Correcto!</span></p>
             <% else %>
-              <p><strong>Respuesta correcta:</strong> <%= result[:correct_answer].text %></p>
-              <p><span class="incorrect-message">Incorrecto</span></p>
+              <p class="info-block"><strong>Respuesta correcta:</strong> <%= result[:correct_answer].text %></p>
+              <p class="incorrect-answer"><span class="incorrect-message">Incorrecto</span></p>
             <% end %>
           <% end %>
         </div>
