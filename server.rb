@@ -226,8 +226,12 @@ class App < Sinatra::Application
           answer_autocomplete.update(autocomplete_input: autocomplete_input)
         end
 
+        total_time = @trivia.difficulty == "beginner" ? 15 : 10
+        response_time = total_time - params[:response_time].to_i
+        question_answer&.update(response_time: response_time)
+
         next_index = index + 1
-        redirect "/question/#{next_index}" # Redirigir a la página de confirmación intermedia usando GET
+        redirect "/question/#{next_index}"
       end
     end
   end
@@ -249,6 +253,7 @@ class App < Sinatra::Application
     @results = []
     @score = 0
     @idx = 0
+    response_time_limit = @trivia.difficulty == 'beginner' ? 15 : 10
 
     @trivia.question_answers.each do |question_answer|
       question = question_answer.question
@@ -273,11 +278,39 @@ class App < Sinatra::Application
       end
 
       @results << result
-      @score += 1 if result[:correct]
+      # Calcular el puntaje basado en el tiempo de respuesta solo si la respuesta seleccionada es correcta
+      if result[:correct] && question_answer.response_time <= response_time_limit
+        response_time_score = calculate_response_time_score(question_answer.response_time, response_time_limit)
+        @score += response_time_score
+      else
+        @score += 0
+      end
+
     end
 
     erb :results, locals: { results: @results, score: @score }
   end
+
+  private
+
+  def calculate_response_time_score(response_time, response_time_limit)
+    # Asignamos una puntuación máxima de 10 puntos a una respuesta correcta
+    max_score = 10
+
+    # Si el nivel es 'beginner', restamos 1 punto por cada 4 segundos que tomó responder la pregunta
+    if response_time_limit == 15
+      points_to_subtract = [(response_time / 4).ceil, 3].min
+    else
+      # Si el nivel no es 'beginner', restamos 1 punto por cada 3 segundos que tomó responder la pregunta
+      points_to_subtract = [(response_time / 3).ceil, 3].min
+    end
+
+    # Calculamos la puntuación final restando los puntos a restar de la puntuación máxima y asegurándonos de que esté dentro del rango 0 a max_score
+    final_score = max_score - points_to_subtract
+    final_score.clamp(0, max_score)
+  end
+
+
 
 
   #peticion post para crear una choice
