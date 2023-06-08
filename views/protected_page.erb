@@ -1,18 +1,62 @@
 <!DOCTYPE html>
 <html>
 <head>
- <title>Página protegida</title>
- <link rel="stylesheet" type="text/css" href="/css/protected.css">
+  <title>Página protegida</title>
+  <link rel="stylesheet" type="text/css" href="/css/protected.css">
 </head>
 <body>
- <h1>Bienvenido <%= @username %>, está es la página protegida.</h1>
- <p>La autenticación fue correcta. Que comience el juego!!</p>
- <form action="/trivia" method="post">
-  <h2>Seleccione la dificultad de la trivia para continuar:</h2>
-  <div class="button-container">
-    <button class="button" name="difficulty" value="beginner">Principiante</button>
-    <button class="button" name="difficulty" value="difficult">Experto</button>
+  <div class="ranking-container">
+    <div class="ranking beginner-ranking">
+      <h3>Ranking Principiante</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Posición</th>
+            <th>Username</th>
+            <th>Puntos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% beginner_ranking.each_with_index do |ranking, index| %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= ranking.user.username %></td>
+              <td><%= ranking.score %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+    <div class="ranking difficulty-ranking">
+      <h3>Ranking Experto</h3>
+      <table>
+        <thead>
+          <tr>
+            <th>Posición</th>
+            <th>Username</th>
+            <th>Puntos</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% difficult_ranking.each_with_index do |ranking, index| %>
+            <tr>
+              <td><%= index + 1 %></td>
+              <td><%= ranking.user.username %></td>
+              <td><%= ranking.score %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   </div>
-</form>
+  <h1>Bienvenido <%= @username %>, esta es la página protegida.</h1>
+  <p>La autenticación fue correcta. ¡Que comience el juego!</p>
+  <form action="/trivia" method="post">
+    <h2>Seleccione la dificultad de la trivia para continuar:</h2>
+    <div class="button-container">
+      <button class="button" name="difficulty" value="beginner">Principiante</button>
+      <button class="button" name="difficulty" value="difficult">Experto</button>
+    </div>
+  </form>
 </body>
 </html>
