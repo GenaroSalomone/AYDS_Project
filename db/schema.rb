@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_06_08_163926) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_08_191520) do
   create_table "answers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -66,6 +66,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_163926) do
     t.index ["difficulty_id"], name: "index_questions_on_difficulty_id"
   end
 
+  create_table "rankings", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "score", default: 0
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "difficulty_id"
+    t.index ["difficulty_id"], name: "index_rankings_on_difficulty_id"
+    t.index ["user_id"], name: "index_rankings_on_user_id"
+  end
+
   create_table "trivias", force: :cascade do |t|
     t.integer "user_id"
     t.integer "difficulty_id"
@@ -96,6 +106,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_08_163926) do
   add_foreign_key "question_answers", "answers"
   add_foreign_key "question_answers", "questions"
   add_foreign_key "questions", "difficulties"
+  add_foreign_key "rankings", "difficulties"
+  add_foreign_key "rankings", "users"
   add_foreign_key "trivias", "difficulties"
   add_foreign_key "trivias", "users"
   add_foreign_key "true_falses", "difficulties"
