@@ -26,7 +26,7 @@ Question.transaction do
   # PREGUNTAS NIVEL PRINCIPIANTE
 
   # Pregunta 1
-  choice_pri_1 = Choice.create!(  #id 
+  choice_pri_1 = Choice.create!(  #id 1
     text: "¿Qué es un compilador?",
     difficulty: beginner_difficulty
   )
@@ -532,7 +532,7 @@ Question.transaction do
 
   # Pregunta 1
   autocomplete_pri_1 = Autocomplete.create!( #id 22
-    text: "El primer ordenador electrónico fue construido en el año _ _ _ _ . ",
+    text: "El primer ordenador electrónico fue construido en el año _ _ _ _ _ _ _. ",
     difficulty: beginner_difficulty
   )
 
@@ -543,7 +543,7 @@ Question.transaction do
 
   # Pregunta 2
   autocomplete_pri_2 = Autocomplete.create!( #id 23
-    text: "El primer teléfono móvil comercial se lanzó en el año _ _ _ _ . ",
+    text: "El primer teléfono móvil comercial se lanzó en el año _ _ _ _ _ _ _ . ",
     difficulty: beginner_difficulty
   )
 
@@ -554,7 +554,7 @@ Question.transaction do
 
   # Pregunta 3
   autocomplete_pri_3 = Autocomplete.create!( #id 24
-    text: "El lenguaje de programación más utilizado en el desarrollo web es _ _ _ _ _ _ _ _ .",
+    text: "El lenguaje de programación más utilizado en el desarrollo web es _ _ _ _ _ _ _ .",
     difficulty: beginner_difficulty
   )
 
@@ -565,7 +565,7 @@ Question.transaction do
 
   # Pregunta 4
   autocomplete_pri_4 = Autocomplete.create!( #id 25
-    text: "La arquitectura de computadoras se encarga del diseño y desarrollo del _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ .",
+    text: "La arquitectura de computadoras se encarga del diseño y desarrollo del _ _ _ _ _ _ _ .",
     difficulty: beginner_difficulty
   )
 
@@ -598,7 +598,7 @@ Question.transaction do
 
   # Pregunta 7
   autocomplete_pri_7 = Autocomplete.create!( #id 28
-    text: "El algoritmo de ordenamiento más conocido y eficiente es _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ .",
+    text: "El algoritmo de ordenamiento más conocido y eficiente es _ _ _ _ _ _ _ .",
     difficulty: beginner_difficulty
   )
 
@@ -609,7 +609,7 @@ Question.transaction do
 
   # Pregunta 8
   autocomplete_pri_8 = Autocomplete.create!( #id 29
-    text: "El sistema de gestión de bases de datos más popular es _ _ _ _ _ _ _ _ _ _ .",
+    text: "El sistema de gestión de bases de datos más popular es _ _ _ _ _ _ _ .",
     difficulty: beginner_difficulty
   )
 
@@ -620,7 +620,7 @@ Question.transaction do
 
   # Pregunta 9
   autocomplete_pri_9 = Autocomplete.create!( #id 30
-    text: "El término utilizado para describir el conjunto de instrucciones ejecutadas por un ordenador es _ _ _ _ _ _ _ _ .",
+    text: "El término utilizado para describir el conjunto de instrucciones ejecutadas por un ordenador es _ _ _ _ _ _ _ .",
     difficulty: beginner_difficulty
   )
 
@@ -631,7 +631,7 @@ Question.transaction do
 
   # Pregunta 10
   autocomplete_pri_10 = Autocomplete.create!( #id 31
-    text: "El proceso de convertir el código fuente en un programa ejecutable se conoce como _ _ _ _ _ _ _ _ _ _ _ _ .",
+    text: "El proceso de convertir el código fuente en un programa ejecutable se conoce como _ _ _ _ _ _ _ .",
     difficulty: beginner_difficulty
   )
 
@@ -896,7 +896,7 @@ Question.transaction do
 
   Answer.create!(
     question: choice_exp_9,
-    text: "O(n log n)",
+    text: "O(n * log (n))",
     correct: true
   )
 
@@ -908,7 +908,7 @@ Question.transaction do
 
   Answer.create!(
     question: choice_exp_9,
-    text: "O(log n)",
+    text: "O(log (n))",
     correct: false
   )
 
@@ -1145,7 +1145,7 @@ Question.transaction do
 
   # Pregunta 1
   autocomplete_exp_1 = Autocomplete.create!( #id 52
-    text: "El primer sistema operativo de Microsoft se llamaba _ _ _ _ .",
+    text: "El primer sistema operativo de Microsoft se llamaba _ _ _ _ _ _ _ .",
     difficulty: difficult_difficulty
   )
 
@@ -1156,7 +1156,7 @@ Question.transaction do
 
   # Pregunta 2
   autocomplete_exp_2 = Autocomplete.create!( #id 53
-    text: "El concepto de 'Internet de las cosas' se refiere a la interconexión de _ _ _ _ .",
+    text: "El concepto de 'Internet de las cosas' se refiere a la interconexión de _ _ _ _ _ _ _ .",
     difficulty: difficult_difficulty
   )
 
@@ -1166,7 +1166,7 @@ Question.transaction do
   )
 
   autocomplete_exp_3 = Autocomplete.create!( #id 54
-    text: "El término 'Inteligencia Artificial' fue acuñado por _ _ _ _ en el año 1956.",
+    text: "El término 'Inteligencia Artificial' fue acuñado por _ _ _ _ _ _ _ en el año 1956.",
     difficulty: difficult_difficulty
   )
 
@@ -1176,7 +1176,7 @@ Question.transaction do
   )
 
   autocomplete_exp_4 = Autocomplete.create!( #id 55
-    text: "El primer lenguaje de programación de alto nivel fue _ _ _ _ _.",
+    text: "El primer lenguaje de programación de alto nivel fue _ _ _ _ _ _ _ .",
     difficulty: difficult_difficulty
   )
 
@@ -1186,7 +1186,7 @@ Question.transaction do
   )
 
   autocomplete_exp_5 = Autocomplete.create!( #id 56
-    text: "La arquitectura de computadoras conocida como 'Von Neumann' fue propuesta por _ _ _ _ _ _ _ _  en el año 1945.",
+    text: "La arquitectura de computadoras conocida como 'Von Neumann' fue propuesta por _ _ _ _ _ _ _ en el año 1945.",
     difficulty: difficult_difficulty
   )
 
@@ -1196,7 +1196,7 @@ Question.transaction do
   )
 
   autocomplete_exp_6 = Autocomplete.create!( #id 57
-    text: "El lenguaje de programación orientado a objetos más utilizado actualmente es _ _ _ _ _ _ _ _ _ _.",
+    text: "El lenguaje de programación orientado a objetos más utilizado actualmente es _ _ _ _ _ _ _ .",
     difficulty: difficult_difficulty
   )
 
@@ -1206,7 +1206,7 @@ Question.transaction do
   )
 
   autocomplete_exp_7 = Autocomplete.create!( #id 58
-    text: "El término 'Big Data' se refiere al manejo y análisis de conjuntos de datos extremadamente _ _ _ _ _ _ _ _ _ _.",
+    text: "El término 'Big Data' se refiere al manejo y análisis de conjuntos de datos extremadamente _ _ _ _ _ _ _ .",
     difficulty: difficult_difficulty
   )
 
@@ -1237,7 +1237,7 @@ Question.transaction do
 
   # Pregunta 3
   autocomplete_exp_10 = Autocomplete.create!( #id 61
-    text: "El primer teléfono inteligente con pantalla táctil fue el iPhone, lanzado por _ _ _ _ _ _ en el año 2007.",
+    text: "El primer teléfono inteligente con pantalla táctil fue el iPhone, lanzado por _ _ _ _ _ _ _ en el año 2007.",
     difficulty: difficult_difficulty
   )
 
