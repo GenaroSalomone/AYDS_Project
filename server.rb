@@ -181,8 +181,8 @@ class App < Sinatra::Application
   get '/question/:index' do
     redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
 
-    index = params[:index].to_i
-    question = @trivia.questions[index]
+    index = params[:index].to_i #convierte el parametro index en un entero y se guarda en la variable index
+    question = @trivia.questions[index] # se obtiene la pregunta con su index y se almacena en question
     previous_index = index.zero? ? 0 : index - 1
 
     if index.zero? || session[:answered_questions].include?(previous_index)
@@ -193,7 +193,8 @@ class App < Sinatra::Application
         @answers = Answer.where(question_id: question.id)
         @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
         @question_index = index # Inicializar @question_index con el valor de index
-        erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds}
+        @help = @trivia.difficulty.level == "beginner" ? question.help : nil
+        erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds, help: @help}
       end
     else
       redirect "/error?code=unanswered"
