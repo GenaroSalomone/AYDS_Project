@@ -112,7 +112,7 @@
 <body>
   <h1>Pregunta <%= @question_index + 1 %> :</h1>
   <% if @question %>
-    <p><%= @question.text %></p> <!-- Se muestra la pregunta -->
+    <p><%= @question.text %></p>
     <% if @question.is_a?(Autocomplete) %>
       <h2>Ingrese su respuesta:</h2>
       <form action="/answer/<%= @question_index %>" method="post" onsubmit="return autocompleteValidateForm()">
@@ -129,34 +129,18 @@
           <button type="submit">Siguiente pregunta</button>
         </div>
          <!-- Boton de ayuda para preguntas autocompletado nivel principiante -->
-         <% if @trivia.difficulty.level == "beginner" %>
+         <% if @help %>
         <div class="button-container">
-          <button type="button" onclick="showHelp('<%=@question.id%>')">¿Necesita una ayuda?</button>
+          <button type="button" onclick="showHelp('<%= @help %>')">¿Necesita una ayudita?</button>
         </div>
         <div id="help-msg" style="display: none;"></div>
         <div id="messageAutocomplete-container"></div>
         <script>
-          // Funcion para mostrar un mensaje de ayuda dependiendo el id de la question autocomplete
-          function showHelp(autocompleteId) {
+          // Funcion para mostrar un mensaje de ayuda
+          function showHelp(autocompleteText) {
             var msg = document.getElementById("help-msg");
-            // Se crea un mapa con los mensajes, según las id autocompletados (nivel principiante)
-            var messages = {
-              22: "Después de la segunda guerra mundial, entre el año 1945 y 1950.",
-              23: "Un año que está entre 1980 y 1990.",
-              24: "Similar al lenguaje JAVA.",
-              25: "Lo opuesto al SOFTWARE.",
-              26: "Similar a ANDROIDE.",
-              27: "El lenguaje tiene el nombre de una víbora.",
-              28: "Ordenamiento rápido.",
-              29: "Es un lenguaje de consulta.",
-              30: "Lo que se obtiene de la implementación de un algoritmo.",
-              31: "Proceso que tiene varios pasos."
-            };
-            // Se verifica si el id de la question (autocomplete en este caso) esta presente en el mapa
-            if (messages.hasOwnProperty(autocompleteId) ){
-              var msgAutocomplete = messages[autocompleteId];
-              displayMessageAuto(msgAutocomplete);  // se invoca la funcion desplegando el mensaje correspondiente
-            }
+            // se invoca la funcion desplegando el mensaje correspondiente
+            displayMessageAuto(autocompleteText);    
             // Si se da un click en el boton, se despliega un mensaje, si se vuelve a dar click, se oculta
             if (msg.style.display === "none") {
               msg.style.display = "block";
@@ -164,8 +148,7 @@
               msg.style.display = "none";
             }
           }
-
-          // Funcion para mostrar el mensaje correspondiente al ID
+          // Funcion para mostrar el mensaje correspondiente al id de la question
           function displayMessageAuto(message) {
             var msgContainer = document.getElementById("messageAutocomplete-container");
             msgContainer.textContent = message;
@@ -197,69 +180,38 @@
         <div class="button-container">
           <button type="submit">Siguiente pregunta</button>
         </div>
-        <%if @trivia.difficulty.level == "beginner"%>
         <!--Boton de ayuda para preguntas choices y true-falses -->
+        <%if @help%>
         <div class="button-container">
-          <button type="button" onclick="showHelp('<%=@question.id%>')">¿Necesita una ayuda?</button>
+          <button type="button" onclick="showHelp('<%= @help %>')">¿Necesita una ayudita?</button>
         </div>
         <div id="helpAux-msg" style="display: none;"></div>
         <div id="messageChoiceTF-container"></div>
         <script>
-          function showHelp(choiceTrueFalseId) {
+          // Funcion para mostrar el mensaje de ayuda
+          function showHelp(choiceTrueFalseText) {
             var msg = document.getElementById("helpAux-msg");
-
-            var messages = {
-              1: "Proceso de conversión.",
-              2: "Lenguaje de consulta.",
-              3: "Mayor frecuencia.",
-              4: "Estructurado, organizado.",
-              5: "Aprendizaje.",
-              6: "Deja vu.",
-              7: "Buscar.",
-              8: "Buscar.",
-              9: "Alojar código.",
-              10: "Lugar donde se almacenan libros.",
-              11: "Todos los lenguajes de programación funcional son antiguos.",
-              12: "Los elementos de una cola de prioridad están ordenados.",
-              13: "No hay declaración de tipos.",
-              14: "Si un programa compila, es porque su sintaxis es correcta.",
-              15: "Utilización de funciones como scanf y printf.",
-              16: "Mil BYTES repesentan un MEGA BYTE.",
-              17: "Linux es un núcleo o kernel libre.",
-              18: "La inteligencia artificial no puede pensar.",
-              19: "Mediante un proceso, un archivo fuente de java se convierte en un archivo ejecutable.",
-              20: "Cuando ingresas a una pagina web, ésta comienza con http://...",
-              21: "Su creador es Yukihiro Matsumoto"
-            };
-
-            if (messages.hasOwnProperty(choiceTrueFalseId)){
-              var msgChoiceTF= messages[choiceTrueFalseId];
-              displayMessageCTF(msgChoiceTF);
-            }
-           // Si se da un click en el boton, se despliega un mensaje, si se vuelve a dar click, se oculta
+            displayMessageCTF(choiceTrueFalseText);
             if (msg.style.display === "none") {
               msg.style.display = "block";
             } else {
               msg.style.display = "none";
             }
           }
-
+          
           function displayMessageCTF(message) {
             var msgContainer = document.getElementById("messageChoiceTF-container");
             msgContainer.textContent = message;
           }
-
         </script>
       </form>
       <% end %>
   <% end %>
-
     <div id="message-box-container"></div>
     <script>
       function showTimeUpMessage() {
         var overlay = document.createElement("div");
         overlay.classList.add("overlay");
-
         var messageContainer = document.createElement("div");
         messageContainer.classList.add("message-container");
         messageContainer.innerHTML = `
@@ -270,7 +222,6 @@
         `;
         overlay.appendChild(messageContainer);
         document.body.appendChild(overlay);
-
         var entendidoBtn = document.getElementById("entendido-btn");
         entendidoBtn.addEventListener("click", function () {
           var autocompleteInput = document.getElementById("autocomplete-input");
@@ -287,7 +238,6 @@
      function nextQuestion() {
        document.querySelector("form").submit();
      }
-
    </script>
   <% else %>
     <h2>No se encontró la pregunta</h2>
