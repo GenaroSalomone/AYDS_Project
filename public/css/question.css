@@ -206,3 +206,18 @@ button[type="submit"] {
 button[type="submit"]:hover {
   background-color: #caff85;
 }
+
+/* Texto para mensaje de ayuda */
+.messageAutocomp-container {
+  color: #333;;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+}
+
+.messageChoiceTrueFalse-container {
+  color: #333;
+  font-weight: 700;
+  font-size: 18px;
+  text-align: center;
+}
