@@ -129,7 +129,7 @@
           <button type="submit">Siguiente pregunta</button>
         </div>
          <!-- Boton de ayuda para preguntas autocompletado nivel principiante -->
-         <% if @help %>
+        <% if @help %>
         <div class="button-container">
           <button type="button" onclick="showHelp('<%= @help %>')">¿Necesita una ayudita?</button>
         </div>
@@ -139,9 +139,7 @@
           // Funcion para mostrar un mensaje de ayuda
           function showHelp(autocompleteText) {
             var msg = document.getElementById("help-msg");
-            // se invoca la funcion desplegando el mensaje correspondiente
             displayMessageAuto(autocompleteText);    
-            // Si se da un click en el boton, se despliega un mensaje, si se vuelve a dar click, se oculta
             if (msg.style.display === "none") {
               msg.style.display = "block";
             } else {
@@ -152,6 +150,7 @@
           function displayMessageAuto(message) {
             var msgContainer = document.getElementById("messageAutocomplete-container");
             msgContainer.textContent = message;
+            msgContainer.classList.add("messageAutocomp-container");
           }
         </script>
       </form>
@@ -188,7 +187,6 @@
         <div id="helpAux-msg" style="display: none;"></div>
         <div id="messageChoiceTF-container"></div>
         <script>
-          // Funcion para mostrar el mensaje de ayuda
           function showHelp(choiceTrueFalseText) {
             var msg = document.getElementById("helpAux-msg");
             displayMessageCTF(choiceTrueFalseText);
@@ -198,10 +196,10 @@
               msg.style.display = "none";
             }
           }
-          
           function displayMessageCTF(message) {
             var msgContainer = document.getElementById("messageChoiceTF-container");
             msgContainer.textContent = message;
+            msgContainer.classList.add("messageChoiceTrueFalse-container");
           }
         </script>
       </form>
