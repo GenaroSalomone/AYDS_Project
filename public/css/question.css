@@ -207,17 +207,31 @@ button[type="submit"]:hover {
   background-color: #caff85;
 }
 
-/* Texto para mensaje de ayuda */
-.messageAutocomp-container {
-  color: #333;;
+/* Texto para mensaje de ayuda de autocompletado */
+#messageAutocomplete-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background-color: #4CAF50;
+  color: #ffffff;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 24px;
   text-align: center;
 }
 
-.messageChoiceTrueFalse-container {
-  color: #333;
+/* Texto para mensaje de ayuda de opciones múltiples y verdadero/falso */
+#messageChoiceTF-container {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  background-color: #4CAF50;
+  color: #ffffff;
   font-weight: 700;
-  font-size: 18px;
+  font-size: 24px;
   text-align: center;
 }
+
