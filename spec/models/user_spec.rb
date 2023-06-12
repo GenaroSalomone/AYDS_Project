@@ -1,24 +1,45 @@
 require_relative '../../models/init.rb'
-
 # Realiza una prueba unitaria en la clase User
-# Se inicializa las columnas de la tabla User en nil y se almace el registro en u
-describe 'User' do
-  describe 'valid' do
-    describe 'when there is no name' do
-      it 'should be invalid' do
-        u = User.new
-        expect(u.valid?).to eq(false)
+describe User do
+  describe 'validations' do
+      it "is invalid without a username" do
+        user = User.new(password: 'password', email: 'john@example.com')
+        expect(user.valid?).to eq(false)
       end
+
+    it "is invalid without a password" do
+      user = User.new(username: 'john_doe', email: 'john@example.com')
+      expect(user.valid?).to eq(false)
+    end
+
+    it "is invalid without an email address" do
+      user = User.new(username: 'john_doe', password: 'password')
+      expect(user.valid?).to eq(false)
+    end
+
+    it "is invalid with a duplicate email address" do
+      existing_user = User.create(username: 'existing_user', email: 'john@example.com', password: 'password')
+      user = User.new(username: 'john_doe', email: 'john@example.com', password: 'password')
+      expect(user.valid?).to eq(false)
+    end
+
+    it "is invalid with a duplicate username" do
+      existing_user = User.create(username: 'john_doe', email: 'existing_user@example.com', password: 'password')
+      user = User.new(username: 'john_doe', email: 'john@example.com', password: 'password')
+      expect(user.valid?).to eq(false)
+    end
+  end
+
+  describe 'associations' do
+    it 'has many trivias' do
+      user = User.new
+      expect(user).to respond_to(:trivias)
+    end
+
+    it 'has many rankings' do
+      user = User.new
+      expect(user).to respond_to(:rankings)
     end
   end
 end
 
-# Se definen pruebas unitarias para la clase User
-describe User do
-  it "is valid with a firstname, lastname and email"
-  it "is invalid without a firstname"
-  it "is invalid without a lastname"
-  it "is invalid without an email address"
-  it "is invalid with a duplicate email address"
-  it "returns a contact's full name as a string"
-end
