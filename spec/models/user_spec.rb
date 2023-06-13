@@ -1,4 +1,6 @@
 require_relative '../../models/init.rb'
+require 'sinatra/activerecord'
+
 # Realiza una prueba unitaria en la clase User
 describe User do
   describe 'validations' do
