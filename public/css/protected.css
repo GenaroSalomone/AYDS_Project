@@ -54,6 +54,18 @@ button:hover {
   background-color: #caff85;
 }
 
+#logout-button {
+  background-color: #ff4c4c;
+  color: #fff;
+  margin-top: 20px;
+  font-size: 20px;
+  width: 110px;
+}
+
+#logout-button:hover {
+  background-color: #ff8282;
+}
+
 .ranking-container {
   display: flex;
   justify-content: space-between;
