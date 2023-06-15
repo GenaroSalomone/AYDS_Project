@@ -30,12 +30,12 @@ describe Choice do
     # reflect_on_association, obtiene informacion con respecto a la asociaciones del modelo
 
     it 'has many question_answers' do
-      association = descibed_class.reflect_on_association(:question_answers)
+      association = described_class.reflect_on_association(:question_answers)
       expect(association.macro).to eq(:has_many)
     end
 
     it 'has many answers' do
-      association = descibed_class.reflect_on_association(:answers)
+      association = described_class.reflect_on_association(:answers)
       expect(association.macro).to eq(:has_many)
     end
 
@@ -45,4 +45,4 @@ describe Choice do
     end
 
   end
-end
+end    
