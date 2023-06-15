@@ -14,9 +14,30 @@
   <% elsif params[:code] == "answered" %>
     <p>La pregunta ya ha sido respondida.</p>
     <p>Será redirigido para comenzar una nueva trivia.</p>
+  <% elsif params[:code] == "registration" %>
+    <% if params[:reason] == "password_mismatch" %>
+      <p>Ha ocurrido un error durante el registro: <%= @error_message %></p>
+    <% elsif params[:reason] == "registration_error" %>
+      <p>Ha ocurrido un error durante el registro: <%= @error_message %></p>
+    <% elsif params[:reason] == "email_taken" %>
+      <p>Ha ocurrido un error durante el registro: <%= @error_message %></p>
+    <% elsif params[:reason] == "username_taken" %>
+      <p>Ha ocurrido un error durante el registro: <%= @error_message %></p>
+    <% else %>
+      <p>Ha ocurrido un error durante el registro.</p>
+    <% end %>
+    <p>Vuelva a intentarlo más tarde.</p>
+  <% elsif params[:code] == "login" %>
+    <% if params[:reason] == "authenticate_failed" %>
+      <p> <%= @error_message %> </p>
+    <% end %>
+  <% else %>
+    <p>Ha ocurrido un error.</p>
+    <p>Vuelva a intentarlo más tarde.</p>
   <% end %>
-  <form action="/protected_page" method="get">
+  <form action="/" method="get">
     <input type="submit" value="Entendido">
   </form>
 </body>
 </html>
+
