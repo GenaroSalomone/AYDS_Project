@@ -80,20 +80,26 @@ class App < Sinatra::Application
 
     # Verificar si las contraseñas coinciden
     if password == confirm_password
-    # Crear un nuevo registro en la base de datos
-      user = User.create(username: username, email: email, password: password)
-      if user.save
-        @message = "Vuelva a logearse por favor, vaya a inicio de sesión."
-        erb :register_success
+      # Verificar si el username ya está en uso
+      if User.exists?(username: username)
+        redirect "/error?code=registration&reason=username_taken"
+      # Verificar si el email ya está en uso
+      elsif User.exists?(email: email)
+        redirect "/error?code=registration&reason=email_taken"
       else
-        @error_message = "Hubo un error al registrar el usuario: #{user.errors.full_messages.join(', ')}"
-        erb :message
+        # Crear un nuevo registro en la base de datos
+        user = User.create(username: username, email: email, password: password)
+        if user.save
+          @message = "Vuelva a logearse por favor, vaya a inicio de sesión."
+          erb :register_success
+        else
+          redirect "/error?code=registration&reason=registration_error&error_message=#{CGI.escape(user.errors.full_messages.join(', '))}"
+        end
       end
     else
-      @error_message = "Las contraseñas no coinciden."
-      erb :message
+      redirect "/error?code=registration&reason=password_mismatch"
     end
-   end
+  end
 
    post '/login' do
     # Obtener los datos del formulario
@@ -111,8 +117,7 @@ class App < Sinatra::Application
       # Redirigir al usuario a una página protegida
       redirect '/protected_page'
     else
-      @error_message = "Usuario o contraseña incorrectos."
-      erb :message
+      redirect "/error?code=login&reason=authenticate_failed"
     end
   end
 
@@ -247,13 +252,44 @@ class App < Sinatra::Application
 
   get '/error' do
     error_code = params[:code]
+    error_reason = params[:reason]
+
+    @error_message = "Ha ocurrido un error."
+
+    if error_code == "unanswered"
+      @error_message = "Se intentó acceder directamente a una pregunta sin haber respondido la pregunta anterior."
+    end
+
     if error_code == "answered"
-      @error_message = "Esta pregunta ya ha sido respondida."
-    else
-      @error_message = "Ha ocurrido un error."
+      @error_message = "La pregunta ya ha sido respondida."
+    end
+
+    if error_code == "registration"
+      if error_reason == "password_mismatch"
+        @error_message = "Las contraseñas no coinciden."
+      end
+
+      if error_reason == "registration_error"
+        @error_message = "Ha ocurrido un error durante el registro: #{params[:error_message]}"
+      end
+
+      if error_reason == "username_taken"
+        @error_message = "El nombre de usuario no está disponible."
+      end
+
+      if error_reason == "email_taken"
+        @error_message = "El email no está disponible."
+      end
+    end
+
+    if error_code == "login"
+      if error_reason == "authenticate_failed"
+        @error_message = "El usuario o la contraseña no coinciden. Por favor, vuelva a intentearlo."
+      end
     end
     erb :error, locals: { error_message: @error_message }
   end
+
 
   get '/results' do
     redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
