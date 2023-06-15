@@ -59,11 +59,13 @@ describe Difficulty do
       expect(difficulty.errors[:level]).to include("is not included in the list")
     end
 
-    it "assigns only permitted values" do
-      difficulty = Difficulty.new(level: :advanced)
+    it "assigns only permitted values using direct assignment" do
+      difficulty = Difficulty.new
+      difficulty.level = :advanced
       expect(difficulty).not_to be_valid
       expect(difficulty.errors[:level]).to include("is not included in the list")
     end
+
   end
 
 end
