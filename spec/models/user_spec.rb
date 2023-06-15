@@ -30,6 +30,21 @@ describe User do
       user = User.new(username: 'john_doe', email: 'john@example.com', password: 'password')
       expect(user.valid?).to eq(false)
     end
+
+    it "authenticates the correct password" do
+      user = User.create(username: 'john_doe', email: 'john@example.com', password: 'password')
+      expect(user.authenticate('password')).to eq(user)
+    end
+
+    it "does not authenticate the incorrect password" do
+      user = User.create(username: 'john_doe', email: 'john@example.com', password: 'password')
+      expect(user.authenticate('wrong_password')).to eq(false)
+    end
+
+    it "stores the password securely" do
+      user = User.create(username: 'john_doe', email: 'john@example.com', password: 'password')
+      expect(user.password_digest).not_to eq('password')
+    end
   end
 
   describe 'associations' do
