@@ -16,6 +16,11 @@ describe Choice do
       expect(choice.valid?).to eq(false)
     end
 
+    it "is invalid with empty help in beginner difficulty" do
+      choice = Choice.new(text: 'choice_text', help: '', difficulty_id: 2)
+      expect(choice.valid?).to eq(false)
+    end
+
   end
 
   describe 'associations' do
