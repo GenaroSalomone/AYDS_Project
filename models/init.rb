@@ -7,6 +7,4 @@ require_relative 'difficulty'
 require_relative 'trivia'
 require_relative 'true_false'
 require_relative 'autocomplete'
-
-
-
+require_relative 'answer'
