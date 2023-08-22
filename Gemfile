@@ -13,6 +13,10 @@ group :test do
   gem 'rspec'
 end
 
+group :development, :test do
+  gem 'simplecov', require: false
+end
+
 gem 'sinatra-activerecord'
 gem 'sqlite3'
 gem 'rake'

@@ -1,6 +1,8 @@
 require 'sinatra/base'
 require 'sinatra/activerecord'
-  
+require 'simplecov'
+SimpleCov.start
+
 ENV['RACK_ENV'] ||= 'test'
 ENV['APP_ENV'] ||= 'test'
 
@@ -19,3 +21,4 @@ RSpec.configure do |config|
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
 end
+
