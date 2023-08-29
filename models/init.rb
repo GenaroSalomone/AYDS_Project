@@ -9,4 +9,4 @@ require_relative 'true_false'
 require_relative 'autocomplete'
 require_relative 'answer'
 require_relative 'question_answer'
-
+require_relative 'ranking'
