@@ -4,4 +4,7 @@ class Trivia < ActiveRecord::Base
   has_many :questions, through: :question_answers
   belongs_to :user
   belongs_to :difficulty
+
+  validates :user, presence: true
+  validates :difficulty, presence: true
 end
