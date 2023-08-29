@@ -3,9 +3,9 @@ require 'sinatra/activerecord'
 
 # Testing para modelo True_False
 describe True_False do
-    
+
   describe 'validations' do
-    
+
     it "is invalid without a text" do
       beginner_difficulty = Difficulty.create!(level: :beginner)
       trueFalse = True_False.new(difficulty: beginner_difficulty)
@@ -18,9 +18,9 @@ describe True_False do
     end
 
   end
- 
+
   describe 'associations' do
-    
+
     it "has many question_answers" do
       association = described_class.reflect_on_association(:question_answers)
       expect(association.macro).to eq(:has_many)

@@ -3,6 +3,9 @@ class Question < ActiveRecord::Base
   has_many :answers, through: :question_answers
   belongs_to :difficulty
 
+  validates :text, presence: true
+  validates :difficulty_id, presence: true
+
   validate :must_belong_to_subclass
 
   private
