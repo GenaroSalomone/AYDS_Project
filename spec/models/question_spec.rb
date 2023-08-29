@@ -7,8 +7,9 @@ describe Question do
     let(:difficult_difficulty) { Difficulty.create!(level: "difficult") }
 
     it 'is valid when belongs to a subclass' do
-      choice_= Choice.create!( text: "¿Qué es un compilador?", difficulty: difficult_difficulty )
-      question = Question.create!( choice.attributes )
+      choice = Choice.create!( text: "¿Qué es un compilador?", difficulty: difficult_difficulty )
+      attributes = choice.attributes.except("id")
+      question = Question.create!( attributes )
       expect(question).to be_valid
     end
 
