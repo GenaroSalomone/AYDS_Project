@@ -6,7 +6,7 @@ describe QuestionAnswer do
   describe 'validations' do
     let(:user) { User.new }
     let(:difficult_difficulty) { Difficulty.create!(level: "difficult") }
-    let(:question) { Question.create!(text: 'question', difficulty: difficult_difficulty) }
+    let(:question) { Question.create!(text: 'question', difficulty: difficult_difficulty, type: 'Choice') }
     let(:answer) { Answer.create!(question: question, text: 'text', correct: true) }
     let(:trivia) { Trivia.create!(user: user, difficulty: difficult_difficulty) }
 
