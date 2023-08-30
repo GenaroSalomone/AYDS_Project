@@ -382,7 +382,6 @@ class App < Sinatra::Application
 
     begin
       usuario_info = google_verify(id_token)
-
       usuario = User.find_by(email: usuario_info[:email])
       usuario_por_username = User.find_by(username: usuario_info[:username])
 

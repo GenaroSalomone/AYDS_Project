@@ -36,44 +36,42 @@
     <button id="google_sign_out" class="logout-button logout-google-button">
         Finalizar sesión Google
     </button>
-</div>
+  </div>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <script>
     function handleCredentialResponse(response) {
-  const body = {
-    id_token: response.credential,
-    authenticatedWithGoogle: true,
-  };
+      const body = {
+        id_token: response.credential,
+        authenticatedWithGoogle: true,
+      };
 
-  fetch('http://localhost:3000/google', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  })
-    .then((r) => r.json())
-    .then((resp) => {
-      localStorage.setItem( 'email', resp.correo );
-      console.log(resp);
-      window.location.href = `/protected_page`;
-    })
-    .catch(console.warn);
+      fetch('http://localhost:3000/google', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      })
+        .then((r) => r.json())
+        .then((resp) => {
+          localStorage.setItem('email', resp.correo);
+          console.log(resp);
+          window.location.href = `/protected_page`;
+        })
+        .catch(console.warn);
     }
 
     const button = document.getElementById('google_sign_out');
-        button.onclick = () => {
-            console.log( google.accounts.id )
-            google.accounts.id.disableAutoSelect()
+    button.onclick = () => {
+      console.log(google.accounts.id);
+      google.accounts.id.disableAutoSelect();
 
-            google.accounts.id.revoke( localStorage.getItem( 'email' ), done => {
-                localStorage.clear()
-                location.reload()
-            })
-        }
-
+      google.accounts.id.revoke(localStorage.getItem('email'), (done) => {
+        localStorage.clear();
+        location.reload();
+      });
+    };
   </script>
-
 </body>
 </html>
