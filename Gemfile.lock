@@ -38,11 +38,14 @@ GEM
       activesupport (>= 3.2)
     i18n (1.13.0)
       concurrent-ruby (~> 1.0)
+    jwt (2.7.1)
     mini_portile2 (2.8.2)
     minitest (5.18.0)
     multi_json (1.15.0)
     mustermann (3.0.0)
       ruby2_keywords (~> 0.0.1)
+    net-http (0.3.2)
+      uri
     rack (2.2.7)
     rake (13.0.6)
     rspec (3.12.0)
@@ -76,6 +79,7 @@ GEM
     tilt (2.1.0)
     tzinfo (2.0.6)
       concurrent-ruby (~> 1.0)
+    uri (0.12.2)
 
 PLATFORMS
   ruby
@@ -85,7 +89,9 @@ DEPENDENCIES
   bcrypt (~> 3.1.18)
   dotenv
   enumerize
+  jwt
   multi_json
+  net-http
   rake
   rspec
   simplecov

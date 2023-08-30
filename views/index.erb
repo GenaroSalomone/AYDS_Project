@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>TriviaAYDS</title>
-  <link rel="stylesheet" type="text/css" href="/css/index.css"> 
+  <link rel="stylesheet" type="text/css" href="/css/index.css">
 </head>
 <body>
   <h1>¡Te damos la bienvenida a la trivia!</h1>
@@ -18,5 +18,43 @@
       <button type="submit">Registrarse</button>
     </form>
   </div>
+  <div id="g_id_onload"
+         data-client_id="450042762936-m67fepfi9lmc6vut0j5do5tc0sjp54a1.apps.googleusercontent.com"
+         data-auto_prompt="false"
+         data-callback="handleCredentialResponse">
+  </div>
+  <div class="g_id_signin"
+         data-type="standard"
+         data-size="large"
+         data-theme="outline"
+         data-text="sign_in_with"
+         data-shape="rectangular"
+         data-logo_alignment="left">
+  </div>
+  <script src="https://accounts.google.com/gsi/client" async defer></script>
+
+  <script>
+    function handleCredentialResponse(response) {
+  const body = {
+    id_token: response.credential,
+    authenticatedWithGoogle: true,
+  };
+
+  fetch('http://localhost:3000/google', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(body),
+  })
+    .then((r) => r.json())
+    .then((resp) => {
+      window.location.href = `/protected_page`;
+      console.log(resp);
+    })
+    .catch(console.warn);
+}
+  </script>
+
 </body>
 </html>

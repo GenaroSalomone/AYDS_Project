@@ -7,6 +7,10 @@ require 'sinatra/session'
 require 'dotenv/load'
 require 'securerandom'
 require 'enumerize'
+require 'jwt'
+require 'net/http'
+require 'uri'
+require 'json'
 require_relative 'models/user'
 require_relative 'models/question'
 require_relative 'models/choice'
@@ -20,8 +24,6 @@ require_relative 'models/ranking'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
-set :bind, '0.0.0.0'
-set :port, ENV['PORT'] || 3000
 class App < Sinatra::Application
   def initialize(app = nil)
     super()
@@ -101,7 +103,7 @@ class App < Sinatra::Application
     end
   end
 
-   post '/login' do
+  post '/login' do
     # Obtener los datos del formulario
     username = params[:username]
     password = params[:password]
@@ -123,6 +125,7 @@ class App < Sinatra::Application
 
   get '/protected_page' do
     if session[:user_id]
+
       user_id = session[:user_id]
       @username = User.find(user_id).username # en username se almacena el nombre de usuario logeado
       # Usuario autenticado, mostrar página protegida
@@ -371,6 +374,57 @@ class App < Sinatra::Application
     # Calculamos la puntuación final restando los puntos a restar de la puntuación máxima y asegurándonos de que esté dentro del rango 0 a max_score
     final_score = max_score - points_to_subtract
     final_score.clamp(0, max_score)
+  end
+
+  post '/google' do
+    request_body = JSON.parse(request.body.read)
+    id_token = request_body['id_token']
+
+    begin
+      usuario_info = google_verify(id_token)
+
+      usuario = User.find_by(email: usuario_info[:correo])
+      usuario_por_username = User.find_by(username: usuario_info[:username])
+
+      if !usuario && !usuario_por_username
+        user = User.create(username: usuario_info[:username], email: usuario_info[:email], password: ':P')
+        session[:user_id] = user.id
+      else
+        session[:user_id] = usuario.id if usuario
+        session[:user_id] = usuario_por_username.id if usuario_por_username
+      end
+
+      content_type :json
+      {
+        success: true,
+        session: session[:user_id],
+      }.to_json
+
+    rescue StandardError => e
+      content_type :json
+      {
+        msg: 'Error en la verificación del token',
+        error: e.message
+      }.to_json
+    end
+  end
+
+  def google_verify(token)
+    client_id = ENV['GOOGLE_CLIENT_ID']
+
+    uri = URI.parse("https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=#{token}")
+    response = Net::HTTP.get_response(uri)
+    data = JSON.parse(response.body)
+
+    if data['aud'] == client_id
+      {
+        username: data['name'],
+        img: data['picture'],
+        email: data['email']
+      }
+    else
+      raise "Error: El token no se pudo verificar"
+    end
   end
 
 end
