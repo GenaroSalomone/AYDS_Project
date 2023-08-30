@@ -383,7 +383,7 @@ class App < Sinatra::Application
     begin
       usuario_info = google_verify(id_token)
 
-      usuario = User.find_by(email: usuario_info[:correo])
+      usuario = User.find_by(email: usuario_info[:email])
       usuario_por_username = User.find_by(username: usuario_info[:username])
 
       if !usuario && !usuario_por_username
@@ -396,6 +396,7 @@ class App < Sinatra::Application
 
       content_type :json
       {
+        correo: usuario_info[:email],
         success: true,
         session: session[:user_id],
       }.to_json

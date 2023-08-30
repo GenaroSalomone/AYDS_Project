@@ -13,7 +13,7 @@ body {
    }
 
    h1 {
-    word-spacing: 5px; 
+    word-spacing: 5px;
     font-size: 35px;
     margin-bottom: 20px;
     color: #333;
@@ -32,10 +32,11 @@ body {
    }
 
    .button-container {
-    margin-top: 20px;
+    margin-top: 30px; /* Puedes ajustar este valor según tus preferencias */
     display: flex;
     justify-content: center;
-   }
+    align-items: center; /* Agrega esta propiedad para alinear verticalmente los botones */
+  }
 
    button {
     background-color: #fff;
@@ -53,3 +54,24 @@ body {
    button:hover {
     background-color:#caff85;
    }
+
+   .logout-button {
+    margin: 0 5px;
+  }
+
+   #google_sign_out.logout-button {
+    background-color: #ff4c4c;
+    color: #fff;
+    margin-top: 0px;
+    font-size: 20px;
+    width: 250px;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+
+  #google_sign_out.logout-button:hover {
+    background-color: #ff8282;
+  }

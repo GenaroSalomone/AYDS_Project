@@ -23,14 +23,20 @@
          data-auto_prompt="false"
          data-callback="handleCredentialResponse">
   </div>
-  <div class="g_id_signin"
+  <div class="button-container">
+    <div class="g_id_signin logout-button"
          data-type="standard"
          data-size="large"
          data-theme="outline"
          data-text="sign_in_with"
          data-shape="rectangular"
          data-logo_alignment="left">
-  </div>
+    </div>
+
+    <button id="google_sign_out" class="logout-button logout-google-button">
+        Finalizar sesión Google
+    </button>
+</div>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
 
   <script>
@@ -49,11 +55,24 @@
   })
     .then((r) => r.json())
     .then((resp) => {
-      window.location.href = `/protected_page`;
+      localStorage.setItem( 'email', resp.correo );
       console.log(resp);
+      window.location.href = `/protected_page`;
     })
     .catch(console.warn);
-}
+    }
+
+    const button = document.getElementById('google_sign_out');
+        button.onclick = () => {
+            console.log( google.accounts.id )
+            google.accounts.id.disableAutoSelect()
+
+            google.accounts.id.revoke( localStorage.getItem( 'email' ), done => {
+                localStorage.clear()
+                location.reload()
+            })
+        }
+
   </script>
 
 </body>
