@@ -84,21 +84,26 @@ class App < Sinatra::Application
     if password == confirm_password
       # Verificar si el username ya está en uso
       if User.exists?(username: username)
+        status 302 # Establece el código de estado HTTP a 302 Found (Redirección)
         redirect "/error?code=registration&reason=username_taken"
       # Verificar si el email ya está en uso
       elsif User.exists?(email: email)
+        status 302 # Establece el código de estado HTTP a 302 Found (Redirección)
         redirect "/error?code=registration&reason=email_taken"
       else
         # Crear un nuevo registro en la base de datos
         user = User.create(username: username, email: email, password: password)
         if user.save
+          status 200 # Establece el código de estado HTTP a 200 OK
           @message = "Vuelva a logearse por favor, vaya a inicio de sesión."
           erb :register_success
         else
+          status 302 # Establece el código de estado HTTP a 302 Found (Redirección)
           redirect "/error?code=registration&reason=registration_error&error_message=#{CGI.escape(user.errors.full_messages.join(', '))}"
         end
       end
     else
+      status 302 # Establece el código de estado HTTP a 302 Found (Redirección)
       redirect "/error?code=registration&reason=password_mismatch"
     end
   end

@@ -19,10 +19,12 @@ describe User do
       expect(user.valid?).to eq(false)
     end
 
-    it "is invalid with a duplicate email address" do
-      existing_user = User.create(username: 'existing_user', email: 'john@example.com', password: 'password')
-      user = User.new(username: 'john_doe', email: 'john@example.com', password: 'password')
-      expect(user.valid?).to eq(false)
+    context "when registering with a duplicate email address" do
+      it "is invalid" do
+        existing_user = User.create(username: 'existing_user', email: 'john@example.com', password: 'password')
+        user = User.new(username: 'john_doe', email: 'john@example.com', password: 'password')
+        expect(user).not_to be_valid
+      end
     end
 
     it "is invalid with a duplicate username" do
