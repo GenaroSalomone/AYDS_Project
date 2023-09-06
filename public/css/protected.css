@@ -141,3 +141,41 @@ button:hover {
 .ranking::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+
+#select-language-title {
+  font-size: 28px;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+#select-language {
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  border: 1px solid #333;
+  border-radius: 4px;
+  padding: 10px 20px;
+  margin-bottom: 20px;
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+select#select-language:hover {
+  background-color: lightblue;
+}
+
+#select-language option {
+  font-size: 16px;
+  background-color: #fff;
+  color: #333;
+}
+
+#select-language:focus {
+  border: 1px solid #caff85;
+  outline: none;
+}
+
+#select-language option:hover {
+  background-color: lightblue;
+}
