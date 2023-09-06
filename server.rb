@@ -298,7 +298,6 @@ class App < Sinatra::Application
     erb :error, locals: { error_message: @error_message }
   end
 
-
   get '/results' do
     redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
 
@@ -431,6 +430,33 @@ class App < Sinatra::Application
       raise "Error: El token no se pudo verificar"
     end
   end
+
+  get '/obtener-lenguajes-soportados' do
+    url = URI("https://text-translator2.p.rapidapi.com/getLanguages")
+
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+
+    request = Net::HTTP::Get.new(url)
+    request["X-RapidAPI-Key"] = 'da6ccfc7a1msh32b9200c90f5289p161774jsnfc46111d4995'
+    request["X-RapidAPI-Host"] = 'text-translator2.p.rapidapi.com'
+
+    response = http.request(request)
+
+    if response.code == '200'
+      response_data = JSON.parse(response.body)['data']['languages'] # Accede a "languages"
+      content_type :json
+      status 200
+      body response_data.to_json
+    else
+      status 500
+      body 'Error al obtener la lista de lenguajes.'
+    end
+  end
+
+
+
+
 
 end
 

@@ -5,6 +5,33 @@
   <link rel="stylesheet" type="text/css" href="/css/protected.css">
 </head>
 <body>
+  <h1>Choose a target language:</h1>
+  <select id="select-language">
+  </select>
+  <script>
+    // Realiza una solicitud AJAX para obtener la lista de lenguajes desde tu backend
+    fetch('/obtener-lenguajes-soportados')
+      .then(response => response.json())
+      .then(data => {
+        const selectLanguage = document.getElementById('select-language');
+
+        // Verifica si data es un array antes de usar forEach
+        if (Array.isArray(data)) {
+          data.forEach(language => {
+            const option = document.createElement('option');
+            option.value = language.code;
+            option.text = language.name;
+            selectLanguage.appendChild(option);
+            console.log(`Añadida opción: ${language.name} (${language.code})`);
+          });
+        } else {
+          console.error('La respuesta no es un array de lenguajes:', data);
+        }
+      })
+      .catch(error => {
+        console.error('Error al obtener la lista de lenguajes:', error);
+      });
+  </script>
   <div class="ranking-container">
     <div class="ranking beginner-ranking">
       <h3>Ranking Principiante</h3>
