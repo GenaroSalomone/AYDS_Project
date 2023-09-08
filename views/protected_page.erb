@@ -15,14 +15,34 @@
       .then(data => {
         const selectLanguage = document.getElementById('select-language');
 
-        // Verifica si data es un array antes de usar forEach
         if (Array.isArray(data)) {
           data.forEach(language => {
             const option = document.createElement('option');
             option.value = language.code;
-            option.text = language.name;
+            option.text = `${language.name} (${language.code})`; // Mostrar nombre y código
             selectLanguage.appendChild(option);
             console.log(`Añadida opción: ${language.name} (${language.code})`);
+          });
+
+          // Agregar un evento de cambio al selector de idioma
+          selectLanguage.addEventListener('change', function () {
+            const selectedLanguage = selectLanguage.value;
+            const selectedLanguageName = data.find(lang => lang.code === selectedLanguage)?.name;
+            console.log(`Idioma seleccionado: ${selectedLanguageName}`);
+            console.log(`Código de idioma seleccionado: ${selectedLanguage}`);
+
+            document.getElementById('selectedLanguageCode').value = selectedLanguage;
+            document.getElementById('selectedLanguageName').value = selectedLanguageName;
+
+            // Verifica si el idioma seleccionado es diferente al español (código 'es')
+            if (selectedLanguage !== 'es') {
+              // Cambia el formulario de acción al endpoint '/trivia-traduce'
+              document.getElementById('trivia-form').action = '/trivia-traduce';
+            } else {
+              // Restaura el formulario de acción al endpoint '/trivia'
+              document.getElementById('trivia-form').action = '/trivia';
+            }
+
           });
         } else {
           console.error('La respuesta no es un array de lenguajes:', data);
@@ -78,12 +98,14 @@
   </div>
   <h1>¡Hola <%= @username %>!, esta es la página protegida.</h1>
   <p>La autenticación fue correcta. ¡Que comience el juego!</p>
-  <form action="/trivia" method="post">
+  <form id="trivia-form" method="post" action="/trivia">
     <h2>Seleccione la dificultad de la trivia para continuar:</h2>
     <div class="button-container">
       <button class="button" name="difficulty" value="beginner">Principiante</button>
       <button class="button" name="difficulty" value="difficult">Experto</button>
     </div>
+    <input type="hidden" name="selectedLanguageCode" id="selectedLanguageCode" value="">
+    <input type="hidden" name="selectedLanguageName" id="selectedLanguageName" value="">
   </form>
   <form action="/" method="get">
     <button class="button" id="logout-button" type="submit">Salir</button>

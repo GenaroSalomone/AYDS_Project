@@ -7,4 +7,6 @@ class Trivia < ActiveRecord::Base
 
   validates :user, presence: true
   validates :difficulty, presence: true
+
+  serialize :translated_questions, JSON
 end
