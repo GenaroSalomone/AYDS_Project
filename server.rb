@@ -21,6 +21,7 @@ require_relative 'models/question_answer'
 require_relative 'models/true_false'
 require_relative 'models/autocomplete'
 require_relative 'models/ranking'
+require_relative 'models/claim'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
@@ -145,6 +146,19 @@ class App < Sinatra::Application
     else
       # Usuario no autenticado, redirigir a la página de inicio de sesión
       redirect '/login'
+    end
+  end
+
+  get '/claim' do
+    erb :claim 
+  end
+
+  post '/claim' do
+    user_id = session[:user_id] # se almacena el ID del usuario logueado 
+    description_text = params[:description] # se almacena el texto del reclamo (el argumento :description viene del name="description")
+    claim = Claim.create(description: description_text, user_id: user_id)
+    if claim.save
+      redirect '/protected_page'
     end
   end
 
