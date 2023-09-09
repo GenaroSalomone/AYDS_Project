@@ -6,11 +6,13 @@
 </head>
 <body>
   <form id="reclamo-form" action="/claim" method="post">
-    <p>Esta es la sección de <em>reclamos</em>. Escriba su reclamo o queja para ayudarnos a mejorar el sistema de trivias.</p>
-    <div class="description-container">
-      <textarea type="text" id="description" name="description" placeholder="Escriba su texto aquí..."></textarea>
+    <h1>Sección de reclamos</h1>
+    <p>Escriba su reclamo o sugerencia para ayudarnos a mejorar el sistema de trivias.</p>
+    <div class="img-textarea-container">
+      <img src="/images/duda.jpg" alt="image">
+      <textarea type="text" id="description" name="description" placeholder="Escriba su texto aquí..."></textarea>    
     </div>
-    <button type="button" onclick="showMsg()">Enviar reclamo</button>
+    <button type="button" onclick="showMsg()">Enviar</button>
     <script>
       function showMsg() {
         var description = document.getElementById("description").value;
