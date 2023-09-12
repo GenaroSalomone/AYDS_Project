@@ -24,6 +24,15 @@ require_relative 'models/ranking'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
+def print_languages
+  begin
+    # Lee los datos desde el archivo JSON local
+    languages_data = File.read('languages.json')
+    languages_json = JSON.parse(languages_data)
+    puts languages_json['data']['languages']
+
+  end
+end
 class App < Sinatra::Application
   def initialize(app = nil)
     super()
@@ -266,7 +275,8 @@ class App < Sinatra::Application
     session[:trivia_id] = trivia.id
     session[:answered_questions] = []
 
-    erb :test, locals: { translated_questions: @translated_questions, translated_answers: @translated_answers }
+    #erb :test, locals: { translated_questions: @translated_questions, translated_answers: @translated_answers }
+    redirect '/question-traduce/0'
   end
 
 
@@ -334,22 +344,25 @@ class App < Sinatra::Application
     redirect '/trivia' if @trivia.nil?
 
     index = params[:index].to_i
+    question = @trivia.translated_questions[index]  # Obtener la pregunta traducida según el índice
 
-    if index >= 0 && index < 10
-      question = @trivia.translated_questions[index]
+    # Realizar comprobaciones similares a las del endpoint original '/question/:index'
+    previous_index = index.zero? ? 0 : index - 1
+
+    if index.zero? || session[:answered_questions].include?(previous_index)
+      if question.nil? || index >= 10
+        redirect '/results'
+      else
+        @question = question
+        @answers = Answer.where(question_id: @trivia.translated_questions[index]["id"])  # Obtener las respuestas para esta pregunta traducida
+        @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
+        @question_index = index
+        @help = @trivia.difficulty.level == "beginner" ? question.help : nil
+        erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds, help: @help }
+      end
     else
-      redirect '/error?code=untranslated'
+      redirect "/error?code=unanswered"
     end
-
-    # Selecciona una única respuesta
-    answers = Answer.where(question_id: question.id)
-
-    @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
-    @question_index = index
-    #@help = @trivia.difficulty.level == "beginner" ? question.help : nil
-
-    # Envía una única respuesta y una única pregunta al archivo erb
-    erb :question, locals: { question: question, trivia: @trivia, question_index: @question_index, answers: answers, time_limit_seconds: @time_limit_seconds}#, help: @help }
   end
 
   post '/answer/:index' do
@@ -570,27 +583,26 @@ class App < Sinatra::Application
   end
 
   get '/obtener-lenguajes-soportados' do
-    url = URI("https://text-translator2.p.rapidapi.com/getLanguages")
+    begin
+      # Lee los datos desde el archivo JSON local
+      languages_data = JSON.parse(File.read(('languages.json')))
 
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
+      if languages_data.nil?
+        status 500
+        body 'Error al obtener la lista de lenguajes: No se pudieron cargar los datos.'
+      else
+        # Define el contenido de la respuesta JSON
 
-    request = Net::HTTP::Get.new(url)
-    request["X-RapidAPI-Key"] = 'da6ccfc7a1msh32b9200c90f5289p161774jsnfc46111d4995'
-    request["X-RapidAPI-Host"] = 'text-translator2.p.rapidapi.com'
-
-    response = http.request(request)
-
-    if response.code == '200'
-      response_data = JSON.parse(response.body)['data']['languages'] # Accede a "languages"
-      content_type :json
-      status 200
-      body response_data.to_json
-    else
+        content_type :json
+        status 200
+        body languages_data['data']['languages'].to_json
+      end
+    rescue StandardError => e
       status 500
-      body 'Error al obtener la lista de lenguajes.'
+      body 'Error al obtener la lista de lenguajes: ' + e.message
     end
   end
+
 
 
 

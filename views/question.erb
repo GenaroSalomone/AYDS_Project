@@ -112,7 +112,7 @@
 <body>
   <h1>Pregunta <%= @question_index + 1 %> :</h1>
   <% if @question %>
-    <p><%= @question.text %></p>
+    <p><%= @question["text"] || @question.text  %></p>
     <% if @question.is_a?(Autocomplete) %>
       <h2>Ingrese su respuesta:</h2>
       <form action="/answer/<%= @question_index %>" method="post" onsubmit="return autocompleteValidateForm()">
