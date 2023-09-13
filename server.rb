@@ -170,9 +170,9 @@ class App < Sinatra::Application
 
       autocomplete_count = [remaining_count, 0].max
 
-      choice_questions = difficulty.questions.where(type: 'Choice').order("RANDOM()").limit(choice_count)
-      true_false_questions = difficulty.questions.where(type: 'True_False').order("RANDOM()").limit(true_false_count)
-      autocomplete_questions = difficulty.questions.where(type: 'Autocomplete').order("RANDOM()").limit(autocomplete_count)
+      choice_questions = difficulty.questions.where(type: 'Choice', is_question_translated: false).order("RANDOM()").limit(choice_count)
+      true_false_questions = difficulty.questions.where(type: 'True_False', is_question_translated: false).order("RANDOM()").limit(true_false_count)
+      autocomplete_questions = difficulty.questions.where(type: 'Autocomplete', is_question_translated: false).order("RANDOM()").limit(autocomplete_count)
 
       questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
       shuffled_questions = questions.shuffle
@@ -193,6 +193,7 @@ class App < Sinatra::Application
       trivia.questions.concat(shuffled_questions)
     end
 
+    trivia.translated_questions = []  # Esto eliminará las preguntas traducidas de la trivia actual
     trivia.save
     session[:trivia_id] = trivia.id
     session[:answered_questions] = []
@@ -206,36 +207,22 @@ class App < Sinatra::Application
     selected_language_code = params[:selectedLanguageCode]
     difficulty = Difficulty.find_by(level: difficulty_level)
 
-    trivia = Trivia.new(user: user, difficulty: difficulty)
+    trivia = Trivia.new(user: user, difficulty: difficulty, selected_language_code: selected_language_code)
 
     if difficulty_level == "beginner"
-      choice_count = rand(3..6)
-      true_false_count = rand(3..4)
-      remaining_count = 10 - choice_count - true_false_count
-
-      autocomplete_count = [remaining_count, 0].max
-
-      choice_questions = difficulty.questions.where(type: 'Choice').order("RANDOM()").limit(choice_count)
-      true_false_questions = difficulty.questions.where(type: 'True_False').order("RANDOM()").limit(true_false_count)
-      autocomplete_questions = difficulty.questions.where(type: 'Autocomplete').order("RANDOM()").limit(autocomplete_count)
-
-      questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
-      shuffled_questions = questions.shuffle
-      trivia.questions.concat(shuffled_questions)
+      choice_and_true_false_questions = difficulty.questions
+        .where(type: ['Choice', 'True_False'])
+        .where(is_question_translated: false)
+        .order("RANDOM()")
+        .limit(5)
+      trivia.questions.concat(choice_and_true_false_questions)
     else
-      choice_count = rand(2..5)
-      true_false_count = rand(2..4)
-      remaining_count = 10 - choice_count - true_false_count
-
-      autocomplete_count = [remaining_count, 0].max
-
-      choice_questions = difficulty.questions.where(type: 'Choice').order("RANDOM()").limit(choice_count)
-      true_false_questions = difficulty.questions.where(type: 'True_False').order("RANDOM()").limit(true_false_count)
-      autocomplete_questions = difficulty.questions.where(type: 'Autocomplete').order("RANDOM()").limit(autocomplete_count)
-
-      questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
-      shuffled_questions = questions.shuffle
-      trivia.questions.concat(shuffled_questions)
+      choice_and_true_false_questions = difficulty.questions
+        .where(type: ['Choice', 'True_False'])
+        .where(is_question_translated: false)
+        .order("RANDOM()")
+        .limit(5)
+      trivia.questions.concat(choice_and_true_false_questions)
     end
 
     translated_questions = []
@@ -243,21 +230,26 @@ class App < Sinatra::Application
 
     trivia.questions.each do |question|
       # Haz una solicitud a la API de traducción para traducir el texto al idioma seleccionado
-      translated_question_text = translate_to_selected_language(question.text, selected_language_code)
+      translated_question_text = translate_to_selected_language(question.text, trivia.selected_language_code)
 
       # Crea una nueva pregunta traducida y guárdala en el arreglo
-      translated_question = Question.create!(text: translated_question_text, difficulty: question.difficulty, type: question.type)
+      translated_question = case question
+        when Choice
+          { 'question_type' => 'Choice', 'question' => Choice.create!(text: translated_question_text, difficulty: question.difficulty, is_question_translated: true) }
+        when True_False
+          { 'question_type' => 'True_False', 'question' => True_False.create!(text: translated_question_text, difficulty: question.difficulty, is_question_translated: true) }
+        end
       translated_questions << translated_question
 
       translated_question_answers = []  # Arreglo para las respuestas traducidas de esta pregunta
-      answers = Answer.where(question_id: question.id)
+      answers = Answer.where(question: question)
 
       answers.each do |answer|
-        translated_answer_text = translate_to_selected_language(answer.text, selected_language_code) unless answer.question.is_a?(Autocomplete)
+        translated_answer_text = translate_to_selected_language(answer.text, trivia.selected_language_code) unless answer.question.is_a?(Autocomplete)
         if answer.question.is_a?(Autocomplete)
-          translated_answer = Answer.create!(text: translated_answer_text, question: translated_question)
+          translated_answer = Answer.create!(text: translated_answer_text, question_id: translated_question['question']['id'])
         else
-          translated_answer = Answer.create!(text: translated_answer_text, question: translated_question, correct: answer.correct)
+          translated_answer = Answer.create!(text: translated_answer_text, question_id: translated_question['question']['id'], correct: answer.correct)
         end
         translated_question_answers << translated_answer
       end
@@ -269,7 +261,7 @@ class App < Sinatra::Application
     trivia.translated_questions = translated_questions
 
     @translated_questions = translated_questions
-    @translated_answers = translated_answers  # Agrega las respuestas traducidas a la variable local
+    @translated_answers = translated_answers
 
     trivia.save
     session[:trivia_id] = trivia.id
@@ -288,7 +280,7 @@ class App < Sinatra::Application
 
     request = Net::HTTP::Post.new(url)
     request["content-type"] = 'application/x-www-form-urlencoded'
-    request["X-RapidAPI-Key"] = 'da6ccfc7a1msh32b9200c90f5289p161774jsnfc46111d4995'
+    request["X-RapidAPI-Key"] = '112235e5admsh1bc02c965978978p13e898jsnd30b6c57bbd5'
     request["X-RapidAPI-Host"] = 'text-translator2.p.rapidapi.com'
     query = URI.encode_www_form(
       source_language: 'es',
@@ -344,21 +336,30 @@ class App < Sinatra::Application
     redirect '/trivia' if @trivia.nil?
 
     index = params[:index].to_i
-    question = @trivia.translated_questions[index]  # Obtener la pregunta traducida según el índice
+    question_hash = @trivia.translated_questions[index]  # Obtener la pregunta traducida según el índice
 
     # Realizar comprobaciones similares a las del endpoint original '/question/:index'
     previous_index = index.zero? ? 0 : index - 1
 
     if index.zero? || session[:answered_questions].include?(previous_index)
-      if question.nil? || index >= 10
-        redirect '/results'
+      if question_hash.nil? || index >= 10
+        redirect '/results-traduce'
       else
-        @question = question
-        @answers = Answer.where(question_id: @trivia.translated_questions[index]["id"])  # Obtener las respuestas para esta pregunta traducida
+        @question = question_hash['question']
+        @question_type = question_hash['question_type']
+        @answers = Answer.where(question_id: @question['id'])  # Obtener las respuestas para esta pregunta traducida
         @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
         @question_index = index
-        @help = @trivia.difficulty.level == "beginner" ? question.help : nil
-        erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds, help: @help }
+        @help = @trivia.difficulty.level == "beginner" ? @question.help : nil
+        erb :question_traduce, locals: {
+          question: @question,
+          question_type: @question_type,
+          trivia: @trivia,
+          question_index: @question_index,
+          answers: @answers,
+          time_limit_seconds: @time_limit_seconds,
+          help: @help,
+        }
       end
     else
       redirect "/error?code=unanswered"
@@ -408,6 +409,41 @@ class App < Sinatra::Application
       end
     end
   end
+
+  post '/answer-traduce/:index' do
+    redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
+
+    index = params[:index].to_i
+    question_hash = @trivia.translated_questions[index]
+
+    if question_hash.nil? || index >= 10
+      redirect '/results-traduce' # Redirigir a los resultados si no hay más preguntas
+    else
+      selected_answer_id = params[:selected_answer]
+      selected_answer = Answer.find_by(id: selected_answer_id, question_id: question_hash['question']['id'])
+
+      if selected_answer.nil?
+        session[:answered_questions] << index
+        redirect "/question-traduce/#{index+1}"
+      elsif session[:answered_questions].include?(index)
+        redirect '/error?code=answered'
+      else
+        # Crear una nueva fila en la tabla QuestionAnswer con los IDs de la pregunta y la respuesta seleccionada
+        session[:answered_questions] << index # Agregar el índice de la pregunta respondida a la lista
+        question_answer = QuestionAnswer.create!(question_id: question_hash['question']['id'], trivia_id: @trivia.id, answer_id: selected_answer.id)
+        question_answer.save
+        selected_answer.update(selected: true)
+
+        total_time = @trivia.difficulty == "beginner" ? 15 : 10
+        response_time = total_time - params[:response_time].to_i
+        question_answer&.update(response_time: response_time)
+
+        next_index = index + 1
+        redirect "/question-traduce/#{next_index}"
+      end
+    end
+  end
+
 
   get '/error' do
     error_code = params[:code]
@@ -530,6 +566,70 @@ class App < Sinatra::Application
     final_score = max_score - points_to_subtract
     final_score.clamp(0, max_score)
   end
+
+  get '/results-traduce' do
+    redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
+
+    @user = @trivia.user
+    @results = []
+    @score = 0
+    @idx = 0
+    response_time_limit = @trivia.difficulty == 'beginner' ? 15 : 10
+
+    @trivia.question_answers.each do |question_answer|
+      # Fetch the translated question from the session or Trivia object
+      translated_question_hash = @trivia.translated_questions.find { |q| q['question']['id'] == question_answer.question_id }
+      question = translated_question_hash['question']
+
+      selected_answer = Answer.find_by(id: question_answer.answer_id, question_id: question_answer.question_id)
+      correct_answer = Answer.find_by(question_id: question_answer.question_id, correct: true)
+
+      result = {
+        question: question,
+        selected_answer: selected_answer,
+        correct_answer: correct_answer,
+        correct: false,
+        autocomplete_input: nil
+      }
+
+      @results << result
+      # Calcular el puntaje basado en el tiempo de respuesta solo si la respuesta seleccionada es correcta
+      if result[:correct] && question_answer.response_time <= response_time_limit
+        response_time_score = calculate_response_time_score(question_answer.response_time, response_time_limit)
+        @score += response_time_score
+      else
+        @score += 0
+      end
+
+    end
+
+    ###########################Logica para el ranking
+    # Obtener el usuario actual
+    user = current_user
+
+    # Obtener la dificultad de la trivia
+    difficulty = @trivia.difficulty
+
+    # Buscar el ranking existente del usuario para la dificultad actual
+    ranking = Ranking.find_by(user_id: user.id, difficulty_id: difficulty.id)
+
+    if ranking.nil? || @score > ranking.score
+      # Si no existe un ranking o el nuevo score es mayor al anterior, crear o actualizar el ranking
+      ranking = Ranking.find_or_initialize_by(user_id: user.id, difficulty_id: difficulty.id)
+      ranking.score = @score
+      ranking.difficulty = difficulty
+      ranking.save
+    end
+
+    erb :results_traduce, locals: { results: @results, score: @score }
+
+
+  end
+
+
+
+
+
 
   post '/google' do
     request_body = JSON.parse(request.body.read)
