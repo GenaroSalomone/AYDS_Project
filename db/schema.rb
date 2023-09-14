@@ -38,6 +38,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_165529) do
     t.index ["difficulty_id"], name: "index_choices_on_difficulty_id"
   end
 
+  create_table "claims", force: :cascade do |t|
+    t.string "description"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_claims_on_user_id"
+  end
+
   create_table "difficulties", force: :cascade do |t|
     t.string "level"
     t.datetime "created_at", null: false
@@ -106,6 +114,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_13_165529) do
 
   add_foreign_key "answers", "questions"
   add_foreign_key "choices", "difficulties"
+  add_foreign_key "claims", "users"
   add_foreign_key "question_answers", "answers"
   add_foreign_key "question_answers", "questions"
   add_foreign_key "questions", "difficulties"
