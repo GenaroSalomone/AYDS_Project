@@ -166,32 +166,21 @@ class App < Sinatra::Application
     if difficulty_level == "beginner"
       choice_count = rand(3..6)
       true_false_count = rand(3..4)
-      remaining_count = 10 - choice_count - true_false_count
-
-      autocomplete_count = [remaining_count, 0].max
-
-      choice_questions = difficulty.questions.where(type: 'Choice', is_question_translated: false).order("RANDOM()").limit(choice_count)
-      true_false_questions = difficulty.questions.where(type: 'True_False', is_question_translated: false).order("RANDOM()").limit(true_false_count)
-      autocomplete_questions = difficulty.questions.where(type: 'Autocomplete', is_question_translated: false).order("RANDOM()").limit(autocomplete_count)
-
-      questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
-      shuffled_questions = questions.shuffle
-      trivia.questions.concat(shuffled_questions)
     else
       choice_count = rand(2..5)
       true_false_count = rand(2..4)
-      remaining_count = 10 - choice_count - true_false_count
-
-      autocomplete_count = [remaining_count, 0].max
-
-      choice_questions = difficulty.questions.where(type: 'Choice').order("RANDOM()").limit(choice_count)
-      true_false_questions = difficulty.questions.where(type: 'True_False').order("RANDOM()").limit(true_false_count)
-      autocomplete_questions = difficulty.questions.where(type: 'Autocomplete').order("RANDOM()").limit(autocomplete_count)
-
-      questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
-      shuffled_questions = questions.shuffle
-      trivia.questions.concat(shuffled_questions)
     end
+
+    remaining_count = 10 - choice_count - true_false_count
+    autocomplete_count = [remaining_count, 0].max
+
+    choice_questions = difficulty.questions.where(type: 'Choice').order("RANDOM()").limit(choice_count)
+    true_false_questions = difficulty.questions.where(type: 'True_False').order("RANDOM()").limit(true_false_count)
+    autocomplete_questions = difficulty.questions.where(type: 'Autocomplete').order("RANDOM()").limit(autocomplete_count)
+
+    questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
+    shuffled_questions = questions.shuffle
+    trivia.questions.concat(shuffled_questions)
 
     trivia.translated_questions = []  # Esto eliminará las preguntas traducidas de la trivia actual
     trivia.save
@@ -209,21 +198,15 @@ class App < Sinatra::Application
 
     trivia = Trivia.new(user: user, difficulty: difficulty, selected_language_code: selected_language_code)
 
-    if difficulty_level == "beginner"
-      choice_and_true_false_questions = difficulty.questions
-        .where(type: ['Choice', 'True_False'])
-        .where(is_question_translated: false)
-        .order("RANDOM()")
-        .limit(5)
-      trivia.questions.concat(choice_and_true_false_questions)
-    else
-      choice_and_true_false_questions = difficulty.questions
-        .where(type: ['Choice', 'True_False'])
-        .where(is_question_translated: false)
-        .order("RANDOM()")
-        .limit(5)
-      trivia.questions.concat(choice_and_true_false_questions)
-    end
+
+    # si difficulty_level == beginner o difficulty_level == difficult 
+    choice_and_true_false_questions = difficulty.questions
+      .where(type: ['Choice', 'True_False'])
+      .where(is_question_translated: false)
+      .order("RANDOM()")
+      .limit(5)
+    trivia.questions.concat(choice_and_true_false_questions)
+    #
 
     translated_questions = []
     translated_answers = []
@@ -628,9 +611,6 @@ class App < Sinatra::Application
 
 
 
-
-
-
   post '/google' do
     request_body = JSON.parse(request.body.read)
     id_token = request_body['id_token']
@@ -702,9 +682,6 @@ class App < Sinatra::Application
       body 'Error al obtener la lista de lenguajes: ' + e.message
     end
   end
-
-
-
 
 
 
