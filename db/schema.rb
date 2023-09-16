@@ -10,7 +10,8 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_09_08_102311) do
+
+ActiveRecord::Schema[7.0].define(version: 2023_09_13_165529) do
   create_table "answers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -71,6 +72,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_08_102311) do
     t.string "type"
     t.integer "difficulty_id"
     t.text "help"
+    t.boolean "is_question_translated", default: false
     t.index ["difficulty_id"], name: "index_questions_on_difficulty_id"
   end
 
@@ -89,6 +91,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_09_08_102311) do
     t.integer "difficulty_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "translated_questions"
+    t.string "selected_language_code"
     t.index ["difficulty_id"], name: "index_trivias_on_difficulty_id"
     t.index ["user_id"], name: "index_trivias_on_user_id"
   end

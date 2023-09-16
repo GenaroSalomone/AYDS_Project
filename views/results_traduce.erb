@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>Resultado</title>
+    <link rel="stylesheet" type="text/css" href="/css/results.css">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Bien jugado <%= @user.username %>, has realizado la trivia #<%= @trivia.id %></h1>
+      <h2>Resultado total:</h2>
+
+      <% @results.each do |result| %>
+        <% @idx += 1 %>
+        <div class="question-result">
+          <h3>Pregunta <%= @idx %> :</h3>
+          <p class="question-text"><strong><%= result[:question]['text'] %></strong></p>
+
+          <% if result[:selected_answer].present? %>
+            <p class="info-block"><strong>Respuesta seleccionada:</strong> <%= result[:selected_answer].text %></p>
+          <% else %>
+            <p class="info-block"><strong>Respuesta seleccionada:</strong> Ninguna respuesta seleccionada.</p>
+          <% end %>
+
+          <% if result[:correct] %>
+            <p class="info-block"><strong>Respuesta correcta:</strong> <%= result[:correct_answer].text %></p>
+            <p class="correct-answer"><span class="correct-message">¡Correcto!</span></p>
+          <% else %>
+            <p class="info-block"><strong>Respuesta correcta:</strong> <%= result[:correct_answer].text %></p>
+            <p class="incorrect-answer"><span class="incorrect-message">Incorrecto</span></p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <h2 class="score">Puntaje total: <%= @score %>/50</h2>
+
+      <div class="button-container">
+        <a href="/protected_page" class="button">Realizar otra trivia</a>
+        <a href="/" class="button">Salir</a>
+      </div>
+    </div>
+  </body>
+</html>

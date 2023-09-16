@@ -25,6 +25,15 @@ require_relative 'models/claim'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
+def print_languages
+  begin
+    # Lee los datos desde el archivo JSON local
+    languages_data = File.read('languages.json')
+    languages_json = JSON.parse(languages_data)
+    puts languages_json['data']['languages']
+
+  end
+end
 class App < Sinatra::Application
   def initialize(app = nil)
     super()
@@ -171,38 +180,132 @@ class App < Sinatra::Application
     if difficulty_level == "beginner"
       choice_count = rand(3..6)
       true_false_count = rand(3..4)
-      remaining_count = 10 - choice_count - true_false_count
-
-      autocomplete_count = [remaining_count, 0].max
-
-      choice_questions = difficulty.questions.where(type: 'Choice').order("RANDOM()").limit(choice_count)
-      true_false_questions = difficulty.questions.where(type: 'True_False').order("RANDOM()").limit(true_false_count)
-      autocomplete_questions = difficulty.questions.where(type: 'Autocomplete').order("RANDOM()").limit(autocomplete_count)
-
-      questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
-      shuffled_questions = questions.shuffle
-      trivia.questions.concat(shuffled_questions)
     else
       choice_count = rand(2..5)
       true_false_count = rand(2..4)
-      remaining_count = 10 - choice_count - true_false_count
-
-      autocomplete_count = [remaining_count, 0].max
-
-      choice_questions = difficulty.questions.where(type: 'Choice').order("RANDOM()").limit(choice_count)
-      true_false_questions = difficulty.questions.where(type: 'True_False').order("RANDOM()").limit(true_false_count)
-      autocomplete_questions = difficulty.questions.where(type: 'Autocomplete').order("RANDOM()").limit(autocomplete_count)
-
-      questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
-      shuffled_questions = questions.shuffle
-      trivia.questions.concat(shuffled_questions)
     end
 
+    remaining_count = 10 - choice_count - true_false_count
+    autocomplete_count = [remaining_count, 0].max
+
+    choice_questions = difficulty.questions
+      .where(type: 'Choice', is_question_translated: false)
+      .order("RANDOM()")
+      .limit(choice_count)
+
+    true_false_questions = difficulty.questions
+      .where(type: 'True_False', is_question_translated: false)
+      .order("RANDOM()")
+      .limit(true_false_count)
+
+    autocomplete_questions = difficulty.questions
+      .where(type: 'Autocomplete', is_question_translated: false)
+      .order("RANDOM()")
+      .limit(autocomplete_count)
+
+    questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
+    shuffled_questions = questions.shuffle
+    trivia.questions.concat(shuffled_questions)
+
+    trivia.translated_questions = []  # Esto eliminará las preguntas traducidas de la trivia actual
     trivia.save
     session[:trivia_id] = trivia.id
     session[:answered_questions] = []
 
     redirect '/question/0'
+  end
+
+  post '/trivia-traduce' do
+    user = current_user
+    difficulty_level = params[:difficulty]
+    selected_language_code = params[:selectedLanguageCode]
+    difficulty = Difficulty.find_by(level: difficulty_level)
+
+    trivia = Trivia.new(user: user, difficulty: difficulty, selected_language_code: selected_language_code)
+
+    choice_and_true_false_questions = difficulty.questions
+      .where(type: ['Choice', 'True_False'])
+      .where(is_question_translated: false)
+      .order("RANDOM()")
+      .limit(5)
+    trivia.questions.concat(choice_and_true_false_questions)
+    #
+
+    translated_questions = []
+    translated_answers = []
+
+    trivia.questions.each do |question|
+      # Hace una solicitud a la API de traducción para traducir el texto al idioma seleccionado
+      translated_question_text = translate_to_selected_language(question.text, trivia.selected_language_code)
+
+      # Crea una nueva pregunta traducida y guárdala en el arreglo
+      translated_question = case question
+        when Choice
+          { 'question_type' => 'Choice', 'question' => Choice.create!(text: translated_question_text, difficulty: question.difficulty, is_question_translated: true) }
+        when True_False
+          { 'question_type' => 'True_False', 'question' => True_False.create!(text: translated_question_text, difficulty: question.difficulty, is_question_translated: true) }
+        end
+      translated_questions << translated_question
+
+      translated_question_answers = []  # Arreglo para las respuestas traducidas de esta pregunta
+      answers = Answer.where(question: question)
+
+      answers.each do |answer|
+        translated_answer_text = translate_to_selected_language(answer.text, trivia.selected_language_code) unless answer.question.is_a?(Autocomplete)
+        if answer.question.is_a?(Autocomplete)
+          translated_answer = Answer.create!(text: translated_answer_text, question_id: translated_question['question']['id'])
+        else
+          translated_answer = Answer.create!(text: translated_answer_text, question_id: translated_question['question']['id'], correct: answer.correct)
+        end
+        translated_question_answers << translated_answer
+      end
+
+      translated_answers << translated_question_answers
+    end
+    trivia.translated_questions = translated_questions
+
+    @translated_questions = translated_questions
+    @translated_answers = translated_answers
+
+    trivia.save
+    session[:trivia_id] = trivia.id
+    session[:answered_questions] = []
+
+    redirect '/question-traduce/0'
+  end
+
+  def translate_to_selected_language(text, target_language)
+    url = URI("https://text-translator2.p.rapidapi.com/translate")
+
+    http = Net::HTTP.new(url.host, url.port)
+    http.use_ssl = true
+
+    request = Net::HTTP::Post.new(url)
+    request["content-type"] = 'application/x-www-form-urlencoded'
+    request["X-RapidAPI-Key"] = '2e2e5f111dmshc1f2d07a1ec65dfp1bacdfjsn1c4721e7c4a4'
+    request["X-RapidAPI-Host"] = 'text-translator2.p.rapidapi.com'
+    query = URI.encode_www_form(
+      source_language: 'es',
+      target_language: target_language,
+      text: text
+    )
+    request.body = query
+    response = http.request(request)
+
+    if response.code == '200'
+      # Parsea la respuesta JSON
+      response_data = JSON.parse(response.body)
+
+      if response_data.key?('data') && response_data['data'].key?('translatedText')
+        return response_data['data']['translatedText']
+      else
+        puts "Error: No se encontró 'translatedText' en la respuesta."
+        return nil
+      end
+    else
+      puts "Error al traducir: #{response.message}"
+      return nil
+    end
   end
 
   get '/question/:index' do
@@ -222,6 +325,36 @@ class App < Sinatra::Application
         @question_index = index # Inicializar @question_index con el valor de index
         @help = @trivia.difficulty.level == "beginner" ? question.help : nil
         erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds, help: @help}
+      end
+    else
+      redirect "/error?code=unanswered"
+    end
+  end
+
+  get '/question-traduce/:index' do
+    redirect '/trivia' if @trivia.nil?
+
+    index = params[:index].to_i
+    question_hash = @trivia.translated_questions[index]
+    previous_index = index.zero? ? 0 : index - 1
+
+    if index.zero? || session[:answered_questions].include?(previous_index)
+      if question_hash.nil? || index >= 5
+        redirect '/results-traduce'
+      else
+        @question = question_hash['question']
+        @question_type = question_hash['question_type']
+        @answers = Answer.where(question_id: @question['id'])
+        @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
+        @question_index = index
+        erb :question_traduce, locals: {
+          question: @question,
+          question_type: @question_type,
+          trivia: @trivia,
+          question_index: @question_index,
+          answers: @answers,
+          time_limit_seconds: @time_limit_seconds,
+        }
       end
     else
       redirect "/error?code=unanswered"
@@ -272,6 +405,40 @@ class App < Sinatra::Application
     end
   end
 
+  post '/answer-traduce/:index' do
+    redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
+
+    index = params[:index].to_i
+    question_hash = @trivia.translated_questions[index]
+
+    if question_hash.nil? || index >= 5
+      redirect '/results-traduce' # Redirigir a los resultados si no hay más preguntas
+    else
+      selected_answer_id = params[:selected_answer]
+      selected_answer = Answer.find_by(id: selected_answer_id, question_id: question_hash['question']['id'])
+
+      if selected_answer.nil?
+        session[:answered_questions] << index
+        redirect "/question-traduce/#{index+1}"
+      elsif session[:answered_questions].include?(index)
+        redirect '/error?code=answered'
+      else
+        # Crear una nueva fila en la tabla QuestionAnswer con los IDs de la pregunta y la respuesta seleccionada
+        session[:answered_questions] << index # Agregar el índice de la pregunta respondida a la lista
+        question_answer = QuestionAnswer.create!(question_id: question_hash['question']['id'], trivia_id: @trivia.id, answer_id: selected_answer_id)
+        #question_answer.save
+        selected_answer.update(selected: true)
+
+        total_time = @trivia.difficulty == "beginner" ? 15 : 10
+        response_time = total_time - params[:response_time].to_i
+        question_answer&.update(response_time: response_time)
+
+        next_index = index + 1
+        redirect "/question-traduce/#{next_index}"
+      end
+    end
+  end
+
   get '/error' do
     error_code = params[:code]
     error_reason = params[:reason]
@@ -311,7 +478,6 @@ class App < Sinatra::Application
     end
     erb :error, locals: { error_message: @error_message }
   end
-
 
   get '/results' do
     redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
@@ -395,6 +561,57 @@ class App < Sinatra::Application
     final_score.clamp(0, max_score)
   end
 
+  get '/results-traduce' do
+    redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
+
+    @user = @trivia.user
+    @results = []
+    @score = 0
+    @idx = 0
+    response_time_limit = @trivia.difficulty == 'beginner' ? 15 : 10
+
+    question_answers = @trivia.question_answers.offset(5)  # 5th position and onwards
+
+    question_answers.each do |question_answer|
+      # Fetch the translated question from the session or Trivia object
+      translated_question_hash = @trivia.translated_questions.find { |q| q['question']['id'] == question_answer.question_id }
+      question = translated_question_hash['question']
+
+      selected_answer = Answer.find_by(id: question_answer.answer_id, question_id: question_answer.question_id)
+      correct_answer = Answer.find_by(question_id: question_answer.question_id, correct: true)
+
+      correct = selected_answer == correct_answer
+
+      result = {
+        question: question,
+        selected_answer: selected_answer,
+        correct_answer: correct_answer,
+        correct: correct,
+      }
+
+      @results << result
+      if result[:correct] && question_answer.response_time <= response_time_limit
+        response_time_score = calculate_response_time_score(question_answer.response_time, response_time_limit)
+        @score += response_time_score
+      else
+        @score += 0
+      end
+
+    end
+
+    user = current_user
+    difficulty = @trivia.difficulty
+    ranking = Ranking.find_by(user_id: user.id, difficulty_id: difficulty.id)
+
+    if ranking.nil? || @score > ranking.score
+      ranking = Ranking.find_or_initialize_by(user_id: user.id, difficulty_id: difficulty.id)
+      ranking.score = @score
+      ranking.difficulty = difficulty
+      ranking.save
+    end
+    erb :results_traduce, locals: { results: @results, score: @score }
+  end
+
   post '/google' do
     request_body = JSON.parse(request.body.read)
     id_token = request_body['id_token']
@@ -443,6 +660,27 @@ class App < Sinatra::Application
       }
     else
       raise "Error: El token no se pudo verificar"
+    end
+  end
+
+  get '/obtener-lenguajes-soportados' do
+    begin
+      # Lee los datos desde el archivo JSON local
+      languages_data = JSON.parse(File.read(('languages.json')))
+
+      if languages_data.nil?
+        status 500
+        body 'Error al obtener la lista de lenguajes: No se pudieron cargar los datos.'
+      else
+        # Define el contenido de la respuesta JSON
+
+        content_type :json
+        status 200
+        body languages_data['data']['languages'].to_json
+      end
+    rescue StandardError => e
+      status 500
+      body 'Error al obtener la lista de lenguajes: ' + e.message
     end
   end
 

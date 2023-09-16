@@ -2,7 +2,7 @@
 ActiveRecord::Base.connection.execute('PRAGMA foreign_keys = OFF;')
 if ENV['RACK_ENV'] == 'development'
   # Eliminar los registros existentes antes de crear nuevos
-  [Choice, Answer, Question, Difficulty, User].each(&:destroy_all)
+  [Choice, Answer, Question, Difficulty, User, QuestionAnswer].each(&:destroy_all)
 end
 ActiveRecord::Base.connection.execute('PRAGMA foreign_keys = ON;')
 

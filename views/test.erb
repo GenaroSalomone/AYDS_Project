@@ -1,0 +1,31 @@
+<!-- En el archivo test.erb -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Prueba de Preguntas y Respuestas Traducidas</title>
+</head>
+<body>
+  <h1>Preguntas y Respuestas Traducidas</h1>
+  <ul>
+    <% @translated_questions.each_with_index do |question, index| %>
+      <li>
+        <strong>Pregunta Traducida:</strong>
+        <%= question.text %><br>
+        <strong>Respuestas Traducidas:</strong>
+        <ul>
+          <% translated_answers_for_question = @translated_answers[index] %>
+          <% translated_answers_for_question.each do |answer| %>
+            <li><%= answer.text %></li>
+          <% end %>
+        </ul>
+      </li>
+    <% end %>
+  </ul>
+
+  <!-- Agregar un script para visualizar los textos en la consola del navegador -->
+  <script>
+    console.log("Preguntas y Respuestas Traducidas:", <%= @translated_questions.to_json %>);
+    console.log("Respuestas Traducidas:", <%= @translated_answers.to_json %>);
+  </script>
+</body>
+</html>
