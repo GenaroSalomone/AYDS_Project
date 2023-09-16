@@ -10,49 +10,75 @@
     <option value="es" selected>Español (es)</option>
   </select>
   <script>
-    // Realiza una solicitud AJAX para obtener la lista de lenguajes desde tu backend
-    fetch('/obtener-lenguajes-soportados')
-      .then(response => response.json())
-      .then(data => {
-        const selectLanguage = document.getElementById('select-language');
+    document.addEventListener('DOMContentLoaded', function () {
+      const spinner = document.querySelector('.lds-hourglass');
+      const selectLanguage = document.getElementById('select-language');
+      const triviaForm = document.getElementById('trivia-form');
 
-        if (Array.isArray(data)) {
-          data.forEach(language => {
-            const option = document.createElement('option');
-            option.value = language.code;
-            option.text = `${language.name} (${language.code})`; // Mostrar nombre y código
-            selectLanguage.appendChild(option);
-            console.log(`Añadida opción: ${language.name} (${language.code})`);
-          });
+      spinner.style.display = 'none';
 
-          // Agregar un evento de cambio al selector de idioma
-          selectLanguage.addEventListener('change', function () {
-            const selectedLanguage = selectLanguage.value;
-            const selectedLanguageName = data.find(lang => lang.code === selectedLanguage)?.name;
-            console.log(`Idioma seleccionado: ${selectedLanguageName}`);
-            console.log(`Código de idioma seleccionado: ${selectedLanguage}`);
+      // mostrar el spinner al enviar el formulario
+      triviaForm.addEventListener('submit', function () {
+        spinner.style.display = 'block';
 
-            document.getElementById('selectedLanguageCode').value = selectedLanguage;
-            document.getElementById('selectedLanguageName').value = selectedLanguageName;
-
-            // Verifica si el idioma seleccionado es diferente al español (código 'es')
-            if (selectedLanguage !== 'es') {
-              // Cambia el formulario de acción al endpoint '/trivia-traduce'
-              document.getElementById('trivia-form').action = '/trivia-traduce';
-            } else {
-              // Restaura el formulario de acción al endpoint '/trivia'
-              document.getElementById('trivia-form').action = '/trivia';
-            }
-
-          });
-        } else {
-          console.error('La respuesta no es un array de lenguajes:', data);
-        }
-      })
-      .catch(error => {
-        console.error('Error al obtener la lista de lenguajes:', error);
+        // Deshabilita el botón de envío para evitar envíos múltiples mientras se carga
+        const submitButton = triviaForm.querySelector('button[type="submit"]');
+        submitButton.disabled = true;
       });
+
+      // Realiza una solicitud AJAX para obtener la lista de lenguajes desde tu backend
+      fetch('/obtener-lenguajes-soportados')
+        .then(response => response.json())
+        .then(data => {
+          // Oculta el spinner una vez que se carga la información
+          spinner.style.display = 'none';
+
+          if (Array.isArray(data)) {
+            data.forEach(language => {
+              const option = document.createElement('option');
+              option.value = language.code;
+              option.text = `${language.name} (${language.code})`; // Mostrar nombre y código
+              selectLanguage.appendChild(option);
+              console.log(`Añadida opción: ${language.name} (${language.code})`);
+            });
+
+            // Agregar un evento de cambio al selector de idioma
+            selectLanguage.addEventListener('change', function () {
+              const selectedLanguage = selectLanguage.value;
+              const selectedLanguageName = data.find(lang => lang.code === selectedLanguage)?.name;
+              console.log(`Idioma seleccionado: ${selectedLanguageName}`);
+              console.log(`Código de idioma seleccionado: ${selectedLanguage}`);
+
+              document.getElementById('selectedLanguageCode').value = selectedLanguage;
+              document.getElementById('selectedLanguageName').value = selectedLanguageName;
+
+              // Verifica si el idioma seleccionado es diferente al español (código 'es')
+              if (selectedLanguage !== 'es') {
+                // Cambia el formulario de acción al endpoint '/trivia-traduce'
+                triviaForm.action = '/trivia-traduce';
+              } else {
+                // Restaura el formulario de acción al endpoint '/trivia'
+                triviaForm.action = '/trivia';
+              }
+            });
+          } else {
+            console.error('La respuesta no es un array de lenguajes:', data);
+          }
+        })
+        .catch(error => {
+          console.error('Error al obtener la lista de lenguajes:', error);
+        });
+    });
+
+    window.onpageshow = function(event) {
+      if (event.persisted) {
+        const spinner = document.querySelector('.lds-hourglass');
+        spinner.style.display = 'none';
+      }
+    };
   </script>
+
+
 
   <div class="ranking-container">
     <div class="ranking beginner-ranking">
@@ -76,7 +102,10 @@
         </tbody>
       </table>
     </div>
+
+    <div class="lds-hourglass"></div>
     <div class="ranking difficulty-ranking">
+
       <h3>Ranking Experto</h3>
       <table>
         <thead>
