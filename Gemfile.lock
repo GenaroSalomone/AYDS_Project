@@ -104,8 +104,5 @@ DEPENDENCIES
   sinatra-session
   sqlite3
 
-RUBY VERSION
-   ruby 2.7.5p203
-
 BUNDLED WITH
    2.4.12

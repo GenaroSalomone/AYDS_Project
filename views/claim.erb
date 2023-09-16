@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Reclamos</title>
+  <link rel="stylesheet" type="text/css" href="/css/claim.css">
+</head>
+<body>
+  <form id="reclamo-form" action="/claim" method="post">
+    <h1>Sección de reclamos</h1>
+    <p>Escriba su reclamo o sugerencia para ayudarnos a mejorar el sistema de trivias.</p>
+    <div class="img-textarea-container">
+      <img src="/images/duda.jpg" alt="image">
+      <textarea type="text" id="description" name="description" placeholder="Escriba su texto aquí..."></textarea>    
+    </div>
+    <button type="button" onclick="showMsg()">Enviar</button>
+    <script>
+      function showMsg() {
+        var description = document.getElementById("description").value;
+        if (description.trim() == "") { // Si no se escribió un reclamo y se dio clic a "Enviar reclamo"
+          window.alert("Por favor, ingrese su reclamo.");
+        } else { // Si se escribió por lo menos un caracter y se dio clic a "Enviar reclamo"
+          var confirmation = window.confirm("Su reclamo será enviado exitosamente.")
+          if (confirmation) {
+            document.getElementById("reclamo-form").submit(); // Envía el formulario con el reclamo
+          }
+        }
+      } 
+    </script>
+  </form>
+</body>
+</html>

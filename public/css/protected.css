@@ -54,6 +54,10 @@ button:hover {
   background-color: #caff85;
 }
 
+#claim-button {
+  margin-top: 20px;
+}
+
 #logout-button {
   background-color: #ff4c4c;
   color: #fff;
