@@ -119,30 +119,6 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#%2F-instance_method" title="#/ (instance method)">#<strong>/</strong>  &#x21d2; ERB </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Displays the home page.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
       <a href="#%2Ftrivia-traduce-instance_method" title="#/trivia-traduce (instance method)">#<strong>/trivia-traduce</strong>  &#x21d2; Redirect </a>
     
 
@@ -158,7 +134,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Handle translated trivia creation and initiation.</p>
+<p>POST endpoint for handling translated trivia creation and initiation.</p>
 </div></span>
   
 </li>
@@ -167,7 +143,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#current_user-instance_method" title="#current_user (instance method)">#<strong>current_user</strong>  &#x21d2; Object </a>
+      <a href="#current_user-instance_method" title="#current_user (instance method)">#<strong>current_user</strong>  &#x21d2; User<sup>?</sup> </a>
     
 
     
@@ -181,7 +157,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the current user based on the session.</p>
+</div></span>
   
 </li>
 
@@ -204,7 +182,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Display the claim page.</p>
+<p>GET endpoint for displaying the claim page.</p>
 </div></span>
   
 </li>
@@ -252,7 +230,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Displays the login page.</p>
+<p>GET endpoint to display the login page.</p>
 </div></span>
   
 </li>
@@ -261,7 +239,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_protected_page-instance_method" title="#get_protected_page (instance method)">#<strong>get_protected_page</strong>  &#x21d2; ERB, Redirect </a>
+      <a href="#get_protected_page-instance_method" title="#get_protected_page (instance method)">#<strong>get_protected_page</strong>  &#x21d2; ERB </a>
     
 
     
@@ -276,7 +254,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Display the protected page if the user is authenticated.</p>
+<p>GET endpoint for displaying the protected page if the user is authenticated.</p>
 </div></span>
   
 </li>
@@ -285,7 +263,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_question-instance_method" title="#get_question (instance method)">#<strong>get_question</strong>  &#x21d2; ERB, Redirect </a>
+      <a href="#get_question-instance_method" title="#get_question (instance method)">#<strong>get_question</strong>  &#x21d2; ERB </a>
     
 
     
@@ -300,7 +278,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Handle displaying a trivia question.</p>
+<p>GET endpoint for handling displaying a trivia question.</p>
 </div></span>
   
 </li>
@@ -309,7 +287,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_question_traduce-instance_method" title="#get_question_traduce (instance method)">#<strong>get_question_traduce</strong>  &#x21d2; ERB, Redirect </a>
+      <a href="#get_question_traduce-instance_method" title="#get_question_traduce (instance method)">#<strong>get_question_traduce</strong>  &#x21d2; ERB </a>
     
 
     
@@ -324,7 +302,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Handle displaying a translated trivia question.</p>
+<p>GET endpoint for handling displaying a translated trivia question.</p>
 </div></span>
   
 </li>
@@ -348,7 +326,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Displays the registration page.</p>
+<p>GET endpoint to display the registration page.</p>
 </div></span>
   
 </li>
@@ -357,7 +335,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#get_results-instance_method" title="#get_results (instance method)">#<strong>get_results</strong>  &#x21d2; Object </a>
+      <a href="#get_results-instance_method" title="#get_results (instance method)">#<strong>get_results</strong>  &#x21d2; ERB </a>
     
 
     
@@ -372,7 +350,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Displays the results of the trivia in the original language.</p>
+<p>GET endpoint for displaying the results of the trivia in the original language.</p>
 </div></span>
   
 </li>
@@ -396,7 +374,31 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Displays the translated results of the trivia.</p>
+<p>GET endpoint for displaying the results of the translated trivia.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#get_root-instance_method" title="#get_root (instance method)">#<strong>get_root</strong>  &#x21d2; ERB </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>GET endpoint to displays the home page.</p>
 </div></span>
   
 </li>
@@ -420,7 +422,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Retrieves a list of supported languages.</p>
+<p>GET endpoint for obtaining supported languages.</p>
 </div></span>
   
 </li>
@@ -542,7 +544,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Handle user claims submission.</p>
+<p>POST endpoint for handling user claims submission.</p>
 </div></span>
   
 </li>
@@ -566,7 +568,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Handles Google Sign-In authentication.</p>
+<p>Post endpoint for handling Google Sign-In authentication.</p>
 </div></span>
   
 </li>
@@ -590,7 +592,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Authenticate and log in the user.</p>
+<p>POST endpoint for authenticate and log in the user.</p>
 </div></span>
   
 </li>
@@ -614,7 +616,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Handles user registration.</p>
+<p>POST endpoint for user registration.</p>
 </div></span>
   
 </li>
@@ -638,7 +640,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Handle trivia creation and initiation.</p>
+<p>POST endpoint for handling trivia creation and initiation.</p>
 </div></span>
   
 </li>
@@ -700,68 +702,7 @@
 
     
       <div class="method_details first">
-  <h3 class="signature first" id="/-instance_method">
-  
-    #<strong>/</strong>  &#x21d2; <tt>ERB</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Displays the home page.</p>
-
-<p>This route is used to show the web application’s home page when a user visits it.</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>ERB</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The home page template.</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-70
-71
-72</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 70</span>
-
-<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
-  <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:index</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="/trivia-traduce-instance_method">
+  <h3 class="signature first" id="/trivia-traduce-instance_method">
   
     #<strong>/trivia-traduce</strong>  &#x21d2; <tt>Redirect</tt> 
   
@@ -772,7 +713,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Handle translated trivia creation and initiation.</p>
+<p>POST endpoint for handling translated trivia creation and initiation.</p>
 
 <p>This route handles the creation and initiation of a translated trivia game when a POST request is made to ‘/trivia-traduce’. It retrieves the current user, the selected difficulty level, and the selected language code for translation. A new trivia game is initialized, and a specific number of choice and true/false questions are randomly selected based on the selected difficulty level. These questions are then translated to the selected language code using an external translation API.</p>
 
@@ -819,14 +760,6 @@
       <pre class="lines">
 
 
-315
-316
-317
-318
-319
-320
-321
-322
 323
 324
 325
@@ -876,10 +809,18 @@
 369
 370
 371
-372</pre>
+372
+373
+374
+375
+376
+377
+378
+379
+380</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 315</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 323</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia-traduce</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='id identifier rubyid_current_user'>current_user</span>
@@ -947,24 +888,62 @@
       <div class="method_details ">
   <h3 class="signature " id="current_user-instance_method">
   
-    #<strong>current_user</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>current_user</strong>  &#x21d2; <tt>User</tt><sup>?</sup> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the current user based on the session.</p>
+
+<p>This method finds and returns the User object associated with the current session. If there is no user_id in the session, it returns nil.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>User</tt>, <tt>nil</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The User object if there is a user_id in the session, or nil if there isn’t.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>User#find</li>
+    
+  </ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-33
-34
-35</pre>
+868
+869
+870</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 868</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_current_user'>current_user</span>
   <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span>
@@ -986,7 +965,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Display the claim page.</p>
+<p>GET endpoint for displaying the claim page</p>
 
 <p>This route displays the claim page when a user visits ‘/claim’. It renders the ERB template :claim, which contains the content for the claim page.</p>
 
@@ -1020,12 +999,12 @@
       <pre class="lines">
 
 
-219
-220
-221</pre>
+225
+226
+227</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 219</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 225</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/claim</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:claim</span>
@@ -1117,31 +1096,6 @@
       <pre class="lines">
 
 
-577
-578
-579
-580
-581
-582
-583
-584
-585
-586
-587
-588
-589
-590
-591
-592
-593
-594
-595
-596
-597
-598
-599
-600
-601
 602
 603
 604
@@ -1155,10 +1109,35 @@
 612
 613
 614
-615</pre>
+615
+616
+617
+618
+619
+620
+621
+622
+623
+624
+625
+626
+627
+628
+629
+630
+631
+632
+633
+634
+635
+636
+637
+638
+639
+640</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 577</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 602</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_error_code'>error_code</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:code</span><span class='rbracket'>]</span>
@@ -1216,7 +1195,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Displays the login page.</p>
+<p>GET endpoint to display the login page.</p>
 
 <p>This route is used to show the web application’s login page when a user visits it.</p>
 
@@ -1250,12 +1229,12 @@
       <pre class="lines">
 
 
-90
-91
-92</pre>
+87
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 90</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 87</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/login</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:login</span>
@@ -1268,7 +1247,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_protected_page-instance_method">
   
-    #<strong>get_protected_page</strong>  &#x21d2; <tt>ERB</tt>, <tt>Redirect</tt> 
+    #<strong>get_protected_page</strong>  &#x21d2; <tt>ERB</tt> 
   
 
   
@@ -1277,7 +1256,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Display the protected page if the user is authenticated.</p>
+<p>GET endpoint for displaying the protected page if the user is authenticated.</p>
 
 <p>This route displays the protected page if the user is authenticated. It checks if there is a user ID stored in the session, retrieves the user’s username, and displays the protected page along with the rankings for different difficulty levels.</p>
 
@@ -1302,6 +1281,10 @@
 </div>
       
     </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
   
     <li>
       
@@ -1336,12 +1319,6 @@
       <pre class="lines">
 
 
-192
-193
-194
-195
-196
-197
 198
 199
 200
@@ -1354,10 +1331,16 @@
 207
 208
 209
-210</pre>
+210
+211
+212
+213
+214
+215
+216</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 192</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 198</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/protected_page</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span>
@@ -1386,7 +1369,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_question-instance_method">
   
-    #<strong>get_question</strong>  &#x21d2; <tt>ERB</tt>, <tt>Redirect</tt> 
+    #<strong>get_question</strong>  &#x21d2; <tt>ERB</tt> 
   
 
   
@@ -1395,7 +1378,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Handle displaying a trivia question.</p>
+<p>GET endpoint for handling displaying a trivia question.</p>
 
 <p>This route is responsible for displaying a trivia question based on the provided index in the URL. If there’s no active trivia session, it redirects to the ‘/trivia’ route. It retrieves the question at the specified index and prepares the necessary data for rendering the question view.</p>
 
@@ -1440,6 +1423,10 @@
 </div>
       
     </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
   
     <li>
       
@@ -1490,17 +1477,6 @@
       <pre class="lines">
 
 
-389
-390
-391
-392
-393
-394
-395
-396
-397
-398
-399
 400
 401
 402
@@ -1511,10 +1487,21 @@
 407
 408
 409
-410</pre>
+410
+411
+412
+413
+414
+415
+416
+417
+418
+419
+420
+421</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 389</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 400</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/question/:index</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>  <span class='comment'># Redirigir si no hay una trivia en sesión
@@ -1546,7 +1533,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_question_traduce-instance_method">
   
-    #<strong>get_question_traduce</strong>  &#x21d2; <tt>ERB</tt>, <tt>Redirect</tt> 
+    #<strong>get_question_traduce</strong>  &#x21d2; <tt>ERB</tt> 
   
 
   
@@ -1555,7 +1542,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Handle displaying a translated trivia question.</p>
+<p>GET endpoint for handling displaying a translated trivia question.</p>
 
 <p>This route is responsible for displaying a translated trivia question based on the provided index in the URL. If there’s no active trivia session, it redirects to the ‘/trivia’ route. It retrieves the translated question at the specified index and prepares the necessary data for rendering the question view.</p>
 
@@ -1600,6 +1587,10 @@
 </div>
       
     </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
   
     <li>
       
@@ -1650,20 +1641,6 @@
       <pre class="lines">
 
 
-427
-428
-429
-430
-431
-432
-433
-434
-435
-436
-437
-438
-439
-440
 441
 442
 443
@@ -1678,10 +1655,24 @@
 452
 453
 454
-455</pre>
+455
+456
+457
+458
+459
+460
+461
+462
+463
+464
+465
+466
+467
+468
+469</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 427</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 441</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/question-traduce/:index</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1729,7 +1720,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Displays the registration page.</p>
+<p>GET endpoint to display the registration page.</p>
 
 <p>This route is used to show the web application’s registration page when a user visits it.</p>
 
@@ -1763,12 +1754,12 @@
       <pre class="lines">
 
 
-80
-81
-82</pre>
+77
+78
+79</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 80</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 77</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/registrarse</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:register</span>
@@ -1781,7 +1772,7 @@
       <div class="method_details ">
   <h3 class="signature " id="get_results-instance_method">
   
-    #<strong>get_results</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>get_results</strong>  &#x21d2; <tt>ERB</tt> 
   
 
   
@@ -1790,13 +1781,62 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Displays the results of the trivia in the original language.</p>
+<p>GET endpoint for displaying the results of the trivia in the original language.</p>
+
+<p>This method displays the results of the trivia in the original language in which it was conducted. It calculates the user’s score, checks the answers, and displays whether they were correct or not. If the trivia contains autocomplete questions, it also verifies the correctness of those answers. The method then calculates the user’s score based on response times for correct answers. Finally, it handles ranking logic by updating or creating a user’s ranking entry for the specific difficulty level.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ERB</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The results template displaying trivia results.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there is no trivia in session, redirects to ‘/trivia’.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>QuestionAnswer</li>
+    
+      <li>Answer</li>
+    
+      <li>Trivia</li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -1804,37 +1844,6 @@
       <pre class="lines">
 
 
-627
-628
-629
-630
-631
-632
-633
-634
-635
-636
-637
-638
-639
-640
-641
-642
-643
-644
-645
-646
-647
-648
-649
-650
-651
-652
-653
-654
-655
-656
-657
 658
 659
 660
@@ -1865,10 +1874,41 @@
 685
 686
 687
-688</pre>
+688
+689
+690
+691
+692
+693
+694
+695
+696
+697
+698
+699
+700
+701
+702
+703
+704
+705
+706
+707
+708
+709
+710
+711
+712
+713
+714
+715
+716
+717
+718
+719</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 627</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 658</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/results</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>  <span class='comment'># Redirigir si no hay una trivia en sesión
@@ -1949,9 +1989,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Displays the translated results of the trivia.</p>
+<p>GET endpoint for displaying the results of the translated trivia.</p>
 
-<p>This route displays the results of the trivia with questions and answers translated into the selected language. It calculates the user’s score, checks the correctness of the translated answers, and displays the results. The route also calculates the user’s score based on response times for correct answers. Finally, it handles ranking logic by updating or creating a user’s ranking entry for the specific difficulty level.</p>
+<p>This method displays the results of the translated trivia in which it was conducted. It calculates the user’s score, checks the answers, and displays whether they were correct or not. The method then calculates the user’s score based on response times for correct answers. Finally, it handles ranking logic by updating or creating a user’s ranking entry for the specific difficulty level.</p>
 
 
   </div>
@@ -1970,12 +2010,41 @@
       
         &mdash;
         <div class='inline'>
-<p>The translated results template displaying trivia results.</p>
+<p>The results template displaying translated trivia results.</p>
 </div>
       
     </li>
   
 </ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there is no trivia in session, redirects to ‘/trivia’.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li>QuestionAnswer</li>
+    
+      <li>Answer</li>
+    
+      <li>Trivia</li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -1983,43 +2052,6 @@
       <pre class="lines">
 
 
-699
-700
-701
-702
-703
-704
-705
-706
-707
-708
-709
-710
-711
-712
-713
-714
-715
-716
-717
-718
-719
-720
-721
-722
-723
-724
-725
-726
-727
-728
-729
-730
-731
-732
-733
-734
-735
 736
 737
 738
@@ -2032,10 +2064,47 @@
 745
 746
 747
-748</pre>
+748
+749
+750
+751
+752
+753
+754
+755
+756
+757
+758
+759
+760
+761
+762
+763
+764
+765
+766
+767
+768
+769
+770
+771
+772
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 699</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 736</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/results-traduce</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>  <span class='comment'># Redirigir si no hay una trivia en sesión
@@ -2093,6 +2162,67 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="get_root-instance_method">
+  
+    #<strong>get_root</strong>  &#x21d2; <tt>ERB</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>GET endpoint to displays the home page.</p>
+
+<p>This route is used to show the web application’s home page when a user visits it.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>ERB</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The home page template.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'server.rb', line 67</span>
+
+<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:index</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="get_supported_languages-instance_method">
   
     #<strong>get_supported_languages</strong>  &#x21d2; <tt>JSON</tt> 
@@ -2104,9 +2234,9 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Retrieves a list of supported languages.</p>
+<p>GET endpoint for obtaining supported languages.</p>
 
-<p>This route reads language data from a local JSON file (‘languages.json’). If the data is successfully loaded, it returns a JSON response with the list of supported languages. If there’s an error while loading the data or if the data is missing, it returns a 500 Internal Server Error.</p>
+<p>This method reads data from a local JSON file and returns a list of supported languages. If the data cannot be loaded, it returns an error message.</p>
 
 
   </div>
@@ -2125,7 +2255,25 @@
       
         &mdash;
         <div class='inline'>
-<p>A JSON response containing the list of supported languages or an error message.</p>
+<p>The list of supported languages.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>StandardError</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there is an error reading the file or parsing the JSON, it returns a 500 status code and an error message.</p>
 </div>
       
     </li>
@@ -2138,29 +2286,29 @@
       <pre class="lines">
 
 
-800
-801
-802
-803
-804
-805
-806
-807
-808
-809
-810
-811
-812
-813
-814
-815
-816
-817
-818
-819</pre>
+838
+839
+840
+841
+842
+843
+844
+845
+846
+847
+848
+849
+850
+851
+852
+853
+854
+855
+856
+857</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 800</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 838</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/obtener-lenguajes-soportados</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='kw'>begin</span>
@@ -2271,26 +2419,26 @@
       <pre class="lines">
 
 
-831
-832
-833
-834
-835
-836
-837
-838
-839
-840
-841
-842
-843
-844
-845
-846
-847</pre>
+884
+885
+886
+887
+888
+889
+890
+891
+892
+893
+894
+895
+896
+897
+898
+899
+900</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 831</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 884</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_google_verify'>google_verify</span><span class='lparen'>(</span><span class='id identifier rubyid_token'>token</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_client_id'>client_id</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GOOGLE_CLIENT_ID</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
@@ -2421,6 +2569,52 @@
     </li>
   
 </ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there is no trivia in session, redirects to ‘/trivia’.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there are no more questions or if index is greater or equal to 10, redirects to ‘/results’.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If the question has already been answered, redirects to ‘/error?code=answered’.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
   <p class="tag_title">See Also:</p>
   <ul class="see">
@@ -2441,25 +2635,6 @@
       <pre class="lines">
 
 
-474
-475
-476
-477
-478
-479
-480
-481
-482
-483
-484
-485
-486
-487
-488
-489
-490
-491
-492
 493
 494
 495
@@ -2483,10 +2658,29 @@
 513
 514
 515
-516</pre>
+516
+517
+518
+519
+520
+521
+522
+523
+524
+525
+526
+527
+528
+529
+530
+531
+532
+533
+534
+535</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 474</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 493</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/answer/:index</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>  <span class='comment'># Redirigir si no hay una trivia en sesión
@@ -2627,6 +2821,52 @@
     </li>
   
 </ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there is no trivia in session, redirects to ‘/trivia’.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there are no more questions or if index is greater or equal to 5, redirects to ‘/results-traduce’.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If the question has already been answered, redirects to ‘/error?code=answered’.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
   <p class="tag_title">See Also:</p>
   <ul class="see">
@@ -2645,30 +2885,6 @@
       <pre class="lines">
 
 
-533
-534
-535
-536
-537
-538
-539
-540
-541
-542
-543
-544
-545
-546
-547
-548
-549
-550
-551
-552
-553
-554
-555
-556
 557
 558
 559
@@ -2677,10 +2893,34 @@
 562
 563
 564
-565</pre>
+565
+566
+567
+568
+569
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 533</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 557</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/answer-traduce/:index</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>  <span class='comment'># Redirigir si no hay una trivia en sesión
@@ -2732,7 +2972,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Handle user claims submission.</p>
+<p>POST endpoint for handling user claims submission.</p>
 
 <p>This route handles the submission of user claims when a POST request is made to ‘/claim’. It retrieves the user’s ID from the session and the description text from the form data. Then, it creates a new claim record in the database with the provided description and user ID.</p>
 
@@ -2775,17 +3015,17 @@
       <pre class="lines">
 
 
-233
-234
-235
-236
-237
-238
 239
-240</pre>
+240
+241
+242
+243
+244
+245
+246</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 233</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 239</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/claim</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_user_id'>user_id</span> <span class='op'>=</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span> <span class='comment'># se almacena el ID del usuario logueado
@@ -2812,7 +3052,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Handles Google Sign-In authentication.</p>
+<p>Post endpoint for handling Google Sign-In authentication.</p>
 
 <p>This route receives a JSON payload containing an ID token from the Google Sign-In process. It verifies the ID token with Google’s authentication service and retrieves user information. If the user with the retrieved email or username doesn’t exist, a new user is created and logged in. If the user already exists, they are logged in with their existing account.</p>
 
@@ -2846,41 +3086,41 @@
       <pre class="lines">
 
 
-759
-760
-761
-762
-763
-764
-765
-766
-767
-768
-769
-770
-771
-772
-773
-774
-775
-776
-777
-778
-779
-780
-781
-782
-783
-784
-785
-786
-787
-788
-789
-790</pre>
+796
+797
+798
+799
+800
+801
+802
+803
+804
+805
+806
+807
+808
+809
+810
+811
+812
+813
+814
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 759</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 796</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/google</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_request_body'>request_body</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='rparen'>)</span>
@@ -2931,7 +3171,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Authenticate and log in the user.</p>
+<p>POST endpoint for authenticate and log in the user.</p>
 
 <p>This route handles the user authentication process when a user submits the login form. It retrieves the form data, checks the provided username and password against the database records, and logs in the user if the credentials are valid.</p>
 
@@ -2993,6 +3233,10 @@
       
     </li>
   
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
     <li>
       
       
@@ -3024,12 +3268,6 @@
       <pre class="lines">
 
 
-158
-159
-160
-161
-162
-163
 164
 165
 166
@@ -3042,10 +3280,16 @@
 173
 174
 175
-176</pre>
+176
+177
+178
+179
+180
+181
+182</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 158</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 164</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/login</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='comment'># Obtener los datos del formulario
@@ -3083,15 +3327,83 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Handles user registration.</p>
+<p>POST endpoint for user registration.</p>
 
-<p>This route processes the user registration when a user submits the registration form. It validates the submitted data, checks for the availability of the username and email, and creates a new user record in the database if everything is valid.</p>
+<p>This method processes user registration when a user submits the registration form. It validates the submitted data, checks for the availability of the username and email, and creates a new user record in the database if everything is valid.</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>username</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The username provided by the user.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>password</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The password provided by the user.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>confirm_password</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The password confirmation provided by the user.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>email</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The email provided by the user.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
@@ -3110,6 +3422,66 @@
     </li>
   
 </ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If passwords do not match, redirects to ‘/error?code=registration&amp;reason=password_mismatch’.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If username is already in use, redirects to ‘/error?code=registration&amp;reason=username_taken’.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If email is already in use, redirects to ‘/error?code=registration&amp;reason=email_taken’.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there’s an error saving the new user record in the database, redirects to ‘/error?code=registration&amp;reason=registration_error&amp;error_message=#‘))’.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
   <p class="tag_title">See Also:</p>
   <ul class="see">
@@ -3120,8 +3492,6 @@
     
       <li>User#save</li>
     
-      <li>CGI.escape</li>
-    
   </ul>
 
 </div><table class="source_code">
@@ -3130,12 +3500,6 @@
       <pre class="lines">
 
 
-107
-108
-109
-110
-111
-112
 113
 114
 115
@@ -3163,10 +3527,16 @@
 137
 138
 139
-140</pre>
+140
+141
+142
+143
+144
+145
+146</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 113</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/registrarse</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='comment'># Obtener los datos del formulario
@@ -3219,7 +3589,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Handle trivia creation and initiation.</p>
+<p>POST endpoint for handling trivia creation and initiation.</p>
 
 <p>This route handles the creation and initiation of a trivia game when a POST request is made to ‘/trivia’. It retrieves the current user, the selected difficulty level, and initializes a new trivia game. The number of choice questions, true/false questions, and autocomplete questions are determined based on the selected difficulty level. Random questions are selected from the database for each category, and the questions are shuffled and added to the trivia game.</p>
 
@@ -3268,13 +3638,6 @@
       <pre class="lines">
 
 
-257
-258
-259
-260
-261
-262
-263
 264
 265
 266
@@ -3310,10 +3673,17 @@
 296
 297
 298
-299</pre>
+299
+300
+301
+302
+303
+304
+305
+306</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 257</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 264</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='id identifier rubyid_current_user'>current_user</span>
@@ -3368,7 +3738,7 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Sep 16 17:41:07 2023 by
+  Generated on Mon Sep 18 11:27:00 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-2.7.5).
 </div>

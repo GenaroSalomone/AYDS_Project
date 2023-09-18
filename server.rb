@@ -30,10 +30,6 @@ class App < Sinatra::Application
     super()
   end
 
-  def current_user
-    User.find(session[:user_id]) if session[:user_id]
-  end
-
   configure :production, :development do
     enable :logging
 
@@ -62,7 +58,8 @@ class App < Sinatra::Application
     end
   end
 
-  # Displays the home page.
+  # @!method get_root
+  # GET endpoint to displays the home page.
   #
   # This route is used to show the web application's home page when a user visits it.
   #
@@ -72,7 +69,7 @@ class App < Sinatra::Application
   end
 
   # @!method get_registrarse
-  # Displays the registration page.
+  # GET endpoint to display the registration page.
   #
   # This route is used to show the web application's registration page when a user visits it.
   #
@@ -82,7 +79,7 @@ class App < Sinatra::Application
   end
 
   # @!method get_login
-  # Displays the login page.
+  # GET endpoint to display the login page.
   #
   # This route is used to show the web application's login page when a user visits it.
   #
@@ -92,18 +89,27 @@ class App < Sinatra::Application
   end
 
   # @!method post_registrarse
-  # Handles user registration.
+  # POST endpoint for user registration.
   #
-  # This route processes the user registration when a user submits the registration form.
+  # This method processes user registration when a user submits the registration form.
   # It validates the submitted data, checks for the availability of the username and email,
   # and creates a new user record in the database if everything is valid.
   #
+  # @param [String] username The username provided by the user.
+  # @param [String] password The password provided by the user.
+  # @param [String] confirm_password The password confirmation provided by the user.
+  # @param [String] email The email provided by the user.
+  #
   # @return [ERB] The registration success page or redirects to an error page if there are issues.
+  #
+  # @raise [Redirect] If passwords do not match, redirects to '/error?code=registration&reason=password_mismatch'.
+  # @raise [Redirect] If username is already in use, redirects to '/error?code=registration&reason=username_taken'.
+  # @raise [Redirect] If email is already in use, redirects to '/error?code=registration&reason=email_taken'.
+  # @raise [Redirect] If there's an error saving the new user record in the database, redirects to '/error?code=registration&reason=registration_error&error_message=#{CGI.escape(user.errors.full_messages.join(', '))}'.
   #
   # @see User#create
   # @see User#exists?
   # @see User#save
-  # @see CGI.escape
   post '/registrarse' do
     # Obtener los datos del formulario
     username = params[:username]
@@ -140,7 +146,7 @@ class App < Sinatra::Application
   end
 
   # @!method post_login
-  # Authenticate and log in the user.
+  # POST endpoint for authenticate and log in the user.
   #
   # This route handles the user authentication process when a user submits the login form.
   # It retrieves the form data, checks the provided username and password against the
@@ -150,7 +156,7 @@ class App < Sinatra::Application
   # @param [String] :password The password entered in the login form.
   #
   # @return [Redirect] Redirects to '/protected_page' if authentication is successful.
-  # @return [Redirect] Redirects to '/error' with appropriate error code and reason if
+  # @raise [Redirect] Redirects to '/error' with appropriate error code and reason if
   #   authentication fails.
   #
   # @see User#find_by
@@ -176,7 +182,7 @@ class App < Sinatra::Application
   end
 
   # @!method get_protected_page
-  # Display the protected page if the user is authenticated.
+  # GET endpoint for displaying the protected page if the user is authenticated.
   #
   # This route displays the protected page if the user is authenticated. It checks
   # if there is a user ID stored in the session, retrieves the user's username,
@@ -184,7 +190,7 @@ class App < Sinatra::Application
   # difficulty levels.
   #
   # @return [ERB] The protected page with rankings if the user is authenticated.
-  # @return [Redirect] Redirects to '/login' if the user is not authenticated.
+  # @raise [Redirect] Redirects to '/login' if the user is not authenticated.
   #
   # @see User#find
   # @see Difficulty#find_by
@@ -210,7 +216,7 @@ class App < Sinatra::Application
   end
 
   # @!method get_claim
-  # Display the claim page.
+  # GET endpoint for displaying the claim page
   #
   # This route displays the claim page when a user visits '/claim'. It renders the
   # ERB template :claim, which contains the content for the claim page.
@@ -221,7 +227,7 @@ class App < Sinatra::Application
   end
 
   # @!method post_claim
-  # Handle user claims submission.
+  # POST endpoint for handling user claims submission.
   #
   # This route handles the submission of user claims when a POST request is made to '/claim'.
   # It retrieves the user's ID from the session and the description text from the form data.
@@ -240,7 +246,7 @@ class App < Sinatra::Application
   end
 
   # @!method post_trivia
-  # Handle trivia creation and initiation.
+  # POST endpoint for handling trivia creation and initiation.
   #
   # This route handles the creation and initiation of a trivia game when a POST request is made to '/trivia'.
   # It retrieves the current user, the selected difficulty level, and initializes a new trivia game.
@@ -249,6 +255,7 @@ class App < Sinatra::Application
   # and the questions are shuffled and added to the trivia game.
   #
   # @return [Redirect] Redirects the user to the first question of the trivia game.
+  #
   # @see Trivia#questions
   # @see Trivia#translated_questions
   # @see Trivia#save
@@ -299,7 +306,7 @@ class App < Sinatra::Application
   end
 
   # @!method post_trivia-traduce
-  # Handle translated trivia creation and initiation.
+  # POST endpoint for handling translated trivia creation and initiation.
   #
   # This route handles the creation and initiation of a translated trivia game when a POST request is made to '/trivia-traduce'.
   # It retrieves the current user, the selected difficulty level, and the selected language code for translation.
@@ -308,6 +315,7 @@ class App < Sinatra::Application
   # an external translation API.
   #
   # @return [Redirect] Redirects the user to the first translated question of the trivia game.
+  #
   # @see Trivia#questions
   # @see Trivia#translated_questions
   # @see session[:trivia_id]
@@ -372,16 +380,19 @@ class App < Sinatra::Application
   end
 
   # @!method get_question
-  # Handle displaying a trivia question.
+  # GET endpoint for handling displaying a trivia question.
   #
   # This route is responsible for displaying a trivia question based on the provided index in the URL.
   # If there's no active trivia session, it redirects to the '/trivia' route.
   # It retrieves the question at the specified index and prepares the necessary data for rendering the question view.
   #
   # @param index [Integer] The index of the question to display.
+  #
   # @return [ERB] The question view for the specified trivia question.
-  # @return [Redirect] Redirects to '/results' if there are no more questions or if the trivia is complete.
-  # @return [Redirect] Redirects to '/error?code=unanswered' if the user tries to access questions out of order.
+  #
+  # @raise [Redirect] Redirects to '/results' if there are no more questions or if the trivia is complete.
+  # @raise [Redirect] Redirects to '/error?code=unanswered' if the user tries to access questions out of order.
+  #
   # @see session[:answered_questions]
   # @see Trivia#questions
   # @see Answer.where
@@ -410,16 +421,19 @@ class App < Sinatra::Application
   end
 
   # @!method get_question_traduce
-  # Handle displaying a translated trivia question.
+  # GET endpoint for handling displaying a translated trivia question.
   #
   # This route is responsible for displaying a translated trivia question based on the provided index in the URL.
   # If there's no active trivia session, it redirects to the '/trivia' route.
   # It retrieves the translated question at the specified index and prepares the necessary data for rendering the question view.
   #
   # @param index [Integer] The index of the translated question to display.
+  #
   # @return [ERB] The translated question view for the specified trivia question.
-  # @return [Redirect] Redirects to '/results-traduce' if there are no more translated questions or if the trivia is complete.
-  # @return [Redirect] Redirects to '/error?code=unanswered' if the user tries to access translated questions out of order.
+  #
+  # @raise [Redirect] Redirects to '/results-traduce' if there are no more translated questions or if the trivia is complete.
+  # @raise [Redirect] Redirects to '/error?code=unanswered' if the user tries to access translated questions out of order.
+  #
   # @see session[:answered_questions]
   # @see Trivia#translated_questions
   # @see Answer.where
@@ -465,7 +479,12 @@ class App < Sinatra::Application
   # @param [Integer] selected_answer The ID of the selected answer (for choice and true/false questions).
   # @param [String] autocomplete_input The user's input for autocomplete questions.
   # @param [Integer] response_time The time taken by the user to respond to the question.
+  #
   # @return [Redirect] Redirects to the next question or results page.
+  #
+  # @raise [Redirect] If there is no trivia in session, redirects to '/trivia'.
+  # @raise [Redirect] If there are no more questions or if index is greater or equal to 10, redirects to '/results'.
+  # @raise [Redirect] If the question has already been answered, redirects to '/error?code=answered'.
   #
   # @see QuestionAnswer
   # @see Answer
@@ -525,7 +544,12 @@ class App < Sinatra::Application
   # @param [Integer] index The index of the current translated question.
   # @param [Integer] selected_answer The ID of the selected answer (for choice and true/false questions).
   # @param [Integer] response_time The time taken by the user to respond to the translated question.
+  #
   # @return [Redirect] Redirects to the next translated question or results page.
+  #
+  # @raise [Redirect] If there is no trivia in session, redirects to '/trivia'.
+  # @raise [Redirect] If there are no more questions or if index is greater or equal to 5, redirects to '/results-traduce'.
+  # @raise [Redirect] If the question has already been answered, redirects to '/error?code=answered'.
   #
   # @see QuestionAnswer
   # @see Answer
@@ -573,6 +597,7 @@ class App < Sinatra::Application
   #
   # @param [String] code The error code indicating the type of error.
   # @param [String] reason The reason for the error (optional).
+  #
   # @return [ERB] Displays an error page with a custom error message.
   get '/error' do
     error_code = params[:code]
@@ -615,15 +640,21 @@ class App < Sinatra::Application
   end
 
   # @!method get_results
-  #  Displays the results of the trivia in the original language.
+  # GET endpoint for displaying the results of the trivia in the original language.
   #
-  # This route displays the results of the trivia in the original language in which it was conducted.
+  # This method displays the results of the trivia in the original language in which it was conducted.
   # It calculates the user's score, checks the answers, and displays whether they were correct or not.
   # If the trivia contains autocomplete questions, it also verifies the correctness of those answers.
-  # The route then calculates the user's score based on response times for correct answers.
+  # The method then calculates the user's score based on response times for correct answers.
   # Finally, it handles ranking logic by updating or creating a user's ranking entry for the specific difficulty level.
   #
   # @return [ERB] The results template displaying trivia results.
+  #
+  # @raise [Redirect] If there is no trivia in session, redirects to '/trivia'.
+  #
+  # @see QuestionAnswer
+  # @see Answer
+  # @see Trivia
   get '/results' do
     redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
 
@@ -688,14 +719,20 @@ class App < Sinatra::Application
   end
 
   # @!method get_results_traduce
-  # Displays the translated results of the trivia.
+  # GET endpoint for displaying the results of the translated trivia.
   #
-  # This route displays the results of the trivia with questions and answers translated into the selected language.
-  # It calculates the user's score, checks the correctness of the translated answers, and displays the results.
-  # The route also calculates the user's score based on response times for correct answers.
+  # This method displays the results of the translated trivia in which it was conducted.
+  # It calculates the user's score, checks the answers, and displays whether they were correct or not.
+  # The method then calculates the user's score based on response times for correct answers.
   # Finally, it handles ranking logic by updating or creating a user's ranking entry for the specific difficulty level.
   #
-  # @return [ERB] The translated results template displaying trivia results.
+  # @return [ERB] The results template displaying translated trivia results.
+  #
+  # @raise [Redirect] If there is no trivia in session, redirects to '/trivia'.
+  #
+  # @see QuestionAnswer
+  # @see Answer
+  # @see Trivia
   get '/results-traduce' do
     redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
 
@@ -748,7 +785,7 @@ class App < Sinatra::Application
   end
 
   # @!method post_google
-  # Handles Google Sign-In authentication.
+  # Post endpoint for handling Google Sign-In authentication.
   #
   # This route receives a JSON payload containing an ID token from the Google Sign-In process.
   # It verifies the ID token with Google's authentication service and retrieves user information.
@@ -790,13 +827,14 @@ class App < Sinatra::Application
   end
 
   # @!method get_supported_languages
-  # Retrieves a list of supported languages.
+  # GET endpoint for obtaining supported languages.
   #
-  # This route reads language data from a local JSON file ('languages.json').
-  # If the data is successfully loaded, it returns a JSON response with the list of supported languages.
-  # If there's an error while loading the data or if the data is missing, it returns a 500 Internal Server Error.
+  # This method reads data from a local JSON file and returns a list of supported languages.
+  # If the data cannot be loaded, it returns an error message.
   #
-  # @return [JSON] A JSON response containing the list of supported languages or an error message.
+  # @return [JSON] The list of supported languages.
+  #
+  # @raise [StandardError] If there is an error reading the file or parsing the JSON, it returns a 500 status code and an error message.
   get '/obtener-lenguajes-soportados' do
     begin
       # Lee los datos desde el archivo JSON local
@@ -818,6 +856,19 @@ class App < Sinatra::Application
     end
   end
 
+  # @!method current_user
+  # Returns the current user based on the session.
+  #
+  # This method finds and returns the User object associated with the current session.
+  # If there is no user_id in the session, it returns nil.
+  #
+  # @return [User, nil] The User object if there is a user_id in the session, or nil if there isn't.
+  #
+  # @see User#find
+  def current_user
+    User.find(session[:user_id]) if session[:user_id]
+  end
+
   # @!method google_verify
   # Verifies a Google ID token to obtain user information.
   #
@@ -826,7 +877,9 @@ class App < Sinatra::Application
   # information including the username, profile picture URL, and email.
   #
   # @param token [String] The Google ID token to be verified.
+  #
   # @return [Hash] A hash containing user information if the token is valid.
+  #
   # @raise [StandardError] An error is raised if the token cannot be verified or does not match the expected client ID.
   def google_verify(token)
     client_id = ENV['GOOGLE_CLIENT_ID']
@@ -855,6 +908,7 @@ class App < Sinatra::Application
   #
   # @param response_time [Integer] The time it took to respond to a question in seconds.
   # @param response_time_limit [Integer] The time limit allowed for responding to a question, which varies by difficulty.
+  #
   # @return [Integer] The final score based on response time, clamped between 0 and a maximum of 10 points.
   private
 
@@ -876,13 +930,18 @@ class App < Sinatra::Application
   end
 
   # @!method translate_to_selected_language(text, target_language)
-  # Translates text from one language to the specified target language.
+  # Translates a given text to the selected language.
   #
-  # This method sends a translation request to the Text Translator API and returns the translated text if successful.
+  # This method sends a POST request to a translation API with the text to be translated and the target language.
+  # It then parses the JSON response and returns the translated text.
+  # If there is an error with the request or parsing the response, it outputs an error message and returns nil.
   #
-  # @param text [String] The text to be translated.
-  # @param target_language [String] The language code (e.g., 'fr' for French) to which the text should be translated.
-  # @return [String, nil] The translated text or nil if the translation request was unsuccessful.
+  # @param [String] text The text to be translated.
+  # @param [String] target_language The language to translate the text into.
+  #
+  # @return [String, nil] The translated text if successful, or nil if there was an error.
+  #
+  # @raise [StandardError] If there is an error with the request or parsing the response, it outputs an error message and returns nil.
   def translate_to_selected_language(text, target_language)
     url = URI("https://text-translator2.p.rapidapi.com/translate")
 
