@@ -14,7 +14,9 @@ RSpec.describe 'Sinatra App' do
   end
 
   if ENV['RACK_ENV'] == 'test'
+    ActiveRecord::Base.connection.execute('PRAGMA foreign_keys = OFF;')
     [User].each(&:destroy_all)
+    ActiveRecord::Base.connection.execute('PRAGMA foreign_keys = ON;')
   end
 
   describe 'POST /registrarse' do
