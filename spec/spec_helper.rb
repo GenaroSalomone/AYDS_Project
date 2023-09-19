@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/activerecord'
 require 'simplecov'
+require 'database_cleaner'
 require_relative '../server'
 
 SimpleCov.start
@@ -22,5 +23,6 @@ RSpec.configure do |config|
   end
 
   config.shared_context_metadata_behavior = :apply_to_host_groups
+
 end
 

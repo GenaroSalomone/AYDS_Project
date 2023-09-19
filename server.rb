@@ -168,7 +168,6 @@ class App < Sinatra::Application
 
     # Buscar al usuario en la base de datos
     user = User.find_by(username: username)
-
     # Verificar si el usuario existe y si la contraseña es correcta
     if user && user.authenticate(password)
       # Iniciar sesión al usuario

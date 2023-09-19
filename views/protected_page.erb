@@ -93,11 +93,13 @@
         </thead>
         <tbody>
           <% beginner_ranking.each_with_index do |ranking, index| %>
-            <tr>
-              <td><%= index + 1 %></td>
-              <td><%= ranking.user.username %></td>
-              <td><%= ranking.score %></td>
-            </tr>
+            <% if ranking.user %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= ranking.user.username %></td>
+                <td><%= ranking.score %></td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>
@@ -117,11 +119,13 @@
         </thead>
         <tbody>
           <% difficult_ranking.each_with_index do |ranking, index| %>
-            <tr>
-              <td><%= index + 1 %></td>
-              <td><%= ranking.user.username %></td>
-              <td><%= ranking.score %></td>
-            </tr>
+            <% if ranking.user %>
+              <tr>
+                <td><%= index + 1 %></td>
+                <td><%= ranking.user.username %></td>
+                <td><%= ranking.score %></td>
+              </tr>
+            <% end %>
           <% end %>
         </tbody>
       </table>
@@ -139,7 +143,7 @@
     <input type="hidden" name="selectedLanguageName" id="selectedLanguageName" value="">
   </form>
   <form action="/claim" method="get">
-    <button id="claim-button" type="submit">Hacer un reclamo</button>  
+    <button id="claim-button" type="submit">Hacer un reclamo</button>
   </form>
   <form action="/" method="get">
     <button class="button" id="logout-button" type="submit">Salir</button>

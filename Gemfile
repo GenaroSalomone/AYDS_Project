@@ -26,6 +26,7 @@ gem 'enumerize'
 gem 'jwt'
 gem 'net-http'
 gem 'rack-test'
+gem 'faker'
 
 
 

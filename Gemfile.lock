@@ -36,6 +36,8 @@ GEM
     dotenv (2.8.1)
     enumerize (2.6.1)
       activesupport (>= 3.2)
+    faker (3.2.1)
+      i18n (>= 1.8.11, < 2)
     i18n (1.13.0)
       concurrent-ruby (~> 1.0)
     jwt (2.7.1)
@@ -91,6 +93,7 @@ DEPENDENCIES
   bcrypt (~> 3.1.18)
   dotenv
   enumerize
+  faker
   jwt
   multi_json
   net-http
