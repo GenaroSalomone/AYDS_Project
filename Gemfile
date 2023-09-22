@@ -27,7 +27,7 @@ gem 'jwt'
 gem 'net-http'
 gem 'rack-test'
 gem 'faker'
-
+gem 'sinatra-cross_origin', '~> 0.3.1'
 
 
 

@@ -11,6 +11,7 @@ require 'jwt'
 require 'net/http'
 require 'uri'
 require 'json'
+require 'sinatra/cross_origin'
 require_relative 'models/user'
 require_relative 'models/question'
 require_relative 'models/choice'
@@ -30,31 +31,46 @@ class App < Sinatra::Application
     super()
   end
 
-  configure :production, :development do
+  # Configuraciones generales
+  configure do
     enable :logging
+    enable :sessions
+    enable :cross_origin
+
+    set :public_folder, File.dirname(__FILE__) + '/public'
+    set :session_secret, SecureRandom.hex(64)
 
     logger = Logger.new(STDOUT)
     logger.level = Logger::DEBUG if development?
     set :logger, logger
-
-    set :public_folder, File.dirname(__FILE__) + '/public'
   end
 
+  # Configuraciones de desarrollo
   configure :development do
     register Sinatra::Reloader
+
     after_reload do
       puts 'Reloaded...'
     end
   end
 
-  enable :sessions
-  set :session_secret, SecureRandom.hex(64)
-
+  # Configuraciones CORS
   before do
-    # Verificar si hay una trivia en sesión
+    response.headers['Access-Control-Allow-Origin'] = '*'
+  end
+
+  options "*" do
+    response.headers["Allow"] = "GET, PUT, POST, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    200
+  end
+
+  # Verificar si hay una trivia en sesión
+  before do
     if session[:trivia_id]
       @trivia = Trivia.find_by(id: session[:trivia_id])
-      redirect '/trivia' if @trivia.nil?  # Redirigir si la trivia no existe
+      redirect '/trivia' if @trivia.nil? # Redirigir si la trivia no existe
     end
   end
 

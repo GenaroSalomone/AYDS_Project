@@ -1,7 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/activerecord'
 require 'simplecov'
-require 'database_cleaner'
 require_relative '../server'
 
 SimpleCov.start

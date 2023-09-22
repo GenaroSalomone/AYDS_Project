@@ -21,7 +21,6 @@ RSpec.describe 'Sinatra App' do
   end
 
 
-
   describe 'POST /registrarse' do
     context 'when the data is valid' do
       it 'redirects the user to a success page' do

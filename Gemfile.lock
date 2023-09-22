@@ -75,6 +75,7 @@ GEM
     sinatra-activerecord (2.0.26)
       activerecord (>= 4.1)
       sinatra (>= 1.0)
+    sinatra-cross_origin (0.3.2)
     sinatra-session (1.0.0)
       sinatra (>= 1.0)
     sqlite3 (1.6.3)
@@ -104,6 +105,7 @@ DEPENDENCIES
   sinatra!
   sinatra-activerecord
   sinatra-contrib!
+  sinatra-cross_origin (~> 0.3.1)
   sinatra-session
   sqlite3
 
