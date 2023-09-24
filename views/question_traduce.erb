@@ -111,40 +111,13 @@
             <span class="answer-text"><%= answer.text %></span>
           </div>
         </label>
-      <% end %>
+      <% end %> <!-- end do -->
       <div id="timer-container" data-time-limit-seconds="<%= @time_limit_seconds %>">
         <span id="timer"></span>
       </div>
       <div class="button-container">
         <button type="submit">Siguiente pregunta</button>
       </div>
-      <!-- Boton de ayuda para preguntas choices y true-falses -->
-      <!--
-      <%if @help%>
-      <div class="button-container">
-        <button type="button" onclick="showHelp('<%= @help %>')">¿Necesita una ayudita?</button>
-      </div>
-      <div id="helpAux-msg" style="display: none;"></div>
-      <div id="messageChoiceTF-container"></div>
-      <script>
-        // Funcion para mostrar el mensaje de ayuda
-        function showHelp(choiceTrueFalseText) {
-          var msg = document.getElementById("helpAux-msg");
-          displayMessageCTF(choiceTrueFalseText);
-          if (msg.style.display === "none") {
-            msg.style.display = "block";
-          } else {
-            msg.style.display = "none";
-          }
-        }
-
-        function displayMessageCTF(message) {
-          var msgContainer = document.getElementById("messageChoiceTF-container");
-          msgContainer.textContent = message;
-        }
-      </script>
-    </form>
-    <% end %> -->
   <% end %>
   <div id="message-box-container"></div>
   <script>
