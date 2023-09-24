@@ -5,6 +5,9 @@
   <link rel="stylesheet" type="text/css" href="/css/question.css">
   <!-- Importación de librería JS para implementar el temporizador-->
   <script src="/js/jquery-3.6.0.js"></script>
+  <!-- Toastify para help -->
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
   <!-- Código JavaScript para manejar la validación de la selección de respuesta -->
   <script>
      function validateForm() {
@@ -107,6 +110,43 @@
       startTimer(timeLimit, display);
     });
 
+    var isHelpVisible = false;
+
+  function showHelp(helpText) {
+    // Si ya hay una notificación de ayuda, no hacemos nada
+    if (isHelpVisible) {
+      return;
+    }
+
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+    // Mostramos la notificación de ayuda
+    Toastify({
+      text: helpText,
+      duration: 3000,
+      position: 'left',
+      close: true,
+      backgroundColor: getRandomColor(),
+      style: {
+        fontSize: '20px',
+        minWidth: '200px',
+        maxWidth: '70%',
+      },
+      callback: function() {
+        // Cuando la notificación se cierra, actualizamos la variable
+        isHelpVisible = false;
+      }
+    }).showToast();
+
+    // Marcamos que la notificación de ayuda está visible
+    isHelpVisible = true;
+  }
   </script>
 </head>
 <body>
@@ -131,7 +171,7 @@
         <div class="help-container">
           <!-- Ayuda para preguntas autocompletado nivel principiante -->
           <% if @help %>
-            <p><em>AYUDA</em>: <%= @help%></p>
+            <button type="button" style="margin-top: 20px;" onClick="showHelp('<%= @help %>')">Mostrar ayuda</button>
           <% end %>
         </div>
       </form>
@@ -162,7 +202,7 @@
         <div class="help-container">
           <!-- Ayuda para preguntas choices y true-falses nivel principiante -->
           <% if @help %>
-            <p><em>AYUDA</em>: <%= @help%></p>
+            <button type="button" style="margin-top: 20px;" onClick="showHelp('<%= @help %>')">Mostrar ayuda</button>
           <% end %>
         </div>
       </form>

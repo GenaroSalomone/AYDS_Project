@@ -201,3 +201,10 @@ button[type="submit"]:hover {
   color: red;
   text-decoration: underline;
 }
+
+.Toastify__toast {
+  font-size: 20px !important; /* Ajusta el tamaño del texto */
+  min-width: 300px !important; /* Ajusta el ancho mínimo de la notificación */
+  max-width: 80% !important; /* Ajusta el ancho máximo de la notificación */
+}
+
