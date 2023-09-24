@@ -113,7 +113,6 @@
     var isHelpVisible = false;
 
   function showHelp(helpText) {
-    // Si ya hay una notificación de ayuda, no hacemos nada
     if (isHelpVisible) {
       return;
     }
@@ -126,7 +125,7 @@
       }
       return color;
     }
-    // Mostramos la notificación de ayuda
+
     Toastify({
       text: helpText,
       duration: 3000,
@@ -139,12 +138,10 @@
         maxWidth: '70%',
       },
       callback: function() {
-        // Cuando la notificación se cierra, actualizamos la variable
         isHelpVisible = false;
       }
     }).showToast();
 
-    // Marcamos que la notificación de ayuda está visible
     isHelpVisible = true;
   }
   </script>
