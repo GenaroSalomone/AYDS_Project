@@ -1,64 +1,67 @@
 # Aplicación de trivias
 
-*Materias: Análisis y Diseño de Sistemas e Ingeniería de Software.*
+**Materias**: Análisis y Diseño de Sistemas e Ingeniería de Software.
 
-*Integrantes: Genaro Salomone - Cristian Herrera*
+**Integrantes**: Genaro Salomone - Cristian Herrera
 
-**Para levantar la app deberás realizar los siguientes pasos:**
+## Para levantar la app deberás realizar los siguientes pasos:
+**Recomendación:** Se recomienda utilizar Docker para configurar y ejecutar la aplicación.
+
 
 Ubicado en el directorio AYDS_Project,
 
-1. Instalar las gemas o dependencias:
+1. **Instalar las gemas o dependencias**:
 
-bundle install
+   `bundle install`
 
-2. Crear la base de datos de desarrollo:
+2. **Crear la base de datos de desarrollo**:
 
-bundle exec rake db:migrate
+   `bundle exec rake db:migrate`
 
-_Con docker:_
-...
+   _Con docker:
 
+   `docker compose exec app bundle exec rake db:migrate`
 
-3. Cargar en la base de datos de desarrollo las preguntas y respuestas:
+3. **Cargar en la base de datos de desarrollo las preguntas y respuestas**:
 
-bundle exec rake db:seed
+   `bundle exec rake db:seed`
 
-_Con docker:_
-...
+   _Con docker:
 
+   `docker compose exec app bundle exec rake db:seed`
 
-4. levantar la aplicación:
+4. **Levantar la aplicación**:
 
-bundle exec rackup -p 3000
+   `bundle exec rackup -p 3000`
 
-_Con docker:_
-...
+   _Con docker:
 
-5. Una vez levantada dirigirse a:
+   `docker compose up app`
 
-[localhost:3000](https://localhost:3000)
+5. **Una vez levantada dirigirse a**:
+
+   localhost:3000
 
 ---
 
-**Para testear la aplicación deberás realizar los siguientes pasos:**
+## Para testear la aplicación deberás realizar los siguientes pasos:
 
-1. Crear la base de datos de test:
+1. **Crear la base de datos de test**:
 
-bundle exec rake db:migrate RACK_ENV=test
+   `bundle exec rake db:migrate RACK_ENV=test`
 
-_Con docker:_
-...
+   _Con docker:
 
+   `docker compose exec app env RACK_ENV=test bundle exec rake db:migrate`
 
-2. Setear la variable de ambiente en test y ejecutar pruebas:
+2. **Setear la variable de ambiente en test y ejecutar pruebas**:
 
-_En windows:_
+   _En windows:_
 
-$env:RACK_ENV='test'
+   `$env:RACK_ENV='test'`
 
-bundle exec rspec
+   `bundle exec rspec`
 
-__En Linux:_
-...
+   _En Linux: **(Configurar temporalmente como variable de entorno)**
 
+   `docker compose exec app env RACK_ENV=test bundle exec rspec`
