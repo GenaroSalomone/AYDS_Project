@@ -965,7 +965,7 @@ class App < Sinatra::Application
 
     request = Net::HTTP::Post.new(url)
     request["content-type"] = 'application/x-www-form-urlencoded'
-    request["X-RapidAPI-Key"] = '2e2e5f111dmshc1f2d07a1ec65dfp1bacdfjsn1c4721e7c4a4'
+    request["X-RapidAPI-Key"] = ENV['TEXT_TRANSLATOR_KEY']
     request["X-RapidAPI-Host"] = 'text-translator2.p.rapidapi.com'
     query = URI.encode_www_form(
       source_language: 'es',
