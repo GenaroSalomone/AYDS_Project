@@ -1,4 +1,3 @@
-
 source "https://rubygems.org"
 
 gem 'multi_json'
@@ -28,7 +27,8 @@ gem 'net-http'
 gem 'rack-test'
 gem 'faker'
 gem 'sinatra-cross_origin', '~> 0.3.1'
-
+gem 'rack-attack'
+gem 'sanitize'
 
 
 

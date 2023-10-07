@@ -12,6 +12,8 @@ require 'net/http'
 require 'uri'
 require 'json'
 require 'sinatra/cross_origin'
+require 'rack/attack'
+require 'sanitize'
 require_relative 'models/user'
 require_relative 'models/question'
 require_relative 'models/choice'
@@ -252,12 +254,16 @@ class App < Sinatra::Application
   # @see Claim#create
   # @see Claim#save
   post '/claim' do
-    user_id = session[:user_id] # se almacena el ID del usuario logueado
-    description_text = params[:description] # se almacena el texto del reclamo (el argumento :description viene del name="description")
-    claim = Claim.create(description: description_text, user_id: user_id)
+    user_id = session[:user_id]
+    description_text = params[:description] # el argumento :description viene de name="description"
+    cleaned_description = Sanitize.fragment(description_text) # sanitiza el texo ingresado
+    
+    claim = Claim.create(description: cleaned_description, user_id: user_id)
     if claim.save
       redirect '/protected_page'
-    end
+    else      
+      redirect "/error?code=claim&reason=failed_send_claim"
+    end   
   end
 
   # @!method post_trivia
@@ -617,7 +623,6 @@ class App < Sinatra::Application
   get '/error' do
     error_code = params[:code]
     error_reason = params[:reason]
-
     @error_message = "Ha ocurrido un error."
 
     if error_code == "unanswered"
@@ -651,6 +656,16 @@ class App < Sinatra::Application
         @error_message = "El usuario o la contraseña no coinciden. Por favor, vuelva a intentearlo."
       end
     end
+
+    if error_code == "claim"
+      if error_reason == "failed_send_claim"
+        @error_message = "No se pudo enviar su reclamo o valoración."
+      end
+      if error_reason == "malicious_block"
+        @error_message = "Se detectó código malicioso, el texto no fue enviado."
+      end
+    end
+
     erb :error, locals: { error_message: @error_message }
   end
 
