@@ -1,4 +1,3 @@
-# spec/app_spec.rb
 require 'rack/test'
 require_relative '../../server'
 require 'faker'
@@ -210,11 +209,5 @@ RSpec.describe 'Sinatra App' do
       end
     end
   end
-
-
-
-
-
-
 
 end

@@ -1,30 +1,4 @@
-require 'sinatra'
-require 'bundler/setup'
-require 'logger'
-require "sinatra/activerecord"
-require 'bcrypt'
-require 'sinatra/session'
-require 'dotenv/load'
-require 'securerandom'
-require 'enumerize'
-require 'jwt'
-require 'net/http'
-require 'uri'
-require 'json'
-require 'sinatra/cross_origin'
-require 'rack/attack'
-require 'sanitize'
-require_relative 'models/user'
-require_relative 'models/question'
-require_relative 'models/choice'
-require_relative 'models/answer'
-require_relative 'models/difficulty'
-require_relative 'models/trivia'
-require_relative 'models/question_answer'
-require_relative 'models/true_false'
-require_relative 'models/autocomplete'
-require_relative 'models/ranking'
-require_relative 'models/claim'
+require_relative 'gem_models'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
@@ -248,22 +222,31 @@ class App < Sinatra::Application
   #
   # This route handles the submission of user claims when a POST request is made to '/claim'.
   # It retrieves the user's ID from the session and the description text from the form data.
-  # Then, it creates a new claim record in the database with the provided description and user ID.
+  # Then the input description is sanitize, this is for some extern attack of malintentioned code. 
+  # If input was remove then redirect to a error page.
+  # If intpu wasn't remove then creates a new claim record in the database with the provided sanitize
+  # description and user ID.
   #
-  # @return [Redirect] Redirects the user to the protected page if the claim is successfully saved.
+  # @return [Redirect] Redirects the user to the protected page if the claim is successfully saved,
+  # if not redirects to a error page.
   # @see Claim#create
   # @see Claim#save
   post '/claim' do
     user_id = session[:user_id]
-    description_text = params[:description] # el argumento :description viene de name="description"
-    cleaned_description = Sanitize.fragment(description_text) # sanitiza el texo ingresado
+    description_text = params[:description] # :description is name="description"
+    cleaned_description = Sanitize.fragment(description_text) # sanitize input text user
     
-    claim = Claim.create(description: cleaned_description, user_id: user_id)
-    if claim.save
-      redirect '/protected_page'
-    else      
-      redirect "/error?code=claim&reason=failed_send_claim"
-    end   
+    if cleaned_description.empty?
+      redirect '/error?code=claim&reason=malicious_block'
+    else
+      claim = Claim.create(description: cleaned_description, user_id: user_id)  
+      if claim.save
+        redirect '/protected_page'
+      else      
+        redirect "/error?code=claim&reason=failed_send_claim"
+      end
+    end
+
   end
 
   # @!method post_trivia
