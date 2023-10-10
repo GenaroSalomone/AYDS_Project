@@ -1,4 +1,4 @@
-require_relative 'gem_models'
+require_relative 'models_utils'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
