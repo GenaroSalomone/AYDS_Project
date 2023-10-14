@@ -42,6 +42,20 @@ class App < Sinatra::Application
     200
   end
 
+  # Configurations gmail
+  gmail_ayds = ENV['GMAIL_AYDS']
+  password_ayds = ENV['PASSWORD_AYDS']
+  Mail.defaults do
+    delivery_method :smtp, {
+      address: 'smtp.gmail.com',
+      port: 587,
+      user_name: gmail_ayds,
+      password: password_ayds,
+      authentication: 'plain',
+      enable_starttls_auto: true
+    }
+  end
+
   # Verificar si hay una trivia en sesión
   before do
     if session[:trivia_id]
@@ -222,10 +236,10 @@ class App < Sinatra::Application
   #
   # This route handles the submission of user claims when a POST request is made to '/claim'.
   # It retrieves the user's ID from the session and the description text from the form data.
-  # Then the input description is sanitize, this is for some extern attack of malintentioned code. 
+  # Then the input description is sanitize, this is for some extern attack of malintentioned code.
   # If input was remove then redirect to a error page.
-  # If intpu wasn't remove then creates a new claim record in the database with the provided sanitize
-  # description and user ID.
+  # If intpu wasn't remove then creates a new claim record in database with the provided sanitize
+  # description and user ID. If register was stored sucesfully then send email to managers of the app.
   #
   # @return [Redirect] Redirects the user to the protected page if the claim is successfully saved,
   # if not redirects to a error page.
@@ -233,20 +247,27 @@ class App < Sinatra::Application
   # @see Claim#save
   post '/claim' do
     user_id = session[:user_id]
-    description_text = params[:description] # :description is name="description"
-    cleaned_description = Sanitize.fragment(description_text) # sanitize input text user
-    
+    description_text = params[:description]
+    cleaned_description = Sanitize.fragment(description_text)
     if cleaned_description.empty?
       redirect '/error?code=claim&reason=malicious_block'
     else
-      claim = Claim.create(description: cleaned_description, user_id: user_id)  
+      claim = Claim.create(description: cleaned_description, user_id: user_id)
       if claim.save
+        gmail_one = ENV['GMAIL_ONE']
+        gmail_two = ENV['GMAIL_TWO']
+        users_dir = [gmail_one, gmail_two]
+        Mail.deliver do
+          from gmail_ayds
+          to users_dir
+          subject 'New message of AYDS Project App.'
+          body cleaned_description
+        end
         redirect '/protected_page'
-      else      
+      else
         redirect "/error?code=claim&reason=failed_send_claim"
       end
     end
-
   end
 
   # @!method post_trivia
@@ -990,4 +1011,3 @@ class App < Sinatra::Application
   end
 
 end
-
