@@ -29,6 +29,4 @@ gem 'faker'
 gem 'sinatra-cross_origin', '~> 0.3.1'
 gem 'rack-attack'
 gem 'sanitize'
-
-
-
+gem 'mail'

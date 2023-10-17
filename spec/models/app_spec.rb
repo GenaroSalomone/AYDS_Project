@@ -1,8 +1,8 @@
 require 'rack/test'
-require_relative '../../server'
 require 'faker'
+require_relative '../../server'
 
-#Correr preferentemente con docker compose exec app env RACK_ENV=test bundle exec rspec
+#docker compose exec app env RACK_ENV=test bundle exec rspec
 ENV['RACK_ENV'] = 'test'
 ENV['APP_ENV'] = 'test'
 
@@ -18,7 +18,6 @@ RSpec.describe 'Sinatra App' do
     [User].each(&:destroy_all)
     ActiveRecord::Base.connection.execute('PRAGMA foreign_keys = ON;')
   end
-
 
   describe 'POST /registrarse' do
     context 'when the data is valid' do
@@ -100,7 +99,6 @@ RSpec.describe 'Sinatra App' do
   end
 
 
-
   describe 'POST /login' do
     before(:each) do
       User.create(username: 'test_user3', password: 'password', email: 'email@gmail.com')
@@ -132,7 +130,6 @@ RSpec.describe 'Sinatra App' do
   end
 
 
-
   describe 'GET /protected_page' do
     context 'when the user is authenticated' do
       before(:each) do
@@ -156,7 +153,6 @@ RSpec.describe 'Sinatra App' do
       end
     end
   end
-
 
 
   describe 'GET /question/:index' do
@@ -206,6 +202,29 @@ RSpec.describe 'Sinatra App' do
 
         expect(last_response.status).to eq(302)
         expect(last_response.location).to include('/error')
+      end
+    end
+  end
+
+  describe 'POST /claim' do
+    context 'when description is empty because input user is malicious code' do
+      it 'redirects the user to a malicious code error page' do
+        post '/claim', {
+          description: ''
+        }
+        expect(last_response.status).to eq(302)
+        expect(last_response.location).to include('/error?code=claim&reason=malicious_block')
+      end
+    end
+
+    context 'when description is not empty but record not was stored' do
+      it 'redirect to a error not send message page' do
+        post '/claim', {
+          description: 'This is a description.',
+          user_id: '1'
+        }
+        expect(last_response.status).to eq(302)
+        expect(last_response.location).to include('/error?code=claim&reason=failed_send_claim')
       end
     end
   end

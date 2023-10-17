@@ -7,7 +7,7 @@ class App < Sinatra::Application
     super()
   end
 
-  # Configuraciones generales
+  # General settings
   configure do
     enable :logging
     enable :sessions
@@ -21,16 +21,15 @@ class App < Sinatra::Application
     set :logger, logger
   end
 
-  # Configuraciones de desarrollo
+  # Development settings
   configure :development do
     register Sinatra::Reloader
-
     after_reload do
       puts 'Reloaded...'
     end
   end
 
-  # Configuraciones CORS
+  # CORS settings
   before do
     response.headers['Access-Control-Allow-Origin'] = '*'
   end
@@ -42,11 +41,25 @@ class App < Sinatra::Application
     200
   end
 
-  # Verificar si hay una trivia en sesión
+  # Email settings
+  email_ayds = ENV['EMAIL_AYDS']
+  password_ayds = ENV['PASSWORD_AYDS']
+  Mail.defaults do
+    delivery_method :smtp, {
+      address: 'smtp.gmail.com',
+      port: 587,
+      user_name: email_ayds,
+      password: password_ayds,
+      authentication: 'plain',
+      enable_starttls_auto: true
+    }
+  end
+
+  # Verify if exists session trivia
   before do
     if session[:trivia_id]
       @trivia = Trivia.find_by(id: session[:trivia_id])
-      redirect '/trivia' if @trivia.nil? # Redirigir si la trivia no existe
+      redirect '/trivia' if @trivia.nil?
     end
   end
 
@@ -103,7 +116,6 @@ class App < Sinatra::Application
   # @see User#exists?
   # @see User#save
   post '/registrarse' do
-    # Obtener los datos del formulario
     username = params[:username]
     password = params[:password]
     confirm_password = params[:confirm_password]
@@ -117,22 +129,21 @@ class App < Sinatra::Application
         redirect "/error?code=registration&reason=username_taken"
       # Verificar si el email ya está en uso
       elsif User.exists?(email: email)
-        status 302 # Establece el código de estado HTTP a 302 Found (Redirección)
+        status 302
         redirect "/error?code=registration&reason=email_taken"
       else
-        # Crear un nuevo registro en la base de datos
         user = User.create(username: username, email: email, password: password)
         if user.save
-          status 200 # Establece el código de estado HTTP a 200 OK
+          status 200 # Establece el código de estado HTTP a 200
           @message = "Vuelva a logearse por favor, vaya a inicio de sesión."
           erb :register_success
         else
-          status 302 # Establece el código de estado HTTP a 302 Found (Redirección)
+          status 302
           redirect "/error?code=registration&reason=registration_error&error_message=#{CGI.escape(user.errors.full_messages.join(', '))}"
         end
       end
     else
-      status 302 # Establece el código de estado HTTP a 302 Found (Redirección)
+      status 302
       redirect "/error?code=registration&reason=password_mismatch"
     end
   end
@@ -154,18 +165,12 @@ class App < Sinatra::Application
   # @see User#find_by
   # @see User#authenticate
   post '/login' do
-    # Obtener los datos del formulario
     username = params[:username]
     password = params[:password]
 
-    # Buscar al usuario en la base de datos
     user = User.find_by(username: username)
-    # Verificar si el usuario existe y si la contraseña es correcta
     if user && user.authenticate(password)
-      # Iniciar sesión al usuario
       session[:user_id] = user.id
-
-      # Redirigir al usuario a una página protegida
       redirect '/protected_page'
     else
       redirect "/error?code=login&reason=authenticate_failed"
@@ -188,9 +193,8 @@ class App < Sinatra::Application
   # @see Ranking#where
   get '/protected_page' do
     if session[:user_id]
-
       user_id = session[:user_id]
-      @username = User.find(user_id).username # en username se almacena el nombre de usuario logeado
+      @username = User.find(user_id).username
       # Usuario autenticado, mostrar página protegida
       # Obtener los rankings
       beginner_difficulty = Difficulty.find_by(level: "beginner")
@@ -201,8 +205,7 @@ class App < Sinatra::Application
 
       erb :protected_page, locals: { beginner_ranking: beginner_ranking, difficult_ranking: difficult_ranking }
     else
-      # Usuario no autenticado, redirigir a la página de inicio de sesión
-      redirect '/login'
+      redirect '/login' # Usuario no autenticado, redirigir a la página de inicio de sesión
     end
   end
 
@@ -222,10 +225,11 @@ class App < Sinatra::Application
   #
   # This route handles the submission of user claims when a POST request is made to '/claim'.
   # It retrieves the user's ID from the session and the description text from the form data.
-  # Then the input description is sanitize, this is for some extern attack of malintentioned code. 
+  # Then the input description is sanitize, this is for some extern attack of malintentioned code.
   # If input was remove then redirect to a error page.
-  # If intpu wasn't remove then creates a new claim record in the database with the provided sanitize
-  # description and user ID.
+  # If input wasn't remove then creates a new claim record in data base with the provided sanitize
+  # description and user ID. If the record was successfully stored then an email was sent to the app
+  # managers with the inupt description user.
   #
   # @return [Redirect] Redirects the user to the protected page if the claim is successfully saved,
   # if not redirects to a error page.
@@ -233,20 +237,33 @@ class App < Sinatra::Application
   # @see Claim#save
   post '/claim' do
     user_id = session[:user_id]
-    description_text = params[:description] # :description is name="description"
-    cleaned_description = Sanitize.fragment(description_text) # sanitize input text user
-    
+    description_text = params[:description]
+    cleaned_description = Sanitize.fragment(description_text)
     if cleaned_description.empty?
+      status 302
       redirect '/error?code=claim&reason=malicious_block'
     else
-      claim = Claim.create(description: cleaned_description, user_id: user_id)  
+      claim = Claim.create(description: cleaned_description, user_id: user_id)
       if claim.save
+        user = User.find(user_id)
+        username = user.username
+        user_email = user.email
+        email_one = ENV['EMAIL_ONE']
+        email_two = ENV['EMAIL_TWO']
+        email_managgers = [email_one, email_two]
+        message = "The user #{username} with email #{user_email} says:\n\n#{cleaned_description}"
+        Mail.deliver do
+          from email_ayds
+          to email_managgers
+          subject 'New message of AYDS Project App.'
+          body message
+        end
         redirect '/protected_page'
-      else      
-        redirect "/error?code=claim&reason=failed_send_claim"
+      else
+        status 302
+        redirect '/error?code=claim&reason=failed_send_claim'
       end
     end
-
   end
 
   # @!method post_trivia
@@ -300,7 +317,6 @@ class App < Sinatra::Application
     questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
     shuffled_questions = questions.shuffle
     trivia.questions.concat(shuffled_questions)
-
     trivia.translated_questions = []  # Esto eliminará las preguntas traducidas de la trivia actual
     trivia.save
     session[:trivia_id] = trivia.id
@@ -338,7 +354,6 @@ class App < Sinatra::Application
       .order("RANDOM()")
       .limit(5)
     trivia.questions.concat(choice_and_true_false_questions)
-    #
 
     translated_questions = []
     translated_answers = []
@@ -378,7 +393,6 @@ class App < Sinatra::Application
       translated_answers << translated_question_answers
     end
     trivia.translated_questions = translated_questions
-
     @translated_questions = translated_questions
     @translated_answers = translated_answers
 
@@ -408,20 +422,20 @@ class App < Sinatra::Application
   # @see Answer.where
   # @see session[:trivia_id]
   get '/question/:index' do
-    redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
+    redirect '/trivia' if @trivia.nil?
 
-    index = params[:index].to_i #convierte el parametro index en un entero y se guarda en la variable index
-    question = @trivia.questions[index] # se obtiene la pregunta con su index y se almacena en question
+    index = params[:index].to_i
+    question = @trivia.questions[index]
     previous_index = index.zero? ? 0 : index - 1
 
     if index.zero? || session[:answered_questions].include?(previous_index)
       if question.nil? || index >= 10
-        redirect '/results' # Redirigir a los resultados si no hay más preguntas
+        redirect '/results'
       else
         @question = question
         @answers = Answer.where(question_id: question.id)
         @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
-        @question_index = index # Inicializar @question_index con el valor de index
+        @question_index = index
         @help = @trivia.difficulty.level == "beginner" ? question.help : nil
         erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds, help: @help}
       end
@@ -503,17 +517,16 @@ class App < Sinatra::Application
   # @see Trivia
   # @see Autocomplete
   post '/answer/:index' do
-    redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
+    redirect '/trivia' if @trivia.nil?
 
     index = params[:index].to_i
     question = @trivia.questions[index]
 
     if question.nil? || index >= 10
-      redirect '/results' # Redirigir a los resultados si no hay más preguntas
+      redirect '/results'
     else
       selected_answer_id = params[:selected_answer]
       selected_answer = Answer.find_by(id: selected_answer_id, question_id: question.id)
-
       if selected_answer.nil? && !question.is_a?(Autocomplete)
         session[:answered_questions] << index
         redirect "/question/#{index+1}"
@@ -528,7 +541,6 @@ class App < Sinatra::Application
           question_answer.save
           selected_answer.update(selected: true)
         end
-
         # Agregar manejo de respuestas para preguntas de autocompletado
         autocomplete_input = params[:autocomplete_input].to_s.strip
         if question.is_a?(Autocomplete)
@@ -998,4 +1010,3 @@ class App < Sinatra::Application
   end
 
 end
-
