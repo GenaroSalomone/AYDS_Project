@@ -1,4 +1,4 @@
-require_relative 'models_utils'
+require_relative 'require_utils'
 
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
@@ -361,12 +361,19 @@ class App < Sinatra::Application
     trivia.questions.each do |question|
       # Hace una solicitud a la API de traducción para traducir el texto al idioma seleccionado
       translated_question_text = translate_to_selected_language(question.text, trivia.selected_language_code)
+
+      translated_help_text = nil
+      if question.difficulty.level == 'beginner'
+        translated_help_text = translate_to_selected_language(question.help, trivia.selected_language_code)
+      end
       # Crea una nueva pregunta traducida y guárdala en el arreglo
       translated_question = case question
         when Choice
-          { 'question_type' => 'Choice', 'question' => Choice.create!(text: translated_question_text, difficulty: question.difficulty, is_question_translated: true) }
+          { 'question_type' => 'Choice', 'question' => Choice.create!(text: translated_question_text, difficulty: question.difficulty,
+             is_question_translated: true, help: translated_help_text) }
         when True_False
-          { 'question_type' => 'True_False', 'question' => True_False.create!(text: translated_question_text, difficulty: question.difficulty, is_question_translated: true) }
+          { 'question_type' => 'True_False', 'question' => True_False.create!(text: translated_question_text, difficulty: question.difficulty,
+             is_question_translated: true, help: translated_help_text) }
         end
       translated_questions << translated_question
 
@@ -468,6 +475,7 @@ class App < Sinatra::Application
       else
         @question = question_hash['question']
         @question_type = question_hash['question_type']
+        @help = @question['help']
         @answers = Answer.where(question_id: @question['id'])
         @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
         @question_index = index
@@ -478,6 +486,7 @@ class App < Sinatra::Application
           question_index: @question_index,
           answers: @answers,
           time_limit_seconds: @time_limit_seconds,
+          help: @help
         }
       end
     else
