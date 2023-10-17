@@ -112,38 +112,38 @@
 
     var isHelpVisible = false;
 
-  function showHelp(helpText) {
-    if (isHelpVisible) {
-      return;
-    }
-
-    function getRandomColor() {
-      var letters = '0123456789ABCDEF';
-      var color = '#';
-      for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 16)];
+    function showHelp(helpText) {
+      if (isHelpVisible) {
+        return;
       }
-      return color;
-    }
 
-    Toastify({
-      text: helpText,
-      duration: 3000,
-      position: 'left',
-      close: true,
-      backgroundColor: getRandomColor(),
-      style: {
-        fontSize: '20px',
-        minWidth: '200px',
-        maxWidth: '70%',
-      },
-      callback: function() {
-        isHelpVisible = false;
+      function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
       }
-    }).showToast();
 
-    isHelpVisible = true;
-  }
+      Toastify({
+        text: helpText,
+        duration: 3000,
+        position: 'left',
+        close: true,
+        backgroundColor: getRandomColor(),
+        style: {
+          fontSize: '20px',
+          minWidth: '200px',
+          maxWidth: '70%',
+        },
+        callback: function() {
+          isHelpVisible = false;
+        }
+      }).showToast();
+
+      isHelpVisible = true;
+    }
   </script>
 </head>
 <body>
