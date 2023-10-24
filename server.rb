@@ -195,8 +195,7 @@ class App < Sinatra::Application
     if session[:user_id]
       user_id = session[:user_id]
       @username = User.find(user_id).username
-      # Usuario autenticado, mostrar página protegida
-      # Obtener los rankings
+
       beginner_difficulty = Difficulty.find_by(level: "beginner")
       difficult_difficulty = Difficulty.find_by(level: "difficult")
 

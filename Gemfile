@@ -15,6 +15,8 @@ group :development, :test do
   gem 'simplecov', require: false
 end
 
+gem 'rubocop', require: false
+
 gem 'sinatra-activerecord'
 gem 'sqlite3'
 gem 'rake'
