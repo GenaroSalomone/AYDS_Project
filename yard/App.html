@@ -143,6 +143,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#create_or_update_question_answer-instance_method" title="#create_or_update_question_answer (instance method)">#<strong>create_or_update_question_answer</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Method for creating or updating a QuestionAnswer record.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#current_user-instance_method" title="#current_user (instance method)">#<strong>current_user</strong>  &#x21d2; User<sup>?</sup> </a>
     
 
@@ -455,6 +479,78 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#handle_answer-instance_method" title="#handle_answer (instance method)">#<strong>handle_answer</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Method for handling answers to trivia questions.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_autocomplete_answer-instance_method" title="#handle_autocomplete_answer (instance method)">#<strong>handle_autocomplete_answer</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Method for handling answers to autocomplete questions.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_unanswered_question-instance_method" title="#handle_unanswered_question (instance method)">#<strong>handle_unanswered_question</strong>  &#x21d2; Redirect </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Method for handling unanswered questions.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(app = nil)  &#x21d2; App </a>
     
 
@@ -646,6 +742,78 @@
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#process_answer-instance_method" title="#process_answer (instance method)">#<strong>process_answer</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Method for processing answers.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#send_email-instance_method" title="#send_email (instance method)">#<strong>send_email</strong>(user_id, description, email_ayds)  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Send an email to managers app.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_response_time-instance_method" title="#update_response_time (instance method)">#<strong>update_response_time</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Method for updating the response time of a trivia question.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -679,12 +847,12 @@
       <pre class="lines">
 
 
-29
-30
-31</pre>
+6
+7
+8</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 29</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 6</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_app'>app</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='rparen'>)</span>
@@ -760,30 +928,6 @@
       <pre class="lines">
 
 
-323
-324
-325
-326
-327
-328
-329
-330
-331
-332
-333
-334
-335
-336
-337
-338
-339
-340
-341
-342
-343
-344
-345
-346
 347
 348
 349
@@ -817,10 +961,38 @@
 377
 378
 379
-380</pre>
+380
+381
+382
+383
+384
+385
+386
+387
+388
+389
+390
+391
+392
+393
+394
+395
+396
+397
+398
+399
+400
+401
+402
+403
+404
+405
+406
+407
+408</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 323</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 347</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia-traduce</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='id identifier rubyid_current_user'>current_user</span>
@@ -836,8 +1008,7 @@
     <span class='period'>.</span><span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>RANDOM()</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
     <span class='period'>.</span><span class='id identifier rubyid_limit'>limit</span><span class='lparen'>(</span><span class='int'>5</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_questions'>questions</span><span class='period'>.</span><span class='id identifier rubyid_concat'>concat</span><span class='lparen'>(</span><span class='id identifier rubyid_choice_and_true_false_questions'>choice_and_true_false_questions</span><span class='rparen'>)</span>
-  <span class='comment'>#
-</span>
+
   <span class='id identifier rubyid_translated_questions'>translated_questions</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_translated_answers'>translated_answers</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 
@@ -845,12 +1016,18 @@
     <span class='comment'># Hace una solicitud a la API de traducción para traducir el texto al idioma seleccionado
 </span>    <span class='id identifier rubyid_translated_question_text'>translated_question_text</span> <span class='op'>=</span> <span class='id identifier rubyid_translate_to_selected_language'>translate_to_selected_language</span><span class='lparen'>(</span><span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_text'>text</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_selected_language_code'>selected_language_code</span><span class='rparen'>)</span>
 
+    <span class='id identifier rubyid_translated_help_text'>translated_help_text</span> <span class='op'>=</span> <span class='kw'>nil</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_difficulty'>difficulty</span><span class='period'>.</span><span class='id identifier rubyid_level'>level</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>beginner</span><span class='tstring_end'>&#39;</span></span>
+      <span class='id identifier rubyid_translated_help_text'>translated_help_text</span> <span class='op'>=</span> <span class='id identifier rubyid_translate_to_selected_language'>translate_to_selected_language</span><span class='lparen'>(</span><span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_help'>help</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_selected_language_code'>selected_language_code</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
     <span class='comment'># Crea una nueva pregunta traducida y guárdala en el arreglo
 </span>    <span class='id identifier rubyid_translated_question'>translated_question</span> <span class='op'>=</span> <span class='kw'>case</span> <span class='id identifier rubyid_question'>question</span>
       <span class='kw'>when</span> <span class='const'>Choice</span>
-        <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>question_type</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Choice</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>question</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='const'>Choice</span><span class='period'>.</span><span class='id identifier rubyid_create!'>create!</span><span class='lparen'>(</span><span class='label'>text:</span> <span class='id identifier rubyid_translated_question_text'>translated_question_text</span><span class='comma'>,</span> <span class='label'>difficulty:</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_difficulty'>difficulty</span><span class='comma'>,</span> <span class='label'>is_question_translated:</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+        <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>question_type</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Choice</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>question</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='const'>Choice</span><span class='period'>.</span><span class='id identifier rubyid_create!'>create!</span><span class='lparen'>(</span><span class='label'>text:</span> <span class='id identifier rubyid_translated_question_text'>translated_question_text</span><span class='comma'>,</span> <span class='label'>difficulty:</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_difficulty'>difficulty</span><span class='comma'>,</span>
+           <span class='label'>is_question_translated:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>help:</span> <span class='id identifier rubyid_translated_help_text'>translated_help_text</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
       <span class='kw'>when</span> <span class='const'>True_False</span>
-        <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>question_type</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>True_False</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>question</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='const'>True_False</span><span class='period'>.</span><span class='id identifier rubyid_create!'>create!</span><span class='lparen'>(</span><span class='label'>text:</span> <span class='id identifier rubyid_translated_question_text'>translated_question_text</span><span class='comma'>,</span> <span class='label'>difficulty:</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_difficulty'>difficulty</span><span class='comma'>,</span> <span class='label'>is_question_translated:</span> <span class='kw'>true</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+        <span class='lbrace'>{</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>question_type</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>True_False</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>question</span><span class='tstring_end'>&#39;</span></span> <span class='op'>=&gt;</span> <span class='const'>True_False</span><span class='period'>.</span><span class='id identifier rubyid_create!'>create!</span><span class='lparen'>(</span><span class='label'>text:</span> <span class='id identifier rubyid_translated_question_text'>translated_question_text</span><span class='comma'>,</span> <span class='label'>difficulty:</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_difficulty'>difficulty</span><span class='comma'>,</span>
+           <span class='label'>is_question_translated:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>help:</span> <span class='id identifier rubyid_translated_help_text'>translated_help_text</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
       <span class='kw'>end</span>
     <span class='id identifier rubyid_translated_questions'>translated_questions</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_translated_question'>translated_question</span>
 
@@ -870,7 +1047,6 @@
     <span class='id identifier rubyid_translated_answers'>translated_answers</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_translated_question_answers'>translated_question_answers</span>
   <span class='kw'>end</span>
   <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_translated_questions'>translated_questions</span> <span class='op'>=</span> <span class='id identifier rubyid_translated_questions'>translated_questions</span>
-
   <span class='ivar'>@translated_questions</span> <span class='op'>=</span> <span class='id identifier rubyid_translated_questions'>translated_questions</span>
   <span class='ivar'>@translated_answers</span> <span class='op'>=</span> <span class='id identifier rubyid_translated_answers'>translated_answers</span>
 
@@ -879,6 +1055,113 @@
   <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 
   <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/question-traduce/0</span><span class='tstring_end'>&#39;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="create_or_update_question_answer-instance_method">
+  
+    #<strong>create_or_update_question_answer</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Method for creating or updating a QuestionAnswer record.</p>
+
+<p>This method creates or updates a QuestionAnswer record in the database with the IDs of the selected answer and question.  If a selected answer exists, it updates the answer_id of the QuestionAnswer record and sets the selected attribute of the Answer record to true.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>selected_answer</span>
+      
+      
+        <span class='type'>(<tt>Answer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The selected answer object.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>question_id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The ID of the current question.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>trivia</span>
+      
+      
+        <span class='type'>(<tt>Trivia</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current trivia session.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+899
+900
+901
+902
+903
+904
+905
+906
+907</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'server.rb', line 899</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create_or_update_question_answer'>create_or_update_question_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='comma'>,</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_question_answer'>question_answer</span> <span class='op'>=</span> <span class='const'>QuestionAnswer</span><span class='period'>.</span><span class='id identifier rubyid_find_or_initialize_by'>find_or_initialize_by</span><span class='lparen'>(</span><span class='label'>question_id:</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='label'>trivia_id:</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+  
+  <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+    <span class='id identifier rubyid_question_answer'>question_answer</span><span class='period'>.</span><span class='id identifier rubyid_answer_id'>answer_id</span> <span class='op'>=</span> <span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
+    <span class='id identifier rubyid_question_answer'>question_answer</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
+    <span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='label'>selected:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -938,12 +1221,12 @@
       <pre class="lines">
 
 
-868
-869
-870</pre>
+845
+846
+847</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 868</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 845</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_current_user'>current_user</span>
   <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span>
@@ -999,12 +1282,12 @@
       <pre class="lines">
 
 
-225
-226
-227</pre>
+218
+219
+220</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 225</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 218</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/claim</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:claim</span>
@@ -1096,6 +1379,38 @@
       <pre class="lines">
 
 
+570
+571
+572
+573
+574
+575
+576
+577
+578
+579
+580
+581
+582
+583
+584
+585
+586
+587
+588
+589
+590
+591
+592
+593
+594
+595
+596
+597
+598
+599
+600
+601
 602
 603
 604
@@ -1111,71 +1426,57 @@
 614
 615
 616
-617
-618
-619
-620
-621
-622
-623
-624
-625
-626
-627
-628
-629
-630
-631
-632
-633
-634
-635
-636
-637
-638
-639
-640</pre>
+617</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 602</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 570</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_error_code'>error_code</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:code</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_error_reason'>error_reason</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:reason</span><span class='rbracket'>]</span>
+  <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Ha ocurrido un error.</span><span class='tstring_end'>&#39;</span></span>
 
-  <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Ha ocurrido un error.</span><span class='tstring_end'>&quot;</span></span>
-
-  <span class='kw'>if</span> <span class='id identifier rubyid_error_code'>error_code</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>unanswered</span><span class='tstring_end'>&quot;</span></span>
-    <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Se intentó acceder directamente a una pregunta sin haber respondido la pregunta anterior.</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_error_code'>error_code</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>unanswered</span><span class='tstring_end'>&#39;</span></span>
+    <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Se intentó acceder directamente a una pregunta sin haber respondido la pregunta anterior.</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_error_code'>error_code</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>answered</span><span class='tstring_end'>&quot;</span></span>
-    <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>La pregunta ya ha sido respondida.</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_error_code'>error_code</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>answered</span><span class='tstring_end'>&#39;</span></span>
+    <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>La pregunta ya ha sido respondida.</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_error_code'>error_code</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>registration</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_error_reason'>error_reason</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>password_mismatch</span><span class='tstring_end'>&quot;</span></span>
-      <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Las contraseñas no coinciden.</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_error_code'>error_code</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>registration</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_error_reason'>error_reason</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>password_mismatch</span><span class='tstring_end'>&#39;</span></span>
+      <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Las contraseñas no coinciden.</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>end</span>
 
-    <span class='kw'>if</span> <span class='id identifier rubyid_error_reason'>error_reason</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>registration_error</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_error_reason'>error_reason</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>registration_error</span><span class='tstring_end'>&#39;</span></span>
       <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Ha ocurrido un error durante el registro: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:error_message</span><span class='rbracket'>]</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
     <span class='kw'>end</span>
 
-    <span class='kw'>if</span> <span class='id identifier rubyid_error_reason'>error_reason</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>username_taken</span><span class='tstring_end'>&quot;</span></span>
-      <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>El nombre de usuario no está disponible.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_error_reason'>error_reason</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>username_taken</span><span class='tstring_end'>&#39;</span></span>
+      <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>El nombre de usuario no está disponible.</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>end</span>
 
-    <span class='kw'>if</span> <span class='id identifier rubyid_error_reason'>error_reason</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>email_taken</span><span class='tstring_end'>&quot;</span></span>
-      <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>El email no está disponible.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_error_reason'>error_reason</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>email_taken</span><span class='tstring_end'>&#39;</span></span>
+      <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>El email no está disponible.</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_error_code'>error_code</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>login</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>if</span> <span class='id identifier rubyid_error_reason'>error_reason</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>authenticate_failed</span><span class='tstring_end'>&quot;</span></span>
-      <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>El usuario o la contraseña no coinciden. Por favor, vuelva a intentearlo.</span><span class='tstring_end'>&quot;</span></span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_error_code'>error_code</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>login</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_error_reason'>error_reason</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>authenticate_failed</span><span class='tstring_end'>&#39;</span></span>
+      <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>El usuario o la contraseña no coinciden. Por favor, vuelva a intentearlo.</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_error_code'>error_code</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>claim</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_error_reason'>error_reason</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>failed_send_claim</span><span class='tstring_end'>&#39;</span></span>
+      <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>No se pudo enviar su reclamo o valoración.</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>end</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_error_reason'>error_reason</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>malicious_block</span><span class='tstring_end'>&#39;</span></span>
+      <span class='ivar'>@error_message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Se detectó código malicioso, el texto no fue enviado.</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
   <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:error</span><span class='comma'>,</span> <span class='label'>locals:</span> <span class='lbrace'>{</span> <span class='label'>error_message:</span> <span class='ivar'>@error_message</span> <span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1229,12 +1530,12 @@
       <pre class="lines">
 
 
-87
-88
-89</pre>
+92
+93
+94</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 92</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/login</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:login</span>
@@ -1319,6 +1620,10 @@
       <pre class="lines">
 
 
+194
+195
+196
+197
 198
 199
 200
@@ -1330,26 +1635,17 @@
 206
 207
 208
-209
-210
-211
-212
-213
-214
-215
-216</pre>
+209</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 198</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 194</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/protected_page</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span>
-
     <span class='id identifier rubyid_user_id'>user_id</span> <span class='op'>=</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span>
-    <span class='ivar'>@username</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_user_id'>user_id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_username'>username</span> <span class='comment'># en username se almacena el nombre de usuario logeado
-</span>    <span class='comment'># Usuario autenticado, mostrar página protegida
-</span>    <span class='comment'># Obtener los rankings
-</span>    <span class='id identifier rubyid_beginner_difficulty'>beginner_difficulty</span> <span class='op'>=</span> <span class='const'>Difficulty</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>level:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>beginner</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='ivar'>@username</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_user_id'>user_id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_username'>username</span>
+
+    <span class='id identifier rubyid_beginner_difficulty'>beginner_difficulty</span> <span class='op'>=</span> <span class='const'>Difficulty</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>level:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>beginner</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
     <span class='id identifier rubyid_difficult_difficulty'>difficult_difficulty</span> <span class='op'>=</span> <span class='const'>Difficulty</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>level:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>difficult</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
 
     <span class='id identifier rubyid_beginner_ranking'>beginner_ranking</span> <span class='op'>=</span> <span class='const'>Ranking</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>difficulty_id:</span> <span class='id identifier rubyid_beginner_difficulty'>beginner_difficulty</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_order'>order</span><span class='lparen'>(</span><span class='label'>score:</span> <span class='symbol'>:desc</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_limit'>limit</span><span class='lparen'>(</span><span class='int'>10</span><span class='rparen'>)</span>
@@ -1357,9 +1653,8 @@
 
     <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:protected_page</span><span class='comma'>,</span> <span class='label'>locals:</span> <span class='lbrace'>{</span> <span class='label'>beginner_ranking:</span> <span class='id identifier rubyid_beginner_ranking'>beginner_ranking</span><span class='comma'>,</span> <span class='label'>difficult_ranking:</span> <span class='id identifier rubyid_difficult_ranking'>difficult_ranking</span> <span class='rbrace'>}</span>
   <span class='kw'>else</span>
-    <span class='comment'># Usuario no autenticado, redirigir a la página de inicio de sesión
-</span>    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/login</span><span class='tstring_end'>&#39;</span></span>
-  <span class='kw'>end</span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/login</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># Usuario no autenticado, redirigir a la página de inicio de sesión
+</span>  <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1477,52 +1772,52 @@
       <pre class="lines">
 
 
-400
-401
-402
-403
-404
-405
-406
-407
-408
-409
-410
-411
-412
-413
-414
-415
-416
-417
-418
-419
-420
-421</pre>
+428
+429
+430
+431
+432
+433
+434
+435
+436
+437
+438
+439
+440
+441
+442
+443
+444
+445
+446
+447
+448
+449</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 400</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 428</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/question/:index</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
-  <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>  <span class='comment'># Redirigir si no hay una trivia en sesión
-</span>
-  <span class='id identifier rubyid_index'>index</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:index</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='comment'>#convierte el parametro index en un entero y se guarda en la variable index
-</span>  <span class='id identifier rubyid_question'>question</span> <span class='op'>=</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_questions'>questions</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span> <span class='comment'># se obtiene la pregunta con su index y se almacena en question
-</span>  <span class='id identifier rubyid_previous_index'>previous_index</span> <span class='op'>=</span> <span class='id identifier rubyid_index'>index</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span> <span class='op'>?</span> <span class='int'>0</span> <span class='op'>:</span> <span class='id identifier rubyid_index'>index</span> <span class='op'>-</span> <span class='int'>1</span>
+  <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+
+  <span class='id identifier rubyid_index'>index</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:index</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='id identifier rubyid_question'>question</span> <span class='op'>=</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_questions'>questions</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_previous_index'>previous_index</span> <span class='op'>=</span> <span class='id identifier rubyid_index'>index</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span> <span class='op'>?</span> <span class='int'>0</span> <span class='op'>:</span> <span class='id identifier rubyid_index'>index</span> <span class='op'>-</span> <span class='int'>1</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_index'>index</span><span class='period'>.</span><span class='id identifier rubyid_zero?'>zero?</span> <span class='op'>||</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_previous_index'>previous_index</span><span class='rparen'>)</span>
     <span class='kw'>if</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_index'>index</span> <span class='op'>&gt;=</span> <span class='int'>10</span>
-      <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/results</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># Redirigir a los resultados si no hay más preguntas
-</span>    <span class='kw'>else</span>
+      <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/results</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>else</span>
       <span class='ivar'>@question</span> <span class='op'>=</span> <span class='id identifier rubyid_question'>question</span>
       <span class='ivar'>@answers</span> <span class='op'>=</span> <span class='const'>Answer</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>question_id:</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
       <span class='ivar'>@time_limit_seconds</span> <span class='op'>=</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_difficulty'>difficulty</span><span class='period'>.</span><span class='id identifier rubyid_level'>level</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>beginner</span><span class='tstring_end'>&quot;</span></span> <span class='op'>?</span> <span class='int'>15</span> <span class='op'>:</span> <span class='int'>10</span>
-      <span class='ivar'>@question_index</span> <span class='op'>=</span> <span class='id identifier rubyid_index'>index</span> <span class='comment'># Inicializar @question_index con el valor de index
-</span>      <span class='ivar'>@help</span> <span class='op'>=</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_difficulty'>difficulty</span><span class='period'>.</span><span class='id identifier rubyid_level'>level</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>beginner</span><span class='tstring_end'>&quot;</span></span> <span class='op'>?</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_help'>help</span> <span class='op'>:</span> <span class='kw'>nil</span>
+      <span class='ivar'>@question_index</span> <span class='op'>=</span> <span class='id identifier rubyid_index'>index</span>
+      <span class='ivar'>@help</span> <span class='op'>=</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_difficulty'>difficulty</span><span class='period'>.</span><span class='id identifier rubyid_level'>level</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>beginner</span><span class='tstring_end'>&quot;</span></span> <span class='op'>?</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_help'>help</span> <span class='op'>:</span> <span class='kw'>nil</span>
       <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:question</span><span class='comma'>,</span> <span class='label'>locals:</span> <span class='lbrace'>{</span> <span class='label'>question:</span> <span class='ivar'>@question</span><span class='comma'>,</span> <span class='label'>trivia:</span> <span class='ivar'>@trivia</span><span class='comma'>,</span> <span class='label'>question_index:</span> <span class='ivar'>@question_index</span><span class='comma'>,</span> <span class='label'>answers:</span> <span class='ivar'>@answers</span><span class='comma'>,</span> <span class='label'>time_limit_seconds:</span> <span class='ivar'>@time_limit_seconds</span><span class='comma'>,</span> <span class='label'>help:</span> <span class='ivar'>@help</span><span class='rbrace'>}</span>
     <span class='kw'>end</span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/error?code=unanswered</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error?code=unanswered</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1641,38 +1936,40 @@
       <pre class="lines">
 
 
-441
-442
-443
-444
-445
-446
-447
-448
-449
-450
-451
-452
-453
-454
-455
-456
-457
-458
-459
-460
-461
-462
-463
-464
-465
-466
-467
-468
-469</pre>
+469
+470
+471
+472
+473
+474
+475
+476
+477
+478
+479
+480
+481
+482
+483
+484
+485
+486
+487
+488
+489
+490
+491
+492
+493
+494
+495
+496
+497
+498
+499</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 441</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 469</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/question-traduce/:index</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -1687,6 +1984,7 @@
     <span class='kw'>else</span>
       <span class='ivar'>@question</span> <span class='op'>=</span> <span class='id identifier rubyid_question_hash'>question_hash</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>question</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
       <span class='ivar'>@question_type</span> <span class='op'>=</span> <span class='id identifier rubyid_question_hash'>question_hash</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>question_type</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+      <span class='ivar'>@help</span> <span class='op'>=</span> <span class='ivar'>@question</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>help</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
       <span class='ivar'>@answers</span> <span class='op'>=</span> <span class='const'>Answer</span><span class='period'>.</span><span class='id identifier rubyid_where'>where</span><span class='lparen'>(</span><span class='label'>question_id:</span> <span class='ivar'>@question</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
       <span class='ivar'>@time_limit_seconds</span> <span class='op'>=</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_difficulty'>difficulty</span><span class='period'>.</span><span class='id identifier rubyid_level'>level</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>beginner</span><span class='tstring_end'>&quot;</span></span> <span class='op'>?</span> <span class='int'>15</span> <span class='op'>:</span> <span class='int'>10</span>
       <span class='ivar'>@question_index</span> <span class='op'>=</span> <span class='id identifier rubyid_index'>index</span>
@@ -1697,10 +1995,11 @@
         <span class='label'>question_index:</span> <span class='ivar'>@question_index</span><span class='comma'>,</span>
         <span class='label'>answers:</span> <span class='ivar'>@answers</span><span class='comma'>,</span>
         <span class='label'>time_limit_seconds:</span> <span class='ivar'>@time_limit_seconds</span><span class='comma'>,</span>
+        <span class='label'>help:</span> <span class='ivar'>@help</span>
       <span class='rbrace'>}</span>
     <span class='kw'>end</span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/error?code=unanswered</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error?code=unanswered</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1754,12 +2053,12 @@
       <pre class="lines">
 
 
-77
-78
-79</pre>
+82
+83
+84</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 77</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 82</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/registrarse</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:register</span>
@@ -1844,6 +2143,29 @@
       <pre class="lines">
 
 
+635
+636
+637
+638
+639
+640
+641
+642
+643
+644
+645
+646
+647
+648
+649
+650
+651
+652
+653
+654
+655
+656
+657
 658
 659
 660
@@ -1882,33 +2204,10 @@
 693
 694
 695
-696
-697
-698
-699
-700
-701
-702
-703
-704
-705
-706
-707
-708
-709
-710
-711
-712
-713
-714
-715
-716
-717
-718
-719</pre>
+696</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 658</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 635</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/results</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>  <span class='comment'># Redirigir si no hay una trivia en sesión
@@ -1952,7 +2251,7 @@
 
   <span class='kw'>end</span>
 
-  <span class='comment'>###########################Logica para el ranking
+  <span class='comment'>#Logica para el ranking
 </span>  <span class='comment'># Obtener el usuario actual
 </span>  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='id identifier rubyid_current_user'>current_user</span>
 
@@ -2052,6 +2351,29 @@
       <pre class="lines">
 
 
+713
+714
+715
+716
+717
+718
+719
+720
+721
+722
+723
+724
+725
+726
+727
+728
+729
+730
+731
+732
+733
+734
+735
 736
 737
 738
@@ -2078,33 +2400,10 @@
 759
 760
 761
-762
-763
-764
-765
-766
-767
-768
-769
-770
-771
-772
-773
-774
-775
-776
-777
-778
-779
-780
-781
-782
-783
-784
-785</pre>
+762</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 736</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 713</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/results-traduce</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>  <span class='comment'># Redirigir si no hay una trivia en sesión
@@ -2207,12 +2506,12 @@
       <pre class="lines">
 
 
-67
-68
-69</pre>
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 67</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 72</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:index</span>
@@ -2286,29 +2585,29 @@
       <pre class="lines">
 
 
-838
-839
-840
-841
-842
-843
-844
-845
-846
-847
-848
-849
-850
-851
-852
-853
-854
-855
-856
-857</pre>
+815
+816
+817
+818
+819
+820
+821
+822
+823
+824
+825
+826
+827
+828
+829
+830
+831
+832
+833
+834</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 838</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 815</span>
 
 <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/obtener-lenguajes-soportados</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='kw'>begin</span>
@@ -2419,26 +2718,26 @@
       <pre class="lines">
 
 
-884
-885
-886
-887
-888
-889
-890
-891
-892
-893
-894
-895
-896
-897
-898
-899
-900</pre>
+971
+972
+973
+974
+975
+976
+977
+978
+979
+980
+981
+982
+983
+984
+985
+986
+987</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 884</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 971</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_google_verify'>google_verify</span><span class='lparen'>(</span><span class='id identifier rubyid_token'>token</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_client_id'>client_id</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>GOOGLE_CLIENT_ID</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
@@ -2456,6 +2755,323 @@
   <span class='kw'>else</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error: El token no se pudo verificar</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_answer-instance_method">
+  
+    #<strong>handle_answer</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Method for handling answers to trivia questions.</p>
+
+<p>This method handles the submission of an answer to a trivia question. It checks if the answer is nil and if the question is not an Autocomplete question, it calls the handle_unanswered_question method. Otherwise, it calls the process_answer method.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>index</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The index of the current question.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>question</span>
+      
+      
+        <span class='type'>(<tt>Question</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current question object.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>trivia</span>
+      
+      
+        <span class='type'>(<tt>Trivia</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current trivia session.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>path_prefix</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The prefix of the redirect path.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+859
+860
+861
+862
+863
+864
+865
+866
+867
+868
+869
+870</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'server.rb', line 859</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_handle_answer'>handle_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_question'>question</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='comma'>,</span> <span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_selected_answer_id'>selected_answer_id</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:selected_answer</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_is_translated'>is_translated</span> <span class='op'>=</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_selected_language_code'>selected_language_code</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>es</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_question_id'>question_id</span> <span class='op'>=</span> <span class='id identifier rubyid_is_translated'>is_translated</span> <span class='op'>?</span> <span class='id identifier rubyid_question'>question</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
+  <span class='id identifier rubyid_selected_answer'>selected_answer</span> <span class='op'>=</span> <span class='const'>Answer</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_selected_answer_id'>selected_answer_id</span><span class='comma'>,</span> <span class='label'>question_id:</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='rparen'>)</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Autocomplete</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_handle_unanswered_question'>handle_unanswered_question</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_process_answer'>process_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='comma'>,</span> <span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_autocomplete_answer-instance_method">
+  
+    #<strong>handle_autocomplete_answer</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Method for handling answers to autocomplete questions.</p>
+
+<p>This method checks if the question is an Autocomplete question. If it is, it updates the autocomplete_input attribute of the Answer record.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>selected_answer</span>
+      
+      
+        <span class='type'>(<tt>Answer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The selected answer object.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>question</span>
+      
+      
+        <span class='type'>(<tt>Question</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current question object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+936
+937
+938
+939
+940
+941
+942
+943</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'server.rb', line 936</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_handle_autocomplete_answer'>handle_autocomplete_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='comma'>,</span> <span class='id identifier rubyid_question'>question</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_autocomplete_input'>autocomplete_input</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:autocomplete_input</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_strip'>strip</span>
+  
+  <span class='kw'>if</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Autocomplete</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_answer_autocomplete'>answer_autocomplete</span> <span class='op'>=</span> <span class='const'>Answer</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>question_id:</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_answer_autocomplete'>answer_autocomplete</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='label'>autocomplete_input:</span> <span class='id identifier rubyid_autocomplete_input'>autocomplete_input</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_unanswered_question-instance_method">
+  
+    #<strong>handle_unanswered_question</strong>  &#x21d2; <tt>Redirect</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Method for handling unanswered questions.</p>
+
+<p>This method adds the index to the answered_questions session array and redirects to the next question.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>index</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The index of the current question.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>path_prefix</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The prefix of the redirect path.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Redirects to the next question.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+954
+955
+956
+957</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'server.rb', line 954</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_handle_unanswered_question'>handle_unanswered_question</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_index'>index</span>
+  <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_index'>index</span> <span class='op'>+</span> <span class='int'>1</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -2497,54 +3113,6 @@
         &mdash;
         <div class='inline'>
 <p>The index of the current question.</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>selected_answer</span>
-      
-      
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The ID of the selected answer (for choice and true/false questions).</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>autocomplete_input</span>
-      
-      
-        <span class='type'>(<tt>String</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The user’s input for autocomplete questions.</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>response_time</span>
-      
-      
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The time taken by the user to respond to the question.</p>
 </div>
       
     </li>
@@ -2616,47 +3184,12 @@
   
 </ul>
 
-  <p class="tag_title">See Also:</p>
-  <ul class="see">
-    
-      <li>QuestionAnswer</li>
-    
-      <li>Answer</li>
-    
-      <li>Trivia</li>
-    
-      <li>Autocomplete</li>
-    
-  </ul>
-
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-493
-494
-495
-496
-497
-498
-499
-500
-501
-502
-503
-504
-505
-506
-507
-508
-509
-510
-511
-512
-513
-514
 515
 516
 517
@@ -2670,59 +3203,23 @@
 525
 526
 527
-528
-529
-530
-531
-532
-533
-534
-535</pre>
+528</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 493</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 515</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/answer/:index</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
-  <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>  <span class='comment'># Redirigir si no hay una trivia en sesión
-</span>
+  <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  
   <span class='id identifier rubyid_index'>index</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:index</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
   <span class='id identifier rubyid_question'>question</span> <span class='op'>=</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_questions'>questions</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_index'>index</span> <span class='op'>&gt;=</span> <span class='int'>10</span>
-    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/results</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># Redirigir a los resultados si no hay más preguntas
-</span>  <span class='kw'>else</span>
-    <span class='id identifier rubyid_selected_answer_id'>selected_answer_id</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:selected_answer</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_selected_answer'>selected_answer</span> <span class='op'>=</span> <span class='const'>Answer</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_selected_answer_id'>selected_answer_id</span><span class='comma'>,</span> <span class='label'>question_id:</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
-
-    <span class='kw'>if</span> <span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Autocomplete</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_index'>index</span>
-      <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/question/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_index'>index</span><span class='op'>+</span><span class='int'>1</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>elsif</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error?code=answered</span><span class='tstring_end'>&#39;</span></span>
-    <span class='kw'>else</span>
-      <span class='comment'># Crear una nueva fila en la tabla QuestionAnswer con los IDs de la pregunta y la respuesta seleccionada
-</span>      <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_index'>index</span> <span class='comment'># Agregar el índice de la pregunta respondida a la lista
-</span>      <span class='id identifier rubyid_question_answer'>question_answer</span> <span class='op'>=</span> <span class='const'>QuestionAnswer</span><span class='period'>.</span><span class='id identifier rubyid_find_or_initialize_by'>find_or_initialize_by</span><span class='lparen'>(</span><span class='label'>question_id:</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='label'>trivia_id:</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
-      <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-        <span class='id identifier rubyid_question_answer'>question_answer</span><span class='period'>.</span><span class='id identifier rubyid_answer_id'>answer_id</span> <span class='op'>=</span> <span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
-        <span class='id identifier rubyid_question_answer'>question_answer</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
-        <span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='label'>selected:</span> <span class='kw'>true</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
-
-      <span class='comment'># Agregar manejo de respuestas para preguntas de autocompletado
-</span>      <span class='id identifier rubyid_autocomplete_input'>autocomplete_input</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:autocomplete_input</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_strip'>strip</span>
-      <span class='kw'>if</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Autocomplete</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_answer_autocomplete'>answer_autocomplete</span> <span class='op'>=</span> <span class='const'>Answer</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>question_id:</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
-        <span class='id identifier rubyid_answer_autocomplete'>answer_autocomplete</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='label'>autocomplete_input:</span> <span class='id identifier rubyid_autocomplete_input'>autocomplete_input</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
-
-      <span class='id identifier rubyid_total_time'>total_time</span> <span class='op'>=</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_difficulty'>difficulty</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>beginner</span><span class='tstring_end'>&quot;</span></span> <span class='op'>?</span> <span class='int'>15</span> <span class='op'>:</span> <span class='int'>10</span>
-      <span class='id identifier rubyid_response_time'>response_time</span> <span class='op'>=</span> <span class='id identifier rubyid_total_time'>total_time</span> <span class='op'>-</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:response_time</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
-      <span class='id identifier rubyid_question_answer'>question_answer</span><span class='op'>&amp;.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='label'>response_time:</span> <span class='id identifier rubyid_response_time'>response_time</span><span class='rparen'>)</span>
-
-      <span class='id identifier rubyid_next_index'>next_index</span> <span class='op'>=</span> <span class='id identifier rubyid_index'>index</span> <span class='op'>+</span> <span class='int'>1</span>
-      <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/question/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_next_index'>next_index</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/results</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error?code=answered</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_handle_answer'>handle_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_question'>question</span><span class='comma'>,</span> <span class='ivar'>@trivia</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/question</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2744,7 +3241,7 @@
     
 <p>POST endpoint for submitting an answer to a translated trivia question.</p>
 
-<p>This route handles the submission of an answer to a translated trivia question. It checks if the trivia session exists, validates the submitted answer, and records the response time. Depending on the answer type (choice, true/false), it updates the appropriate tables in the database and redirects to the next translated question or results page.</p>
+<p>This route handles the submission of an answer to a translated trivia question. It checks if the trivia session exists, validates the submitted answer, and records the response time. Depending on the answer type (choice, true/false, or autocomplete), it updates the appropriate tables in the database and redirects to the next question or results page.</p>
 
 
   </div>
@@ -2764,39 +3261,7 @@
       
         &mdash;
         <div class='inline'>
-<p>The index of the current translated question.</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>selected_answer</span>
-      
-      
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The ID of the selected answer (for choice and true/false questions).</p>
-</div>
-      
-    </li>
-  
-    <li>
-      
-        <span class='name'>response_time</span>
-      
-      
-        <span class='type'>(<tt>Integer</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>The time taken by the user to respond to the translated question.</p>
+<p>The index of the current question.</p>
 </div>
       
     </li>
@@ -2815,7 +3280,7 @@
       
         &mdash;
         <div class='inline'>
-<p>Redirects to the next translated question or results page.</p>
+<p>Redirects to the next question or results page.</p>
 </div>
       
     </li>
@@ -2868,91 +3333,42 @@
   
 </ul>
 
-  <p class="tag_title">See Also:</p>
-  <ul class="see">
-    
-      <li>QuestionAnswer</li>
-    
-      <li>Answer</li>
-    
-      <li>Trivia</li>
-    
-  </ul>
-
 </div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-557
-558
-559
-560
-561
-562
-563
-564
-565
-566
-567
-568
-569
-570
-571
-572
-573
-574
-575
-576
-577
-578
-579
-580
-581
-582
-583
-584
-585
-586
-587
-588
-589</pre>
+544
+545
+546
+547
+548
+549
+550
+551
+552
+553
+554
+555
+556
+557</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 557</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 544</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/answer-traduce/:index</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
-  <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>  <span class='comment'># Redirigir si no hay una trivia en sesión
-</span>
+  <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>if</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
+  
   <span class='id identifier rubyid_index'>index</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:index</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
   <span class='id identifier rubyid_question_hash'>question_hash</span> <span class='op'>=</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_translated_questions'>translated_questions</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span>
 
   <span class='kw'>if</span> <span class='id identifier rubyid_question_hash'>question_hash</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_index'>index</span> <span class='op'>&gt;=</span> <span class='int'>5</span>
-    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/results-traduce</span><span class='tstring_end'>&#39;</span></span> <span class='comment'># Redirigir a los resultados si no hay más preguntas
-</span>  <span class='kw'>else</span>
-    <span class='id identifier rubyid_selected_answer_id'>selected_answer_id</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:selected_answer</span><span class='rbracket'>]</span>
-    <span class='id identifier rubyid_selected_answer'>selected_answer</span> <span class='op'>=</span> <span class='const'>Answer</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_selected_answer_id'>selected_answer_id</span><span class='comma'>,</span> <span class='label'>question_id:</span> <span class='id identifier rubyid_question_hash'>question_hash</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>question</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span>
-
-    <span class='kw'>if</span> <span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
-      <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_index'>index</span>
-      <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/question-traduce/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_index'>index</span><span class='op'>+</span><span class='int'>1</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>elsif</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error?code=answered</span><span class='tstring_end'>&#39;</span></span>
-    <span class='kw'>else</span>
-      <span class='comment'># Crear una nueva fila en la tabla QuestionAnswer con los IDs de la pregunta y la respuesta seleccionada
-</span>      <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_index'>index</span> <span class='comment'># Agregar el índice de la pregunta respondida a la lista
-</span>      <span class='id identifier rubyid_question_answer'>question_answer</span> <span class='op'>=</span> <span class='const'>QuestionAnswer</span><span class='period'>.</span><span class='id identifier rubyid_create!'>create!</span><span class='lparen'>(</span><span class='label'>question_id:</span> <span class='id identifier rubyid_question_hash'>question_hash</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>question</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>trivia_id:</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='comma'>,</span> <span class='label'>answer_id:</span> <span class='id identifier rubyid_selected_answer_id'>selected_answer_id</span><span class='rparen'>)</span>
-      <span class='comment'>#question_answer.save
-</span>      <span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='label'>selected:</span> <span class='kw'>true</span><span class='rparen'>)</span>
-
-      <span class='id identifier rubyid_total_time'>total_time</span> <span class='op'>=</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_difficulty'>difficulty</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>beginner</span><span class='tstring_end'>&quot;</span></span> <span class='op'>?</span> <span class='int'>15</span> <span class='op'>:</span> <span class='int'>10</span>
-      <span class='id identifier rubyid_response_time'>response_time</span> <span class='op'>=</span> <span class='id identifier rubyid_total_time'>total_time</span> <span class='op'>-</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:response_time</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
-      <span class='id identifier rubyid_question_answer'>question_answer</span><span class='op'>&amp;.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='label'>response_time:</span> <span class='id identifier rubyid_response_time'>response_time</span><span class='rparen'>)</span>
-
-      <span class='id identifier rubyid_next_index'>next_index</span> <span class='op'>=</span> <span class='id identifier rubyid_index'>index</span> <span class='op'>+</span> <span class='int'>1</span>
-      <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/question-traduce/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_next_index'>next_index</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/results-traduce</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error?code=answered</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_handle_answer'>handle_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_question_hash'>question_hash</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>question</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@trivia</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/question-traduce</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2974,7 +3390,9 @@
     
 <p>POST endpoint for handling user claims submission.</p>
 
-<p>This route handles the submission of user claims when a POST request is made to ‘/claim’. It retrieves the user’s ID from the session and the description text from the form data. Then, it creates a new claim record in the database with the provided description and user ID.</p>
+<p>This route handles the submission of user claims when a POST request is made to ‘/claim’. It retrieves the user’s ID from the session and the description text from the form data. Then the input description is sanitize, this is for some extern attack of malintentioned code. If input was remove then redirect to a error page. If input wasn’t remove then creates a new claim record in data base with the provided sanitize description and user ID. If the record was successfully stored then an email was sent to the app managers with the inupt description user.</p>
+
+<p>if not redirects to a error page.</p>
 
 
   </div>
@@ -2993,7 +3411,7 @@
       
         &mdash;
         <div class='inline'>
-<p>Redirects the user to the protected page if the claim is successfully saved.</p>
+<p>Redirects the user to the protected page if the claim is successfully saved,</p>
 </div>
       
     </li>
@@ -3015,6 +3433,8 @@
       <pre class="lines">
 
 
+237
+238
 239
 240
 241
@@ -3022,17 +3442,35 @@
 243
 244
 245
-246</pre>
+246
+247
+248
+249
+250
+251
+252
+253
+254</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 239</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 237</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/claim</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
-  <span class='id identifier rubyid_user_id'>user_id</span> <span class='op'>=</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span> <span class='comment'># se almacena el ID del usuario logueado
-</span>  <span class='id identifier rubyid_description_text'>description_text</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:description</span><span class='rbracket'>]</span> <span class='comment'># se almacena el texto del reclamo (el argumento :description viene del name=&quot;description&quot;)
-</span>  <span class='id identifier rubyid_claim'>claim</span> <span class='op'>=</span> <span class='const'>Claim</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='label'>description:</span> <span class='id identifier rubyid_description_text'>description_text</span><span class='comma'>,</span> <span class='label'>user_id:</span> <span class='id identifier rubyid_user_id'>user_id</span><span class='rparen'>)</span>
-  <span class='kw'>if</span> <span class='id identifier rubyid_claim'>claim</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
-    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/protected_page</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_user_id'>user_id</span> <span class='op'>=</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_description_text'>description_text</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:description</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_cleaned_description'>cleaned_description</span> <span class='op'>=</span> <span class='const'>Sanitize</span><span class='period'>.</span><span class='id identifier rubyid_fragment'>fragment</span><span class='lparen'>(</span><span class='id identifier rubyid_description_text'>description_text</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_cleaned_description'>cleaned_description</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+    <span class='id identifier rubyid_status'>status</span> <span class='int'>302</span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error?code=claim&amp;reason=malicious_block</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_claim'>claim</span> <span class='op'>=</span> <span class='const'>Claim</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='label'>description:</span> <span class='id identifier rubyid_cleaned_description'>cleaned_description</span><span class='comma'>,</span> <span class='label'>user_id:</span> <span class='id identifier rubyid_user_id'>user_id</span><span class='rparen'>)</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_claim'>claim</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
+      <span class='id identifier rubyid_send_email'>send_email</span><span class='lparen'>(</span><span class='id identifier rubyid_user_id'>user_id</span><span class='comma'>,</span> <span class='id identifier rubyid_cleaned_description'>cleaned_description</span><span class='comma'>,</span> <span class='id identifier rubyid_email_ayds'>email_ayds</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/protected_page</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_status'>status</span> <span class='int'>302</span>
+      <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error?code=claim&amp;reason=failed_send_claim</span><span class='tstring_end'>&#39;</span></span>
+    <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -3086,6 +3524,29 @@
       <pre class="lines">
 
 
+773
+774
+775
+776
+777
+778
+779
+780
+781
+782
+783
+784
+785
+786
+787
+788
+789
+790
+791
+792
+793
+794
+795
 796
 797
 798
@@ -3094,33 +3555,10 @@
 801
 802
 803
-804
-805
-806
-807
-808
-809
-810
-811
-812
-813
-814
-815
-816
-817
-818
-819
-820
-821
-822
-823
-824
-825
-826
-827</pre>
+804</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 796</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 773</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/google</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_request_body'>request_body</span> <span class='op'>=</span> <span class='const'>JSON</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='period'>.</span><span class='id identifier rubyid_read'>read</span><span class='rparen'>)</span>
@@ -3268,9 +3706,6 @@
       <pre class="lines">
 
 
-164
-165
-166
 167
 168
 169
@@ -3282,32 +3717,21 @@
 175
 176
 177
-178
-179
-180
-181
-182</pre>
+178</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 164</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 167</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/login</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
-  <span class='comment'># Obtener los datos del formulario
-</span>  <span class='id identifier rubyid_username'>username</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_username'>username</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_password'>password</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:password</span><span class='rbracket'>]</span>
 
-  <span class='comment'># Buscar al usuario en la base de datos
-</span>  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>username:</span> <span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
-
-  <span class='comment'># Verificar si el usuario existe y si la contraseña es correcta
-</span>  <span class='kw'>if</span> <span class='id identifier rubyid_user'>user</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_authenticate'>authenticate</span><span class='lparen'>(</span><span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
-    <span class='comment'># Iniciar sesión al usuario
-</span>    <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
-
-    <span class='comment'># Redirigir al usuario a una página protegida
-</span>    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/protected_page</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>username:</span> <span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_user'>user</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_authenticate'>authenticate</span><span class='lparen'>(</span><span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:user_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/protected_page</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/error?code=login&amp;reason=authenticate_failed</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error?code=login&amp;reason=authenticate_failed</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -3500,11 +3924,6 @@
       <pre class="lines">
 
 
-113
-114
-115
-116
-117
 118
 119
 120
@@ -3533,14 +3952,16 @@
 143
 144
 145
-146</pre>
+146
+147
+148
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 113</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 118</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/registrarse</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
-  <span class='comment'># Obtener los datos del formulario
-</span>  <span class='id identifier rubyid_username'>username</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_username'>username</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:username</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_password'>password</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:password</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_confirm_password'>confirm_password</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:confirm_password</span><span class='rbracket'>]</span>
   <span class='id identifier rubyid_email'>email</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:email</span><span class='rbracket'>]</span>
@@ -3550,26 +3971,25 @@
     <span class='comment'># Verificar si el username ya está en uso
 </span>    <span class='kw'>if</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='label'>username:</span> <span class='id identifier rubyid_username'>username</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_status'>status</span> <span class='int'>302</span> <span class='comment'># Establece el código de estado HTTP a 302 Found (Redirección)
-</span>      <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/error?code=registration&amp;reason=username_taken</span><span class='tstring_end'>&quot;</span></span>
+</span>      <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error?code=registration&amp;reason=username_taken</span><span class='tstring_end'>&#39;</span></span>
     <span class='comment'># Verificar si el email ya está en uso
 </span>    <span class='kw'>elsif</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_exists?'>exists?</span><span class='lparen'>(</span><span class='label'>email:</span> <span class='id identifier rubyid_email'>email</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_status'>status</span> <span class='int'>302</span> <span class='comment'># Establece el código de estado HTTP a 302 Found (Redirección)
-</span>      <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/error?code=registration&amp;reason=email_taken</span><span class='tstring_end'>&quot;</span></span>
+      <span class='id identifier rubyid_status'>status</span> <span class='int'>302</span>
+      <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error?code=registration&amp;reason=email_taken</span><span class='tstring_end'>&#39;</span></span>
     <span class='kw'>else</span>
-      <span class='comment'># Crear un nuevo registro en la base de datos
-</span>      <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='label'>username:</span> <span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='label'>email:</span> <span class='id identifier rubyid_email'>email</span><span class='comma'>,</span> <span class='label'>password:</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='label'>username:</span> <span class='id identifier rubyid_username'>username</span><span class='comma'>,</span> <span class='label'>email:</span> <span class='id identifier rubyid_email'>email</span><span class='comma'>,</span> <span class='label'>password:</span> <span class='id identifier rubyid_password'>password</span><span class='rparen'>)</span>
       <span class='kw'>if</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
-        <span class='id identifier rubyid_status'>status</span> <span class='int'>200</span> <span class='comment'># Establece el código de estado HTTP a 200 OK
-</span>        <span class='ivar'>@message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Vuelva a logearse por favor, vaya a inicio de sesión.</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_status'>status</span> <span class='int'>200</span> <span class='comment'># Establece el código de estado HTTP a 200
+</span>        <span class='ivar'>@message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>Vuelva a logearse por favor, vaya a inicio de sesión.</span><span class='tstring_end'>&#39;</span></span>
         <span class='id identifier rubyid_erb'>erb</span> <span class='symbol'>:register_success</span>
       <span class='kw'>else</span>
-        <span class='id identifier rubyid_status'>status</span> <span class='int'>302</span> <span class='comment'># Establece el código de estado HTTP a 302 Found (Redirección)
-</span>        <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/error?code=registration&amp;reason=registration_error&amp;error_message=</span><span class='embexpr_beg'>#{</span><span class='const'>CGI</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_full_messages'>full_messages</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+        <span class='id identifier rubyid_status'>status</span> <span class='int'>302</span>
+        <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/error?code=registration&amp;reason=registration_error&amp;error_message=</span><span class='embexpr_beg'>#{</span><span class='const'>CGI</span><span class='period'>.</span><span class='id identifier rubyid_escape'>escape</span><span class='lparen'>(</span><span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_errors'>errors</span><span class='period'>.</span><span class='id identifier rubyid_full_messages'>full_messages</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
       <span class='kw'>end</span>
     <span class='kw'>end</span>
   <span class='kw'>else</span>
-    <span class='id identifier rubyid_status'>status</span> <span class='int'>302</span> <span class='comment'># Establece el código de estado HTTP a 302 Found (Redirección)
-</span>    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/error?code=registration&amp;reason=password_mismatch</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_status'>status</span> <span class='int'>302</span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error?code=registration&amp;reason=password_mismatch</span><span class='tstring_end'>&#39;</span></span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -3638,31 +4058,6 @@
       <pre class="lines">
 
 
-264
-265
-266
-267
-268
-269
-270
-271
-272
-273
-274
-275
-276
-277
-278
-279
-280
-281
-282
-283
-284
-285
-286
-287
-288
 289
 290
 291
@@ -3680,10 +4075,34 @@
 303
 304
 305
-306</pre>
+306
+307
+308
+309
+310
+311
+312
+313
+314
+315
+316
+317
+318
+319
+320
+321
+322
+323
+324
+325
+326
+327
+328
+329
+330</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'server.rb', line 264</span>
+      <pre class="code"><span class="info file"># File 'server.rb', line 289</span>
 
 <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/trivia</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
   <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='id identifier rubyid_current_user'>current_user</span>
@@ -3720,7 +4139,6 @@
   <span class='id identifier rubyid_questions'>questions</span> <span class='op'>=</span> <span class='id identifier rubyid_choice_questions'>choice_questions</span><span class='period'>.</span><span class='id identifier rubyid_to_a'>to_a</span> <span class='op'>+</span> <span class='id identifier rubyid_true_false_questions'>true_false_questions</span><span class='period'>.</span><span class='id identifier rubyid_to_a'>to_a</span> <span class='op'>+</span> <span class='id identifier rubyid_autocomplete_questions'>autocomplete_questions</span><span class='period'>.</span><span class='id identifier rubyid_to_a'>to_a</span>
   <span class='id identifier rubyid_shuffled_questions'>shuffled_questions</span> <span class='op'>=</span> <span class='id identifier rubyid_questions'>questions</span><span class='period'>.</span><span class='id identifier rubyid_shuffle'>shuffle</span>
   <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_questions'>questions</span><span class='period'>.</span><span class='id identifier rubyid_concat'>concat</span><span class='lparen'>(</span><span class='id identifier rubyid_shuffled_questions'>shuffled_questions</span><span class='rparen'>)</span>
-
   <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_translated_questions'>translated_questions</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>  <span class='comment'># Esto eliminará las preguntas traducidas de la trivia actual
 </span>  <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
   <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:trivia_id</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
@@ -3733,12 +4151,333 @@
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="process_answer-instance_method">
+  
+    #<strong>process_answer</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Method for processing answers.</p>
+
+<p>This method processes the submitted answer. It adds the index to the answered_questions session array, calls the create_or_update_question_answer and handle_autocomplete_answer methods, and updates the response time.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>selected_answer</span>
+      
+      
+        <span class='type'>(<tt>Answer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The selected answer object.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>index</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The index of the current question.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>question_id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The ID of the current question.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>trivia</span>
+      
+      
+        <span class='type'>(<tt>Trivia</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current trivia session.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>path_prefix</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The prefix of the redirect path.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+883
+884
+885
+886
+887
+888</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'server.rb', line 883</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_process_answer'>process_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='comma'>,</span> <span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_index'>index</span>
+  <span class='id identifier rubyid_create_or_update_question_answer'>create_or_update_question_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='comma'>,</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_handle_autocomplete_answer'>handle_autocomplete_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='comma'>,</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_update_response_time'>update_response_time</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='comma'>,</span> <span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="send_email-instance_method">
+  
+    #<strong>send_email</strong>(user_id, description, email_ayds)  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Send an email to managers app</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+257
+258
+259
+260
+261
+262
+263
+264
+265
+266
+267
+268
+269
+270
+271</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'server.rb', line 257</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_send_email'>send_email</span><span class='lparen'>(</span><span class='id identifier rubyid_user_id'>user_id</span><span class='comma'>,</span> <span class='id identifier rubyid_description'>description</span><span class='comma'>,</span> <span class='id identifier rubyid_email_ayds'>email_ayds</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_user'>user</span> <span class='op'>=</span> <span class='const'>User</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_user_id'>user_id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_username'>username</span> <span class='op'>=</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_username'>username</span>
+  <span class='id identifier rubyid_user_email'>user_email</span> <span class='op'>=</span> <span class='id identifier rubyid_user'>user</span><span class='period'>.</span><span class='id identifier rubyid_email'>email</span>
+  <span class='id identifier rubyid_email_one'>email_one</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>EMAIL_ONE</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_email_two'>email_two</span> <span class='op'>=</span> <span class='const'>ENV</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>EMAIL_TWO</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_email_managgers'>email_managgers</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='id identifier rubyid_email_one'>email_one</span><span class='comma'>,</span> <span class='id identifier rubyid_email_two'>email_two</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The user </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_username'>username</span><span class='embexpr_end'>}</span><span class='tstring_content'> with email </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_user_email'>user_email</span><span class='embexpr_end'>}</span><span class='tstring_content'> says:\n\n</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_description'>description</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+  <span class='const'>Mail</span><span class='period'>.</span><span class='id identifier rubyid_deliver'>deliver</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_from'>from</span> <span class='id identifier rubyid_email_ayds'>email_ayds</span>
+    <span class='id identifier rubyid_to'>to</span> <span class='id identifier rubyid_email_managgers'>email_managgers</span>
+    <span class='id identifier rubyid_subject'>subject</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>New message of AYDS Project App.</span><span class='tstring_end'>&#39;</span></span>
+    <span class='id identifier rubyid_body'>body</span> <span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_response_time-instance_method">
+  
+    #<strong>update_response_time</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Method for updating the response time of a trivia question.</p>
+
+<p>This method calculates the response time based on the total time and the time taken by the user to respond.  It updates the response_time attribute of the QuestionAnswer record and redirects to the next question.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>index</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The index of the current question.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>question_id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The ID of the current question.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>trivia</span>
+      
+      
+        <span class='type'>(<tt>Trivia</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current trivia session.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>path_prefix</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The prefix of the redirect path.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+919
+920
+921
+922
+923
+924
+925
+926
+927</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'server.rb', line 919</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update_response_time'>update_response_time</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='comma'>,</span> <span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_total_time'>total_time</span> <span class='op'>=</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_difficulty'>difficulty</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>beginner</span><span class='tstring_end'>&quot;</span></span> <span class='op'>?</span> <span class='const'>TOTAL_TIME_BEGINNER</span> <span class='op'>:</span> <span class='const'>TOTAL_TIME_DIFFICULTY</span>
+  <span class='id identifier rubyid_response_time'>response_time</span> <span class='op'>=</span> <span class='id identifier rubyid_total_time'>total_time</span> <span class='op'>-</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:response_time</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='id identifier rubyid_question_answer'>question_answer</span> <span class='op'>=</span> <span class='const'>QuestionAnswer</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>question_id:</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='label'>trivia_id:</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_question_answer'>question_answer</span><span class='op'>&amp;.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='label'>response_time:</span> <span class='id identifier rubyid_response_time'>response_time</span><span class='rparen'>)</span>
+  
+  <span class='id identifier rubyid_next_index'>next_index</span> <span class='op'>=</span> <span class='id identifier rubyid_index'>index</span> <span class='op'>+</span> <span class='int'>1</span>
+  <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_next_index'>next_index</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Mon Sep 18 11:27:00 2023 by
+  Generated on Wed Oct 25 10:15:00 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-2.7.5).
 </div>

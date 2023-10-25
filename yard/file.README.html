@@ -58,13 +58,83 @@
       </div>
 
       <div id="content"><div id='filecontents'>
-<h1 id="label-AYDS_Project">AYDS_Project</h1>
+<h1 id="label-Aplicaci-C3-B3n+de+trivias">Aplicación de trivias</h1>
 
-<p>Repositorio para el proyecto de Analisis y Diseño de Sistemas. Genaro Salomone - Cristian Herrera.</p>
+<p><strong>Materias</strong>: Análisis y Diseño de Sistemas e Ingeniería de Software.</p>
+
+<p><strong>Integrantes</strong>: Genaro Salomone - Cristian Herrera</p>
+
+<h2 id="label-Para+levantar+la+app+deber-C3-A1s+realizar+los+siguientes+pasos-3A">Para levantar la app deberás realizar los siguientes pasos:</h2>
+
+<p><strong>Recomendación:</strong> Se recomienda utilizar Docker para configurar y ejecutar la aplicación.</p>
+
+<p>Ubicado en el directorio AYDS_Project,</p>
+<ol><li>
+<p><strong>Instalar las gemas o dependencias</strong>:</p>
+</li></ol>
+
+<p><code>bundle install</code></p>
+<ol><li>
+<p><strong>Crear la base de datos de desarrollo</strong>:</p>
+</li></ol>
+
+<p><code>bundle exec rake db:migrate</code></p>
+
+<p>_Con docker:</p>
+
+<p><code>docker compose exec app bundle exec rake db:migrate</code></p>
+<ol><li>
+<p><strong>Cargar en la base de datos de desarrollo las preguntas y respuestas</strong>:</p>
+</li></ol>
+
+<p><code>bundle exec rake db:seed</code></p>
+
+<p>_Con docker:</p>
+
+<p><code>docker compose exec app bundle exec rake db:seed</code></p>
+<ol><li>
+<p><strong>Levantar la aplicación</strong>:</p>
+</li></ol>
+
+<p><code>bundle exec rackup -p 3000</code></p>
+
+<p>_Con docker:</p>
+
+<p><code>docker compose up app</code></p>
+<ol><li>
+<p><strong>Una vez levantada dirigirse a</strong>:</p>
+</li></ol>
+
+<p>localhost:3000</p>
+<hr>
+
+<h2 id="label-Para+testear+la+aplicaci-C3-B3n+deber-C3-A1s+realizar+los+siguientes+pasos-3A">Para testear la aplicación deberás realizar los siguientes pasos:</h2>
+<ol><li>
+<p><strong>Crear la base de datos de test</strong>:</p>
+</li></ol>
+
+<p><code>bundle exec rake db:migrate RACK_ENV=test</code></p>
+
+<p>_Con docker:</p>
+
+<p><code>docker compose exec app env RACK_ENV=test bundle exec rake db:migrate</code></p>
+<ol><li>
+<p><strong>Setear la variable de ambiente en test y ejecutar pruebas</strong>:</p>
+</li></ol>
+
+<p><em>En windows:</em></p>
+
+<p><code>$env:RACK_ENV=&#39;test&#39;</code></p>
+
+<p><code>bundle exec rspec</code></p>
+
+<p>_En Linux: <strong>(Configurar temporalmente como variable de entorno)</strong></p>
+
+<p><code>docker compose exec app env RACK_ENV=test bundle exec rspec</code></p>
 </div></div>
 
       <div id="footer">
-  Generated on Mon Sep 18 11:27:00 2023 by
+  Generated on Wed Oct 25 10:14:59 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-2.7.5).
 </div>

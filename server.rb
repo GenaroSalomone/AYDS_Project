@@ -55,6 +55,9 @@ class App < Sinatra::Application
     }
   end
 
+  TOTAL_TIME_BEGINNER = 10
+  TOTAL_TIME_DIFFICULTY = 15
+  
   # Verify if exists session trivia
   before do
     if session[:trivia_id]
@@ -506,59 +509,24 @@ class App < Sinatra::Application
   # it updates the appropriate tables in the database and redirects to the next question or results page.
   #
   # @param [Integer] index The index of the current question.
-  # @param [Integer] selected_answer The ID of the selected answer (for choice and true/false questions).
-  # @param [String] autocomplete_input The user's input for autocomplete questions.
-  # @param [Integer] response_time The time taken by the user to respond to the question.
   #
   # @return [Redirect] Redirects to the next question or results page.
   #
   # @raise [Redirect] If there is no trivia in session, redirects to '/trivia'.
   # @raise [Redirect] If there are no more questions or if index is greater or equal to 10, redirects to '/results'.
   # @raise [Redirect] If the question has already been answered, redirects to '/error?code=answered'.
-  #
-  # @see QuestionAnswer
-  # @see Answer
-  # @see Trivia
-  # @see Autocomplete
   post '/answer/:index' do
     redirect '/trivia' if @trivia.nil?
-
+    
     index = params[:index].to_i
     question = @trivia.questions[index]
 
     if question.nil? || index >= 10
       redirect '/results'
+    elsif session[:answered_questions].include?(index)
+      redirect '/error?code=answered'
     else
-      selected_answer_id = params[:selected_answer]
-      selected_answer = Answer.find_by(id: selected_answer_id, question_id: question.id)
-      if selected_answer.nil? && !question.is_a?(Autocomplete)
-        session[:answered_questions] << index
-        redirect "/question/#{index+1}"
-      elsif session[:answered_questions].include?(index)
-        redirect '/error?code=answered'
-      else
-        # Crear una nueva fila en la tabla QuestionAnswer con los IDs de la pregunta y la respuesta seleccionada
-        session[:answered_questions] << index # Agregar el índice de la pregunta respondida a la lista
-        question_answer = QuestionAnswer.find_or_initialize_by(question_id: question.id, trivia_id: @trivia.id)
-        if !selected_answer.nil?
-          question_answer.answer_id = selected_answer.id
-          question_answer.save
-          selected_answer.update(selected: true)
-        end
-        # Agregar manejo de respuestas para preguntas de autocompletado
-        autocomplete_input = params[:autocomplete_input].to_s.strip
-        if question.is_a?(Autocomplete)
-          answer_autocomplete = Answer.find_by(question_id: question.id)
-          answer_autocomplete.update(autocomplete_input: autocomplete_input)
-        end
-
-        total_time = @trivia.difficulty == "beginner" ? 15 : 10
-        response_time = total_time - params[:response_time].to_i
-        question_answer&.update(response_time: response_time)
-
-        next_index = index + 1
-        redirect "/question/#{next_index}"
-      end
+      handle_answer(index, question, @trivia, '/question')
     end
   end
 
@@ -566,52 +534,28 @@ class App < Sinatra::Application
   # POST endpoint for submitting an answer to a translated trivia question.
   #
   # This route handles the submission of an answer to a translated trivia question. It checks if the trivia session exists,
-  # validates the submitted answer, and records the response time. Depending on the answer type (choice, true/false),
-  # it updates the appropriate tables in the database and redirects to the next translated question or results page.
+  # validates the submitted answer, and records the response time. Depending on the answer type (choice, true/false, or autocomplete),
+  # it updates the appropriate tables in the database and redirects to the next question or results page.
   #
-  # @param [Integer] index The index of the current translated question.
-  # @param [Integer] selected_answer The ID of the selected answer (for choice and true/false questions).
-  # @param [Integer] response_time The time taken by the user to respond to the translated question.
+  # @param [Integer] index The index of the current question.
   #
-  # @return [Redirect] Redirects to the next translated question or results page.
+  # @return [Redirect] Redirects to the next question or results page.
   #
   # @raise [Redirect] If there is no trivia in session, redirects to '/trivia'.
   # @raise [Redirect] If there are no more questions or if index is greater or equal to 5, redirects to '/results-traduce'.
   # @raise [Redirect] If the question has already been answered, redirects to '/error?code=answered'.
-  #
-  # @see QuestionAnswer
-  # @see Answer
-  # @see Trivia
   post '/answer-traduce/:index' do
-    redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
-
+    redirect '/trivia' if @trivia.nil?
+    
     index = params[:index].to_i
     question_hash = @trivia.translated_questions[index]
 
     if question_hash.nil? || index >= 5
-      redirect '/results-traduce' # Redirigir a los resultados si no hay más preguntas
+      redirect '/results-traduce'
+    elsif session[:answered_questions].include?(index)
+      redirect '/error?code=answered'
     else
-      selected_answer_id = params[:selected_answer]
-      selected_answer = Answer.find_by(id: selected_answer_id, question_id: question_hash['question']['id'])
-
-      if selected_answer.nil?
-        session[:answered_questions] << index
-        redirect "/question-traduce/#{index+1}"
-      elsif session[:answered_questions].include?(index)
-        redirect '/error?code=answered'
-      else
-        # Crear una nueva fila en la tabla QuestionAnswer con los IDs de la pregunta y la respuesta seleccionada
-        session[:answered_questions] << index # Agregar el índice de la pregunta respondida a la lista
-        question_answer = QuestionAnswer.create!(question_id: question_hash['question']['id'], trivia_id: @trivia.id, answer_id: selected_answer_id)
-        selected_answer.update(selected: true)
-
-        total_time = @trivia.difficulty == "beginner" ? 15 : 10
-        response_time = total_time - params[:response_time].to_i
-        question_answer&.update(response_time: response_time)
-
-        next_index = index + 1
-        redirect "/question-traduce/#{next_index}"
-      end
+      handle_answer(index, question_hash['question'], @trivia, '/question-traduce')
     end
   end
 
@@ -903,6 +847,116 @@ class App < Sinatra::Application
   # @see User#find
   def current_user
     User.find(session[:user_id]) if session[:user_id]
+  end
+
+  # @!method handle_answer
+  # Method for handling answers to trivia questions.
+  #
+  # This method handles the submission of an answer to a trivia question. It checks if the answer is nil and if the question is not an Autocomplete question,
+  # it calls the handle_unanswered_question method. Otherwise, it calls the process_answer method.
+  #
+  # @param [Integer] index The index of the current question.
+  # @param [Question] question The current question object.
+  # @param [Trivia] trivia The current trivia session.
+  # @param [String] path_prefix The prefix of the redirect path.
+  def handle_answer(index, question, trivia, path_prefix)
+    selected_answer_id = params[:selected_answer]
+    is_translated = trivia.selected_language_code != 'es'
+    question_id = is_translated ? question['id'] : question.id
+    selected_answer = Answer.find_by(id: selected_answer_id, question_id: question_id)
+  
+    if selected_answer.nil? && !question.is_a?(Autocomplete)
+      handle_unanswered_question(index, path_prefix)
+    else
+      process_answer(selected_answer, index, question_id, trivia, path_prefix)
+    end
+  end
+  
+  # @!method process_answer
+  # Method for processing answers.
+  #
+  # This method processes the submitted answer. It adds the index to the answered_questions session array,
+  # calls the create_or_update_question_answer and handle_autocomplete_answer methods, and updates the response time.
+  #
+  # @param [Answer] selected_answer The selected answer object.
+  # @param [Integer] index The index of the current question.
+  # @param [Integer] question_id The ID of the current question.
+  # @param [Trivia] trivia The current trivia session.
+  # @param [String] path_prefix The prefix of the redirect path.
+  def process_answer(selected_answer, index, question_id, trivia, path_prefix)
+    session[:answered_questions] << index
+    create_or_update_question_answer(selected_answer, question_id, trivia)
+    handle_autocomplete_answer(selected_answer, question_id)
+    update_response_time(index, question_id, trivia, path_prefix)
+  end
+  
+  # @!method create_or_update_question_answer
+  # Method for creating or updating a QuestionAnswer record.
+  #
+  # This method creates or updates a QuestionAnswer record in the database with the IDs of the selected answer and question. 
+  # If a selected answer exists, it updates the answer_id of the QuestionAnswer record and sets the selected attribute of the Answer record to true.
+  #
+  # @param [Answer] selected_answer The selected answer object.
+  # @param [Integer] question_id The ID of the current question.
+  # @param [Trivia] trivia The current trivia session.
+  def create_or_update_question_answer(selected_answer, question_id, trivia)
+    question_answer = QuestionAnswer.find_or_initialize_by(question_id: question_id, trivia_id: trivia.id)
+    
+    if !selected_answer.nil?
+      question_answer.answer_id = selected_answer.id
+      question_answer.save
+      selected_answer.update(selected: true)
+    end
+  end
+  
+  # @!method update_response_time
+  # Method for updating the response time of a trivia question.
+  #
+  # This method calculates the response time based on the total time and the time taken by the user to respond. 
+  # It updates the response_time attribute of the QuestionAnswer record and redirects to the next question.
+  #
+  # @param [Integer] index The index of the current question.
+  # @param [Integer] question_id The ID of the current question.
+  # @param [Trivia] trivia The current trivia session.
+  # @param [String] path_prefix The prefix of the redirect path.
+  def update_response_time(index, question_id, trivia, path_prefix)
+    total_time = trivia.difficulty == "beginner" ? TOTAL_TIME_BEGINNER : TOTAL_TIME_DIFFICULTY
+    response_time = total_time - params[:response_time].to_i
+    question_answer = QuestionAnswer.find_by(question_id: question_id, trivia_id: trivia.id)
+    question_answer&.update(response_time: response_time)
+    
+    next_index = index + 1
+    redirect "#{path_prefix}/#{next_index}"
+  end
+  
+  # @!method handle_autocomplete_answer
+  # Method for handling answers to autocomplete questions.
+  #
+  # This method checks if the question is an Autocomplete question. If it is, it updates the autocomplete_input attribute of the Answer record.
+  #
+  # @param [Answer] selected_answer The selected answer object.
+  # @param [Question] question The current question object.
+  def handle_autocomplete_answer(selected_answer, question)
+    autocomplete_input = params[:autocomplete_input].to_s.strip
+    
+    if question.is_a?(Autocomplete)
+      answer_autocomplete = Answer.find_by(question_id: question.id)
+      answer_autocomplete.update(autocomplete_input: autocomplete_input)
+    end
+  end
+
+  # @!method handle_unanswered_question
+  # Method for handling unanswered questions.
+  #
+  # This method adds the index to the answered_questions session array and redirects to the next question.
+  #
+  # @param [Integer] index The index of the current question.
+  # @param [String] path_prefix The prefix of the redirect path.
+  #
+  # @return [Redirect] Redirects to the next question.
+  def handle_unanswered_question(index, path_prefix)
+    session[:answered_questions] << index
+    redirect "#{path_prefix}/#{index + 1}"
   end
 
   # @!method google_verify
