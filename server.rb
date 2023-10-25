@@ -126,16 +126,16 @@ class App < Sinatra::Application
       # Verificar si el username ya está en uso
       if User.exists?(username: username)
         status 302 # Establece el código de estado HTTP a 302 Found (Redirección)
-        redirect "/error?code=registration&reason=username_taken"
+        redirect '/error?code=registration&reason=username_taken'
       # Verificar si el email ya está en uso
       elsif User.exists?(email: email)
         status 302
-        redirect "/error?code=registration&reason=email_taken"
+        redirect '/error?code=registration&reason=email_taken'
       else
         user = User.create(username: username, email: email, password: password)
         if user.save
           status 200 # Establece el código de estado HTTP a 200
-          @message = "Vuelva a logearse por favor, vaya a inicio de sesión."
+          @message = 'Vuelva a logearse por favor, vaya a inicio de sesión.'
           erb :register_success
         else
           status 302
@@ -144,7 +144,7 @@ class App < Sinatra::Application
       end
     else
       status 302
-      redirect "/error?code=registration&reason=password_mismatch"
+      redirect '/error?code=registration&reason=password_mismatch'
     end
   end
 
@@ -173,7 +173,7 @@ class App < Sinatra::Application
       session[:user_id] = user.id
       redirect '/protected_page'
     else
-      redirect "/error?code=login&reason=authenticate_failed"
+      redirect '/error?code=login&reason=authenticate_failed'
     end
   end
 
@@ -244,24 +244,29 @@ class App < Sinatra::Application
     else
       claim = Claim.create(description: cleaned_description, user_id: user_id)
       if claim.save
-        user = User.find(user_id)
-        username = user.username
-        user_email = user.email
-        email_one = ENV['EMAIL_ONE']
-        email_two = ENV['EMAIL_TWO']
-        email_managgers = [email_one, email_two]
-        message = "The user #{username} with email #{user_email} says:\n\n#{cleaned_description}"
-        Mail.deliver do
-          from email_ayds
-          to email_managgers
-          subject 'New message of AYDS Project App.'
-          body message
-        end
+        send_email(user_id, cleaned_description, email_ayds)
         redirect '/protected_page'
       else
         status 302
         redirect '/error?code=claim&reason=failed_send_claim'
       end
+    end
+  end
+
+  # Send an email to managers app
+  def send_email(user_id, description, email_ayds)
+    user = User.find(user_id)
+    username = user.username
+    user_email = user.email
+    email_one = ENV['EMAIL_ONE']
+    email_two = ENV['EMAIL_TWO']
+    email_managgers = [email_one, email_two]
+    message = "The user #{username} with email #{user_email} says:\n\n#{description}"
+    Mail.deliver do
+      from email_ayds
+      to email_managgers
+      subject 'New message of AYDS Project App.'
+      body message
     end
   end
 
@@ -439,7 +444,7 @@ class App < Sinatra::Application
         erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds, help: @help}
       end
     else
-      redirect "/error?code=unanswered"
+      redirect '/error?code=unanswered'
     end
   end
 
@@ -489,7 +494,7 @@ class App < Sinatra::Application
         }
       end
     else
-      redirect "/error?code=unanswered"
+      redirect '/error?code=unanswered'
     end
   end
 
@@ -598,7 +603,6 @@ class App < Sinatra::Application
         # Crear una nueva fila en la tabla QuestionAnswer con los IDs de la pregunta y la respuesta seleccionada
         session[:answered_questions] << index # Agregar el índice de la pregunta respondida a la lista
         question_answer = QuestionAnswer.create!(question_id: question_hash['question']['id'], trivia_id: @trivia.id, answer_id: selected_answer_id)
-        #question_answer.save
         selected_answer.update(selected: true)
 
         total_time = @trivia.difficulty == "beginner" ? 15 : 10
@@ -625,46 +629,46 @@ class App < Sinatra::Application
   get '/error' do
     error_code = params[:code]
     error_reason = params[:reason]
-    @error_message = "Ha ocurrido un error."
+    @error_message = 'Ha ocurrido un error.'
 
-    if error_code == "unanswered"
-      @error_message = "Se intentó acceder directamente a una pregunta sin haber respondido la pregunta anterior."
+    if error_code == 'unanswered'
+      @error_message = 'Se intentó acceder directamente a una pregunta sin haber respondido la pregunta anterior.'
     end
 
-    if error_code == "answered"
-      @error_message = "La pregunta ya ha sido respondida."
+    if error_code == 'answered'
+      @error_message = 'La pregunta ya ha sido respondida.'
     end
 
-    if error_code == "registration"
-      if error_reason == "password_mismatch"
-        @error_message = "Las contraseñas no coinciden."
+    if error_code == 'registration'
+      if error_reason == 'password_mismatch'
+        @error_message = 'Las contraseñas no coinciden.'
       end
 
-      if error_reason == "registration_error"
+      if error_reason == 'registration_error'
         @error_message = "Ha ocurrido un error durante el registro: #{params[:error_message]}"
       end
 
-      if error_reason == "username_taken"
-        @error_message = "El nombre de usuario no está disponible."
+      if error_reason == 'username_taken'
+        @error_message = 'El nombre de usuario no está disponible.'
       end
 
-      if error_reason == "email_taken"
-        @error_message = "El email no está disponible."
+      if error_reason == 'email_taken'
+        @error_message = 'El email no está disponible.'
       end
     end
 
-    if error_code == "login"
-      if error_reason == "authenticate_failed"
-        @error_message = "El usuario o la contraseña no coinciden. Por favor, vuelva a intentearlo."
+    if error_code == 'login'
+      if error_reason == 'authenticate_failed'
+        @error_message = 'El usuario o la contraseña no coinciden. Por favor, vuelva a intentearlo.'
       end
     end
 
-    if error_code == "claim"
-      if error_reason == "failed_send_claim"
-        @error_message = "No se pudo enviar su reclamo o valoración."
+    if error_code == 'claim'
+      if error_reason == 'failed_send_claim'
+        @error_message = 'No se pudo enviar su reclamo o valoración.'
       end
-      if error_reason == "malicious_block"
-        @error_message = "Se detectó código malicioso, el texto no fue enviado."
+      if error_reason == 'malicious_block'
+        @error_message = 'Se detectó código malicioso, el texto no fue enviado.'
       end
     end
 
@@ -729,7 +733,7 @@ class App < Sinatra::Application
 
     end
 
-    ###########################Logica para el ranking
+    #Logica para el ranking
     # Obtener el usuario actual
     user = current_user
 
