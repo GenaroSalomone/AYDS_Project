@@ -34,10 +34,10 @@ class App < Sinatra::Application
     response.headers['Access-Control-Allow-Origin'] = '*'
   end
 
-  options "*" do
-    response.headers["Allow"] = "GET, PUT, POST, DELETE, OPTIONS"
-    response.headers["Access-Control-Allow-Headers"] = "Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token"
-    response.headers["Access-Control-Allow-Origin"] = "*"
+  options '*' do
+    response.headers['Allow'] = 'GET, PUT, POST, DELETE, OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Authorization, Content-Type, Accept, X-User-Email, X-Auth-Token'
+    response.headers['Access-Control-Allow-Origin'] = '*'
     200
   end
 
@@ -57,7 +57,7 @@ class App < Sinatra::Application
 
   TOTAL_TIME_BEGINNER = 10
   TOTAL_TIME_DIFFICULTY = 15
-  
+
   # Verify if exists session trivia
   before do
     if session[:trivia_id]
@@ -199,8 +199,8 @@ class App < Sinatra::Application
       user_id = session[:user_id]
       @username = User.find(user_id).username
 
-      beginner_difficulty = Difficulty.find_by(level: "beginner")
-      difficult_difficulty = Difficulty.find_by(level: "difficult")
+      beginner_difficulty = Difficulty.find_by(level: 'beginner')
+      difficult_difficulty = Difficulty.find_by(level: 'difficult')
 
       beginner_ranking = Ranking.where(difficulty_id: beginner_difficulty.id).order(score: :desc).limit(10)
       difficult_ranking = Ranking.where(difficulty_id: difficult_difficulty.id).order(score: :desc).limit(10)
@@ -228,7 +228,7 @@ class App < Sinatra::Application
   # This route handles the submission of user claims when a POST request is made to '/claim'.
   # It retrieves the user's ID from the session and the description text from the form data.
   # Then the input description is sanitize, this is for some extern attack of malintentioned code.
-  # If input was remove then redirect to a error page.
+  # If input was remove then redirect to an error page.
   # If input wasn't remove then creates a new claim record in data base with the provided sanitize
   # description and user ID. If the record was successfully stored then an email was sent to the app
   # managers with the inupt description user.
@@ -295,7 +295,7 @@ class App < Sinatra::Application
     difficulty = Difficulty.find_by(level: difficulty_level)
     trivia = Trivia.new(user: user, difficulty: difficulty)
 
-    if difficulty_level == "beginner"
+    if difficulty_level == 'beginner'
       choice_count = rand(3..6)
       true_false_count = rand(3..4)
     else
@@ -306,20 +306,11 @@ class App < Sinatra::Application
     remaining_count = 10 - choice_count - true_false_count
     autocomplete_count = [remaining_count, 0].max
 
-    choice_questions = difficulty.questions
-      .where(type: 'Choice', is_question_translated: false)
-      .order("RANDOM()")
-      .limit(choice_count)
+    choice_questions = random_question(choice_count, 'Choice', difficulty)
 
-    true_false_questions = difficulty.questions
-      .where(type: 'True_False', is_question_translated: false)
-      .order("RANDOM()")
-      .limit(true_false_count)
+    true_false_questions = random_question(true_false_count, 'True_False', difficulty)
 
-    autocomplete_questions = difficulty.questions
-      .where(type: 'Autocomplete', is_question_translated: false)
-      .order("RANDOM()")
-      .limit(autocomplete_count)
+    autocomplete_questions = random_question(autocomplete_count, 'Autocomplete', difficulty)
 
     questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
     shuffled_questions = questions.shuffle
@@ -330,6 +321,16 @@ class App < Sinatra::Application
     session[:answered_questions] = []
 
     redirect '/question/0'
+  end
+
+  # Return random questions of a specified type and difficulty
+  def random_question(question_count, question_type, difficulty)
+    limit_random_question = difficulty.questions
+      .where(type: question_type, is_question_translated: false)
+      .order('RANDOM()')
+      .limit(question_count)
+
+      return limit_random_question
   end
 
   # @!method post_trivia-traduce
@@ -441,9 +442,9 @@ class App < Sinatra::Application
       else
         @question = question
         @answers = Answer.where(question_id: question.id)
-        @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
+        @time_limit_seconds = @trivia.difficulty.level == 'beginner' ? 15 : 10
         @question_index = index
-        @help = @trivia.difficulty.level == "beginner" ? question.help : nil
+        @help = @trivia.difficulty.level == 'beginner' ? question.help : nil
         erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds, help: @help}
       end
     else
@@ -484,7 +485,7 @@ class App < Sinatra::Application
         @question_type = question_hash['question_type']
         @help = @question['help']
         @answers = Answer.where(question_id: @question['id'])
-        @time_limit_seconds = @trivia.difficulty.level == "beginner" ? 15 : 10
+        @time_limit_seconds = @trivia.difficulty.level == 'beginner' ? 15 : 10
         @question_index = index
         erb :question_traduce, locals: {
           question: @question,
@@ -517,7 +518,7 @@ class App < Sinatra::Application
   # @raise [Redirect] If the question has already been answered, redirects to '/error?code=answered'.
   post '/answer/:index' do
     redirect '/trivia' if @trivia.nil?
-    
+
     index = params[:index].to_i
     question = @trivia.questions[index]
 
@@ -546,7 +547,7 @@ class App < Sinatra::Application
   # @raise [Redirect] If the question has already been answered, redirects to '/error?code=answered'.
   post '/answer-traduce/:index' do
     redirect '/trivia' if @trivia.nil?
-    
+
     index = params[:index].to_i
     question_hash = @trivia.translated_questions[index]
 
@@ -864,14 +865,14 @@ class App < Sinatra::Application
     is_translated = trivia.selected_language_code != 'es'
     question_id = is_translated ? question['id'] : question.id
     selected_answer = Answer.find_by(id: selected_answer_id, question_id: question_id)
-  
+
     if selected_answer.nil? && !question.is_a?(Autocomplete)
       handle_unanswered_question(index, path_prefix)
     else
       process_answer(selected_answer, index, question_id, trivia, path_prefix)
     end
   end
-  
+
   # @!method process_answer
   # Method for processing answers.
   #
@@ -889,11 +890,11 @@ class App < Sinatra::Application
     handle_autocomplete_answer(selected_answer, question_id)
     update_response_time(index, question_id, trivia, path_prefix)
   end
-  
+
   # @!method create_or_update_question_answer
   # Method for creating or updating a QuestionAnswer record.
   #
-  # This method creates or updates a QuestionAnswer record in the database with the IDs of the selected answer and question. 
+  # This method creates or updates a QuestionAnswer record in the database with the IDs of the selected answer and question.
   # If a selected answer exists, it updates the answer_id of the QuestionAnswer record and sets the selected attribute of the Answer record to true.
   #
   # @param [Answer] selected_answer The selected answer object.
@@ -901,18 +902,18 @@ class App < Sinatra::Application
   # @param [Trivia] trivia The current trivia session.
   def create_or_update_question_answer(selected_answer, question_id, trivia)
     question_answer = QuestionAnswer.find_or_initialize_by(question_id: question_id, trivia_id: trivia.id)
-    
+
     if !selected_answer.nil?
       question_answer.answer_id = selected_answer.id
       question_answer.save
       selected_answer.update(selected: true)
     end
   end
-  
+
   # @!method update_response_time
   # Method for updating the response time of a trivia question.
   #
-  # This method calculates the response time based on the total time and the time taken by the user to respond. 
+  # This method calculates the response time based on the total time and the time taken by the user to respond.
   # It updates the response_time attribute of the QuestionAnswer record and redirects to the next question.
   #
   # @param [Integer] index The index of the current question.
@@ -920,15 +921,15 @@ class App < Sinatra::Application
   # @param [Trivia] trivia The current trivia session.
   # @param [String] path_prefix The prefix of the redirect path.
   def update_response_time(index, question_id, trivia, path_prefix)
-    total_time = trivia.difficulty == "beginner" ? TOTAL_TIME_BEGINNER : TOTAL_TIME_DIFFICULTY
+    total_time = trivia.difficulty == 'beginner' ? TOTAL_TIME_BEGINNER : TOTAL_TIME_DIFFICULTY
     response_time = total_time - params[:response_time].to_i
     question_answer = QuestionAnswer.find_by(question_id: question_id, trivia_id: trivia.id)
     question_answer&.update(response_time: response_time)
-    
+
     next_index = index + 1
     redirect "#{path_prefix}/#{next_index}"
   end
-  
+
   # @!method handle_autocomplete_answer
   # Method for handling answers to autocomplete questions.
   #
@@ -938,7 +939,7 @@ class App < Sinatra::Application
   # @param [Question] question The current question object.
   def handle_autocomplete_answer(selected_answer, question)
     autocomplete_input = params[:autocomplete_input].to_s.strip
-    
+
     if question.is_a?(Autocomplete)
       answer_autocomplete = Answer.find_by(question_id: question.id)
       answer_autocomplete.update(autocomplete_input: autocomplete_input)
@@ -985,7 +986,7 @@ class App < Sinatra::Application
         email: data['email']
       }
     else
-      raise "Error: El token no se pudo verificar"
+      raise 'Error: El token no se pudo verificar'
     end
   end
 
@@ -1033,15 +1034,15 @@ class App < Sinatra::Application
   #
   # @raise [StandardError] If there is an error with the request or parsing the response, it outputs an error message and returns nil.
   def translate_to_selected_language(text, target_language)
-    url = URI("https://text-translator2.p.rapidapi.com/translate")
+    url = URI('https://text-translator2.p.rapidapi.com/translate')
 
     http = Net::HTTP.new(url.host, url.port)
     http.use_ssl = true
 
     request = Net::HTTP::Post.new(url)
-    request["content-type"] = 'application/x-www-form-urlencoded'
-    request["X-RapidAPI-Key"] = ENV['TEXT_TRANSLATOR_KEY']
-    request["X-RapidAPI-Host"] = 'text-translator2.p.rapidapi.com'
+    request['content-type'] = 'application/x-www-form-urlencoded'
+    request['X-RapidAPI-Key'] = ENV['TEXT_TRANSLATOR_KEY']
+    request['X-RapidAPI-Host'] = 'text-translator2.p.rapidapi.com'
     query = URI.encode_www_form(
       source_language: 'es',
       target_language: target_language,
