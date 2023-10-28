@@ -992,7 +992,7 @@ class App < Sinatra::Application
     max_score = 10
 
     # Si el nivel es 'beginner', restamos 1 punto por cada 4 segundos que tomó responder la pregunta
-    if response_time_limit == TIME_BEGINNER
+    if response_time_limit == TOTAL_TIME_BEGINNER
       points_to_subtract = [(response_time / 4).ceil, 3].min
     else
       # Si el nivel no es 'beginner', restamos 1 punto por cada 3 segundos que tomó responder la pregunta
