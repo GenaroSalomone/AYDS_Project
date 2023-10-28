@@ -1,5 +1,5 @@
+# frozen_string_literal: true
 require_relative 'require_utils'
-
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
 class App < Sinatra::Application
@@ -16,7 +16,7 @@ class App < Sinatra::Application
     set :public_folder, File.dirname(__FILE__) + '/public'
     set :session_secret, SecureRandom.hex(64)
 
-    logger = Logger.new(STDOUT)
+    logger = Logger.new($stdout)
     logger.level = Logger::DEBUG if development?
     set :logger, logger
   end
@@ -56,9 +56,9 @@ class App < Sinatra::Application
   end
 
   #Definition of constants
-  TOTAL_TIME_BEGINNER = 10 
-  TOTAL_QUESTIONS_SPANISH = TOTAL_TIME_BEGINNER
-  TOTAL_TIME_DIFFICULTY = 15
+  TOTAL_TIME_BEGINNER = 15
+  TOTAL_TIME_DIFFICULTY = 10
+  TOTAL_QUESTIONS_SPANISH = TOTAL_TIME_DIFFICULTY
   TOTAL_TRANSLATEDS_QUESTIONS = 5
 
   # Verify if exists session trivia
@@ -425,7 +425,8 @@ class App < Sinatra::Application
       question_index: @question_index,
       answers: @answers,
       time_limit_seconds: @time_limit_seconds,
-      help: @help}
+      help: @help
+    }
   end
 
   # @!method get_question_traduce
@@ -450,7 +451,8 @@ class App < Sinatra::Application
       question_index: @question_index,
       answers: @answers,
       time_limit_seconds: @time_limit_seconds,
-      help: @help}
+      help: @help
+    }
   end
 
   # @!method post_answer
@@ -938,7 +940,7 @@ class App < Sinatra::Application
       else
         @question = translated ? question['question'] : question
         @answers = Answer.where(question_id: @question['id'])
-        @time_limit_seconds = @trivia.difficulty.level == 'beginner' ? TOTAL_TIME_DIFFICULTY : TOTAL_TIME_BEGINNER
+        @time_limit_seconds = @trivia.difficulty.level == 'beginner' ? TOTAL_TIME_BEGINNER : TOTAL_TIME_DIFFICULTY
         @question_index = index
         @help = @trivia.difficulty.level == 'beginner' ? @question['help'] : nil
       end
