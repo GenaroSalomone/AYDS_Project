@@ -259,23 +259,6 @@ class App < Sinatra::Application
     end
   end
 
-  # Send an email to managers app
-  def send_email(user_id, description, email_ayds)
-    user = User.find(user_id)
-    username = user.username
-    user_email = user.email
-    email_one = ENV['EMAIL_ONE']
-    email_two = ENV['EMAIL_TWO']
-    email_managgers = [email_one, email_two]
-    message = "The user #{username} with email #{user_email} says:\n\n#{description}"
-    Mail.deliver do
-      from email_ayds
-      to email_managgers
-      subject 'New message of AYDS Project App.'
-      body message
-    end
-  end
-
   # @!method post_trivia
   # POST endpoint for handling trivia creation and initiation.
   #
@@ -417,9 +400,9 @@ class App < Sinatra::Application
   # @see fetch_question
   get '/question/:index' do
     index = params[:index].to_i
-  
+
     fetch_question(index)
-  
+
     erb :question, locals: { question: @question,
       trivia: @trivia,
       question_index: @question_index,
@@ -442,17 +425,16 @@ class App < Sinatra::Application
   # @see fetch_question
   get '/question-traduce/:index' do
     index = params[:index].to_i
-  
+
     fetch_question(index, true)
-  
+
     erb :question_traduce, locals: {
       question: @question,
       trivia: @trivia,
       question_index: @question_index,
       answers: @answers,
       time_limit_seconds: @time_limit_seconds,
-      help: @help
-    }
+      help: @help}
   end
 
   # @!method post_answer
@@ -525,52 +507,38 @@ class App < Sinatra::Application
   #
   # @return [ERB] Displays an error page with a custom error message.
   get '/error' do
+
+    # Diccionario o hash que mapea error_code y error_reason a mensajes (Key => Value)
+    error_messages = {
+      'unanswered' => 'Se intentó acceder directamente a una pregunta sin haber respondido la pregunta anterior.',
+      'answered' => 'La pregunta ya ha sido respondida.',
+      'registration' => {
+        'password_mismatch' => 'Las contraseñas no coinciden.',
+        'registration_error' => "Ha ocurrido un error durante el registro: #{params[:error_message]}",
+        'username_taken' => 'El nombre de usuario no está disponible.',
+        'email_taken' => 'El email no está disponible.'
+      },
+      'login' => {
+        'authenticate_failed' => 'El usuario o la contraseña no coinciden. Por favor, vuelva a intentearlo.'
+      },
+      'claim' => {
+        'failed_send_claim' => 'No se pudo enviar su reclamo o valoración.',
+        'malicious_block' => 'Se detectó código malicioso, el texto no fue enviado.'
+      }
+    }
+
     error_code = params[:code]
     error_reason = params[:reason]
-    @error_message = 'Ha ocurrido un error.'
 
-    if error_code == 'unanswered'
-      @error_message = 'Se intentó acceder directamente a una pregunta sin haber respondido la pregunta anterior.'
-    end
+    @error_message = error_messages[error_code] || 'Ha ocurrido un error.'
 
-    if error_code == 'answered'
-      @error_message = 'La pregunta ya ha sido respondida.'
-    end
-
-    if error_code == 'registration'
-      if error_reason == 'password_mismatch'
-        @error_message = 'Las contraseñas no coinciden.'
-      end
-
-      if error_reason == 'registration_error'
-        @error_message = "Ha ocurrido un error durante el registro: #{params[:error_message]}"
-      end
-
-      if error_reason == 'username_taken'
-        @error_message = 'El nombre de usuario no está disponible.'
-      end
-
-      if error_reason == 'email_taken'
-        @error_message = 'El email no está disponible.'
-      end
-    end
-
-    if error_code == 'login'
-      if error_reason == 'authenticate_failed'
-        @error_message = 'El usuario o la contraseña no coinciden. Por favor, vuelva a intentearlo.'
-      end
-    end
-
-    if error_code == 'claim'
-      if error_reason == 'failed_send_claim'
-        @error_message = 'No se pudo enviar su reclamo o valoración.'
-      end
-      if error_reason == 'malicious_block'
-        @error_message = 'Se detectó código malicioso, el texto no fue enviado.'
-      end
+    # si error_code es un sub hash del hash error_messages y error_code es una clave en el hash error_messages
+    if error_messages[error_code].is_a?(Hash) && error_messages[error_code].key?(error_reason)
+      @error_message = error_messages[error_code][error_reason]
     end
 
     erb :error, locals: { error_message: @error_message }
+
   end
 
   # @!method get_results
@@ -596,7 +564,7 @@ class App < Sinatra::Application
     @results = []
     @score = 0
     @idx = 0
-    response_time_limit = @trivia.difficulty == 'beginner' ? 15 : 10
+    response_time_limit = @trivia.difficulty == 'beginner' ? TOTAL_TIME_BEGINNER : TOTAL_TIME_DIFFICULTY
 
     @trivia.question_answers.each do |question_answer|
       question = question_answer.question
@@ -674,7 +642,7 @@ class App < Sinatra::Application
     @results = []
     @score = 0
     @idx = 0
-    response_time_limit = @trivia.difficulty == 'beginner' ? 15 : 10
+    response_time_limit = @trivia.difficulty == 'beginner' ? TOTAL_TIME_BEGINNER : TOTAL_TIME_DIFFICULTY
 
     question_answers = @trivia.question_answers.offset(5)  # 5th position and onwards
 
@@ -930,9 +898,9 @@ class App < Sinatra::Application
   # @see Answer.where
   def fetch_question(index, translated = false)
     redirect '/trivia' if @trivia.nil?
-  
+
     previous_index = index.zero? ? 0 : index - 1
-  
+
     if index.zero? || session[:answered_questions].include?(previous_index)
       question = translated ? @trivia.translated_questions[index] : @trivia.questions[index]
       if question.nil? || (translated && index >= TOTAL_TRANSLATEDS_QUESTIONS) || (!translated && index >= TOTAL_QUESTIONS_SPANISH)
@@ -957,6 +925,23 @@ class App < Sinatra::Application
       .limit(question_count)
 
       return limit_random_question
+  end
+
+  # Send an email to managers app
+  def send_email(user_id, description, email_ayds)
+    user = User.find(user_id)
+    username = user.username
+    user_email = user.email
+    email_one = ENV['EMAIL_ONE']
+    email_two = ENV['EMAIL_TWO']
+    email_managgers = [email_one, email_two]
+    message = "The user #{username} with email #{user_email} says:\n\n#{description}"
+    Mail.deliver do
+      from email_ayds
+      to email_managgers
+      subject 'New message of AYDS Project App.'
+      body message
+    end
   end
 
   # @!method google_verify
@@ -1007,7 +992,7 @@ class App < Sinatra::Application
     max_score = 10
 
     # Si el nivel es 'beginner', restamos 1 punto por cada 4 segundos que tomó responder la pregunta
-    if response_time_limit == 15
+    if response_time_limit == TIME_BEGINNER
       points_to_subtract = [(response_time / 4).ceil, 3].min
     else
       # Si el nivel no es 'beginner', restamos 1 punto por cada 3 segundos que tomó responder la pregunta

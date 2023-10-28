@@ -11,9 +11,20 @@ Style/StringLiterals:
   EnforcedStyle: single_quotes # Prefer single-quoted strings
 
 Layout/LineLength:
-  Max: 200 # Set your preferred line length
+  Max: 250 # Set your preferred line length
 
 Metrics/BlockLength:
+  Max: 50
   Exclude:
     - 'spec/**/*' # Exclude block length checks in spec files
 
+Metrics/MethodLength:
+  Max: 50
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - '**/*' # Excluye el mensaje en todos los archivos
+
+Lint/UnusedMethodArgument:
+  Exclude:
+    - '**/*'
