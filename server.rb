@@ -55,8 +55,11 @@ class App < Sinatra::Application
     }
   end
 
-  TOTAL_TIME_BEGINNER = 10
+  #Definition of constants
+  TOTAL_TIME_BEGINNER = 10 
+  TOTAL_QUESTIONS_SPANISH = TOTAL_TIME_BEGINNER
   TOTAL_TIME_DIFFICULTY = 15
+  TOTAL_TRANSLATEDS_QUESTIONS = 5
 
   # Verify if exists session trivia
   before do
@@ -306,11 +309,11 @@ class App < Sinatra::Application
     remaining_count = 10 - choice_count - true_false_count
     autocomplete_count = [remaining_count, 0].max
 
-    choice_questions = random_question(choice_count, 'Choice', difficulty)
+    choice_questions = random_questions(choice_count, 'Choice', difficulty)
 
-    true_false_questions = random_question(true_false_count, 'True_False', difficulty)
+    true_false_questions = random_questions(true_false_count, 'True_False', difficulty)
 
-    autocomplete_questions = random_question(autocomplete_count, 'Autocomplete', difficulty)
+    autocomplete_questions = random_questions(autocomplete_count, 'Autocomplete', difficulty)
 
     questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
     shuffled_questions = questions.shuffle
@@ -321,16 +324,6 @@ class App < Sinatra::Application
     session[:answered_questions] = []
 
     redirect '/question/0'
-  end
-
-  # Return random questions of a specified type and difficulty
-  def random_question(question_count, question_type, difficulty)
-    limit_random_question = difficulty.questions
-      .where(type: question_type, is_question_translated: false)
-      .order('RANDOM()')
-      .limit(question_count)
-
-      return limit_random_question
   end
 
   # @!method post_trivia-traduce
@@ -414,10 +407,6 @@ class App < Sinatra::Application
   # @!method get_question
   # GET endpoint for handling displaying a trivia question.
   #
-  # This route is responsible for displaying a trivia question based on the provided index in the URL.
-  # If there's no active trivia session, it redirects to the '/trivia' route.
-  # It retrieves the question at the specified index and prepares the necessary data for rendering the question view.
-  #
   # @param index [Integer] The index of the question to display.
   #
   # @return [ERB] The question view for the specified trivia question.
@@ -425,39 +414,22 @@ class App < Sinatra::Application
   # @raise [Redirect] Redirects to '/results' if there are no more questions or if the trivia is complete.
   # @raise [Redirect] Redirects to '/error?code=unanswered' if the user tries to access questions out of order.
   #
-  # @see session[:answered_questions]
-  # @see Trivia#questions
-  # @see Answer.where
-  # @see session[:trivia_id]
+  # @see fetch_question
   get '/question/:index' do
-    redirect '/trivia' if @trivia.nil?
-
     index = params[:index].to_i
-    question = @trivia.questions[index]
-    previous_index = index.zero? ? 0 : index - 1
-
-    if index.zero? || session[:answered_questions].include?(previous_index)
-      if question.nil? || index >= 10
-        redirect '/results'
-      else
-        @question = question
-        @answers = Answer.where(question_id: question.id)
-        @time_limit_seconds = @trivia.difficulty.level == 'beginner' ? 15 : 10
-        @question_index = index
-        @help = @trivia.difficulty.level == 'beginner' ? question.help : nil
-        erb :question, locals: { question: @question, trivia: @trivia, question_index: @question_index, answers: @answers, time_limit_seconds: @time_limit_seconds, help: @help}
-      end
-    else
-      redirect '/error?code=unanswered'
-    end
+  
+    fetch_question(index)
+  
+    erb :question, locals: { question: @question,
+      trivia: @trivia,
+      question_index: @question_index,
+      answers: @answers,
+      time_limit_seconds: @time_limit_seconds,
+      help: @help}
   end
 
   # @!method get_question_traduce
   # GET endpoint for handling displaying a translated trivia question.
-  #
-  # This route is responsible for displaying a translated trivia question based on the provided index in the URL.
-  # If there's no active trivia session, it redirects to the '/trivia' route.
-  # It retrieves the translated question at the specified index and prepares the necessary data for rendering the question view.
   #
   # @param index [Integer] The index of the translated question to display.
   #
@@ -466,40 +438,19 @@ class App < Sinatra::Application
   # @raise [Redirect] Redirects to '/results-traduce' if there are no more translated questions or if the trivia is complete.
   # @raise [Redirect] Redirects to '/error?code=unanswered' if the user tries to access translated questions out of order.
   #
-  # @see session[:answered_questions]
-  # @see Trivia#translated_questions
-  # @see Answer.where
-  # @see session[:trivia_id]
+  # @see fetch_question
   get '/question-traduce/:index' do
-    redirect '/trivia' if @trivia.nil?
-
     index = params[:index].to_i
-    question_hash = @trivia.translated_questions[index]
-    previous_index = index.zero? ? 0 : index - 1
-
-    if index.zero? || session[:answered_questions].include?(previous_index)
-      if question_hash.nil? || index >= 5
-        redirect '/results-traduce'
-      else
-        @question = question_hash['question']
-        @question_type = question_hash['question_type']
-        @help = @question['help']
-        @answers = Answer.where(question_id: @question['id'])
-        @time_limit_seconds = @trivia.difficulty.level == 'beginner' ? 15 : 10
-        @question_index = index
-        erb :question_traduce, locals: {
-          question: @question,
-          question_type: @question_type,
-          trivia: @trivia,
-          question_index: @question_index,
-          answers: @answers,
-          time_limit_seconds: @time_limit_seconds,
-          help: @help
-        }
-      end
-    else
-      redirect '/error?code=unanswered'
-    end
+  
+    fetch_question(index, true)
+  
+    erb :question_traduce, locals: {
+      question: @question,
+      trivia: @trivia,
+      question_index: @question_index,
+      answers: @answers,
+      time_limit_seconds: @time_limit_seconds,
+      help: @help}
   end
 
   # @!method post_answer
@@ -958,6 +909,52 @@ class App < Sinatra::Application
   def handle_unanswered_question(index, path_prefix)
     session[:answered_questions] << index
     redirect "#{path_prefix}/#{index + 1}"
+  end
+
+    # @!method fetch_question
+  # Method for fetching a trivia question or a translated trivia question.
+  #
+  # @param index [Integer] The index of the question to fetch.
+  # @param translated [Boolean] A flag indicating whether to fetch a translated question.
+  #
+  # @return [void]
+  #
+  # @raise [Redirect] Redirects to '/trivia' if there's no active trivia session.
+  # @raise [Redirect] Redirects to '/results' or '/results-traduce' if there are no more questions or if the trivia is complete.
+  # @raise [Redirect] Redirects to '/error?code=unanswered' if the user tries to access questions out of order.
+  #
+  # @see Trivia#questions
+  # @see Trivia#translated_questions
+  # @see Answer.where
+  def fetch_question(index, translated = false)
+    redirect '/trivia' if @trivia.nil?
+  
+    previous_index = index.zero? ? 0 : index - 1
+  
+    if index.zero? || session[:answered_questions].include?(previous_index)
+      question = translated ? @trivia.translated_questions[index] : @trivia.questions[index]
+      if question.nil? || (translated && index >= TOTAL_TRANSLATEDS_QUESTIONS) || (!translated && index >= TOTAL_QUESTIONS_SPANISH)
+        redirect translated ? '/results-traduce' : '/results'
+      else
+        @question = translated ? question['question'] : question
+        @answers = Answer.where(question_id: @question['id'])
+        @time_limit_seconds = @trivia.difficulty.level == 'beginner' ? TOTAL_TIME_DIFFICULTY : TOTAL_TIME_BEGINNER
+        @question_index = index
+        @help = @trivia.difficulty.level == 'beginner' ? @question['help'] : nil
+      end
+    else
+      redirect '/error?code=unanswered'
+    end
+  end
+
+  # Return random questions of a specified type and difficulty
+  def random_questions(question_count, question_type, difficulty)
+    limit_random_question = difficulty.questions
+      .where(type: question_type, is_question_translated: false)
+      .order('RANDOM()')
+      .limit(question_count)
+
+      return limit_random_question
   end
 
   # @!method google_verify
