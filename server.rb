@@ -1,19 +1,16 @@
 # frozen_string_literal: true
+
 require_relative 'require_utils'
 require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
 class App < Sinatra::Application
-  def initialize(app = nil)
-    super()
-  end
-
   # General settings
   configure do
     enable :logging
     enable :sessions
     enable :cross_origin
 
-    set :public_folder, File.dirname(__FILE__) + '/public'
+    set :public_folder, "#{File.dirname(__FILE__)}/public"
     set :session_secret, SecureRandom.hex(64)
 
     logger = Logger.new($stdout)
@@ -55,7 +52,7 @@ class App < Sinatra::Application
     }
   end
 
-  #Definition of constants
+  # Definition of constants
   TOTAL_TIME_BEGINNER = 15
   TOTAL_TIME_DIFFICULTY = 10
   TOTAL_QUESTIONS_SPANISH = TOTAL_TIME_DIFFICULTY
@@ -116,7 +113,7 @@ class App < Sinatra::Application
   # @raise [Redirect] If passwords do not match, redirects to '/error?code=registration&reason=password_mismatch'.
   # @raise [Redirect] If username is already in use, redirects to '/error?code=registration&reason=username_taken'.
   # @raise [Redirect] If email is already in use, redirects to '/error?code=registration&reason=email_taken'.
-  # @raise [Redirect] If there's an error saving the new user record in the database, redirects to '/error?code=registration&reason=registration_error&error_message=#{CGI.escape(user.errors.full_messages.join(', '))}'.
+  # @raise [Redirect] If there's an error saving the new user record in the database, redirects to '/error?code=registration&reason=registration_error
   #
   # @see User#create
   # @see User#exists?
@@ -175,7 +172,7 @@ class App < Sinatra::Application
     password = params[:password]
 
     user = User.find_by(username: username)
-    if user && user.authenticate(password)
+    if user&.authenticate(password)
       session[:user_id] = user.id
       redirect '/protected_page'
     else
@@ -259,6 +256,23 @@ class App < Sinatra::Application
     end
   end
 
+  # Send an email to managers app
+  def send_email(user_id, description, email_ayds)
+    user = User.find(user_id)
+    username = user.username
+    user_email = user.email
+    email_one = ENV['EMAIL_ONE']
+    email_two = ENV['EMAIL_TWO']
+    email_managgers = [email_one, email_two]
+    message = "The user #{username} with email #{user_email} says:\n\n#{description}"
+    Mail.deliver do
+      from email_ayds
+      to email_managgers
+      subject 'New message of AYDS Project App.'
+      body message
+    end
+  end
+
   # @!method post_trivia
   # POST endpoint for handling trivia creation and initiation.
   #
@@ -301,7 +315,7 @@ class App < Sinatra::Application
     questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
     shuffled_questions = questions.shuffle
     trivia.questions.concat(shuffled_questions)
-    trivia.translated_questions = []  # Esto eliminará las preguntas traducidas de la trivia actual
+    trivia.translated_questions = [] # Esto eliminará las preguntas traducidas de la trivia actual
     trivia.save
     session[:trivia_id] = trivia.id
     session[:answered_questions] = []
@@ -333,10 +347,10 @@ class App < Sinatra::Application
     trivia = Trivia.new(user: user, difficulty: difficulty, selected_language_code: selected_language_code)
 
     choice_and_true_false_questions = difficulty.questions
-      .where(type: ['Choice', 'True_False'])
-      .where(is_question_translated: false)
-      .order("RANDOM()")
-      .limit(5)
+                                                .where(type: %w[Choice True_False])
+                                                .where(is_question_translated: false)
+                                                .order('RANDOM()')
+                                                .limit(5)
     trivia.questions.concat(choice_and_true_false_questions)
 
     translated_questions = []
@@ -346,31 +360,37 @@ class App < Sinatra::Application
       # Hace una solicitud a la API de traducción para traducir el texto al idioma seleccionado
       translated_question_text = translate_to_selected_language(question.text, trivia.selected_language_code)
 
-      translated_help_text = nil
-      if question.difficulty.level == 'beginner'
-        translated_help_text = translate_to_selected_language(question.help, trivia.selected_language_code)
-      end
+      translated_help_text = translate_to_selected_language(question.help, trivia.selected_language_code) if question.difficulty.level == 'beginner'
       # Crea una nueva pregunta traducida y guárdala en el arreglo
       translated_question = case question
-        when Choice
-          { 'question_type' => 'Choice', 'question' => Choice.create!(text: translated_question_text, difficulty: question.difficulty,
-             is_question_translated: true, help: translated_help_text) }
-        when True_False
-          { 'question_type' => 'True_False', 'question' => True_False.create!(text: translated_question_text, difficulty: question.difficulty,
-             is_question_translated: true, help: translated_help_text) }
-        end
+                            when Choice
+                              { 'question_type' => 'Choice', 'question' => Choice.create!(
+                                text: translated_question_text,
+                                difficulty: question.difficulty,
+                                is_question_translated: true,
+                                help: translated_help_text
+                              ) }
+                            when True_False
+                              { 'question_type' => 'True_False', 'question' => True_False.create!(
+                                text: translated_question_text,
+                                difficulty: question.difficulty,
+                                is_question_translated: true,
+                                help: translated_help_text
+                              ) }
+                            end
       translated_questions << translated_question
 
-      translated_question_answers = []  # Arreglo para las respuestas traducidas de esta pregunta
+      translated_question_answers = [] # Arreglo para las respuestas traducidas de esta pregunta
       answers = Answer.where(question: question)
 
       answers.each do |answer|
-        translated_answer_text = translate_to_selected_language(answer.text, trivia.selected_language_code) unless answer.question.is_a?(Autocomplete)
-        if answer.question.is_a?(Autocomplete)
-          translated_answer = Answer.create!(text: translated_answer_text, question_id: translated_question['question']['id'])
-        else
-          translated_answer = Answer.create!(text: translated_answer_text, question_id: translated_question['question']['id'], correct: answer.correct)
-        end
+        is_an_autocomplete = answer.question.is_a?(Autocomplete)
+        translated_answer_text = translate_to_selected_language(answer.text, trivia.selected_language_code) unless is_an_autocomplete
+        translated_answer = if is_an_autocomplete
+                              Answer.create!(text: translated_answer_text, question_id: translated_question['question']['id'])
+                            else
+                              Answer.create!(text: translated_answer_text, question_id: translated_question['question']['id'], correct: answer.correct)
+                            end
         translated_question_answers << translated_answer
       end
 
@@ -400,10 +420,9 @@ class App < Sinatra::Application
   # @see fetch_question
   get '/question/:index' do
     index = params[:index].to_i
-
     fetch_question(index)
-
-    erb :question, locals: { question: @question,
+    erb :question, locals: {
+      question: @question,
       trivia: @trivia,
       question_index: @question_index,
       answers: @answers,
@@ -425,16 +444,15 @@ class App < Sinatra::Application
   # @see fetch_question
   get '/question-traduce/:index' do
     index = params[:index].to_i
-
     fetch_question(index, true)
-
     erb :question_traduce, locals: {
       question: @question,
       trivia: @trivia,
       question_index: @question_index,
       answers: @answers,
       time_limit_seconds: @time_limit_seconds,
-      help: @help}
+      help: @help
+    }
   end
 
   # @!method post_answer
@@ -558,14 +576,12 @@ class App < Sinatra::Application
   # @see Answer
   # @see Trivia
   get '/results' do
-    redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
-
+    redirect '/trivia' if @trivia.nil?
     @user = @trivia.user
     @results = []
     @score = 0
     @idx = 0
     response_time_limit = @trivia.difficulty == 'beginner' ? TOTAL_TIME_BEGINNER : TOTAL_TIME_DIFFICULTY
-
     @trivia.question_answers.each do |question_answer|
       question = question_answer.question
       selected_answer = Answer.find_by(id: question_answer.answer_id, question_id: question_answer.question_id)
@@ -596,10 +612,8 @@ class App < Sinatra::Application
       else
         @score += 0
       end
-
     end
-
-    #Logica para el ranking
+    # Logica para el ranking
     # Obtener el usuario actual
     user = current_user
 
@@ -636,16 +650,13 @@ class App < Sinatra::Application
   # @see Answer
   # @see Trivia
   get '/results-traduce' do
-    redirect '/trivia' if @trivia.nil?  # Redirigir si no hay una trivia en sesión
-
+    redirect '/trivia' if @trivia.nil?
     @user = @trivia.user
     @results = []
     @score = 0
     @idx = 0
-    response_time_limit = @trivia.difficulty == 'beginner' ? TOTAL_TIME_BEGINNER : TOTAL_TIME_DIFFICULTY
-
-    question_answers = @trivia.question_answers.offset(5)  # 5th position and onwards
-
+    response_time_limit = @trivia.difficulty == 'beginner' ? 15 : 10
+    question_answers = @trivia.question_answers.offset(5) # 5th position and onwards
     question_answers.each do |question_answer|
       # Fetch the translated question from the session or Trivia object
       translated_question_hash = @trivia.translated_questions.find { |q| q['question']['id'] == question_answer.question_id }
@@ -660,7 +671,7 @@ class App < Sinatra::Application
         question: question,
         selected_answer: selected_answer,
         correct_answer: correct_answer,
-        correct: correct,
+        correct: correct
       }
 
       @results << result
@@ -670,7 +681,6 @@ class App < Sinatra::Application
       else
         @score += 0
       end
-
     end
 
     user = current_user
@@ -716,9 +726,8 @@ class App < Sinatra::Application
       {
         correo: usuario_info[:email],
         success: true,
-        session: session[:user_id],
+        session: session[:user_id]
       }.to_json
-
     rescue StandardError => e
       content_type :json
       {
@@ -738,24 +747,21 @@ class App < Sinatra::Application
   #
   # @raise [StandardError] If there is an error reading the file or parsing the JSON, it returns a 500 status code and an error message.
   get '/obtener-lenguajes-soportados' do
-    begin
-      # Lee los datos desde el archivo JSON local
-      languages_data = JSON.parse(File.read(('languages.json')))
+    # Lee los datos desde el archivo JSON local
+    languages_data = JSON.parse(File.read('languages.json'))
 
-      if languages_data.nil?
-        status 500
-        body 'Error al obtener la lista de lenguajes: No se pudieron cargar los datos.'
-      else
-        # Define el contenido de la respuesta JSON
-
-        content_type :json
-        status 200
-        body languages_data['data']['languages'].to_json
-      end
-    rescue StandardError => e
+    if languages_data.nil?
       status 500
-      body 'Error al obtener la lista de lenguajes: ' + e.message
+      body 'Error al obtener la lista de lenguajes: No se pudieron cargar los datos.'
+    else
+      # Define el contenido de la respuesta JSON
+      content_type :json
+      status 200
+      body languages_data['data']['languages'].to_json
     end
+  rescue StandardError => e
+    status 500
+    body "Error al obtener la lista de lenguajes: #{e.message}"
   end
 
   # @!method current_user
@@ -790,7 +796,7 @@ class App < Sinatra::Application
     if selected_answer.nil? && !question.is_a?(Autocomplete)
       handle_unanswered_question(index, path_prefix)
     else
-      process_answer(selected_answer, index, question_id, trivia, path_prefix)
+      process_answer(selected_answer, index, question, question_id, trivia, path_prefix)
     end
   end
 
@@ -805,10 +811,11 @@ class App < Sinatra::Application
   # @param [Integer] question_id The ID of the current question.
   # @param [Trivia] trivia The current trivia session.
   # @param [String] path_prefix The prefix of the redirect path.
-  def process_answer(selected_answer, index, question_id, trivia, path_prefix)
+  def process_answer(selected_answer, index, question, question_id, trivia, path_prefix)
     session[:answered_questions] << index
-    create_or_update_question_answer(selected_answer, question_id, trivia)
-    handle_autocomplete_answer(selected_answer, question_id)
+    is_an_autocomplete = question.is_a?(Autocomplete)
+    create_or_update_question_answer(selected_answer, question_id, trivia) unless is_an_autocomplete
+    handle_autocomplete_answer(question) if is_an_autocomplete
     update_response_time(index, question_id, trivia, path_prefix)
   end
 
@@ -824,11 +831,11 @@ class App < Sinatra::Application
   def create_or_update_question_answer(selected_answer, question_id, trivia)
     question_answer = QuestionAnswer.find_or_initialize_by(question_id: question_id, trivia_id: trivia.id)
 
-    if !selected_answer.nil?
-      question_answer.answer_id = selected_answer.id
-      question_answer.save
-      selected_answer.update(selected: true)
-    end
+    return unless selected_answer
+
+    question_answer.answer_id = selected_answer.id
+    question_answer.save
+    selected_answer.update(selected: true)
   end
 
   # @!method update_response_time
@@ -858,13 +865,12 @@ class App < Sinatra::Application
   #
   # @param [Answer] selected_answer The selected answer object.
   # @param [Question] question The current question object.
-  def handle_autocomplete_answer(selected_answer, question)
+  def handle_autocomplete_answer(question)
     autocomplete_input = params[:autocomplete_input].to_s.strip
+    return unless question.is_a?(Autocomplete)
 
-    if question.is_a?(Autocomplete)
-      answer_autocomplete = Answer.find_by(question_id: question.id)
-      answer_autocomplete.update(autocomplete_input: autocomplete_input)
-    end
+    answer_autocomplete = Answer.find_by(question_id: question.id)
+    answer_autocomplete.update(autocomplete_input: autocomplete_input)
   end
 
   # @!method handle_unanswered_question
@@ -881,7 +887,7 @@ class App < Sinatra::Application
     redirect "#{path_prefix}/#{index + 1}"
   end
 
-    # @!method fetch_question
+  # @!method fetch_question
   # Method for fetching a trivia question or a translated trivia question.
   #
   # @param index [Integer] The index of the question to fetch.
@@ -898,9 +904,7 @@ class App < Sinatra::Application
   # @see Answer.where
   def fetch_question(index, translated = false)
     redirect '/trivia' if @trivia.nil?
-
     previous_index = index.zero? ? 0 : index - 1
-
     if index.zero? || session[:answered_questions].include?(previous_index)
       question = translated ? @trivia.translated_questions[index] : @trivia.questions[index]
       if question.nil? || (translated && index >= TOTAL_TRANSLATEDS_QUESTIONS) || (!translated && index >= TOTAL_QUESTIONS_SPANISH)
@@ -919,29 +923,10 @@ class App < Sinatra::Application
 
   # Return random questions of a specified type and difficulty
   def random_questions(question_count, question_type, difficulty)
-    limit_random_question = difficulty.questions
-      .where(type: question_type, is_question_translated: false)
-      .order('RANDOM()')
-      .limit(question_count)
-
-      return limit_random_question
-  end
-
-  # Send an email to managers app
-  def send_email(user_id, description, email_ayds)
-    user = User.find(user_id)
-    username = user.username
-    user_email = user.email
-    email_one = ENV['EMAIL_ONE']
-    email_two = ENV['EMAIL_TWO']
-    email_managgers = [email_one, email_two]
-    message = "The user #{username} with email #{user_email} says:\n\n#{description}"
-    Mail.deliver do
-      from email_ayds
-      to email_managgers
-      subject 'New message of AYDS Project App.'
-      body message
-    end
+    difficulty.questions
+              .where(type: question_type, is_question_translated: false)
+              .order('RANDOM()')
+              .limit(question_count)
   end
 
   # @!method google_verify
@@ -958,20 +943,16 @@ class App < Sinatra::Application
   # @raise [StandardError] An error is raised if the token cannot be verified or does not match the expected client ID.
   def google_verify(token)
     client_id = ENV['GOOGLE_CLIENT_ID']
-
     uri = URI.parse("https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=#{token}")
     response = Net::HTTP.get_response(uri)
     data = JSON.parse(response.body)
-
-    if data['aud'] == client_id
-      {
-        username: data['name'],
-        img: data['picture'],
-        email: data['email']
-      }
-    else
-      raise 'Error: El token no se pudo verificar'
-    end
+    raise 'Error: El token no se pudo verificar' unless data['aud'] == client_id
+            
+    {
+      username: data['name'],
+      img: data['picture'],
+      email: data['email']
+    }
   end
 
   # @!method calculate_response_time_score
@@ -990,15 +971,12 @@ class App < Sinatra::Application
   def calculate_response_time_score(response_time, response_time_limit)
     # Asignamos una puntuación máxima de 10 puntos a una respuesta correcta
     max_score = 10
-
-    # Si el nivel es 'beginner', restamos 1 punto por cada 4 segundos que tomó responder la pregunta
-    if response_time_limit == TOTAL_TIME_BEGINNER
-      points_to_subtract = [(response_time / 4).ceil, 3].min
-    else
-      # Si el nivel no es 'beginner', restamos 1 punto por cada 3 segundos que tomó responder la pregunta
-      points_to_subtract = [(response_time / 3).ceil, 3].min
-    end
-
+    # Calculamos los puntos a restar basados en el tiempo de respuesta y el límite de tiempo
+    points_to_subtract = if response_time_limit == TOTAL_TIME_BEGINNER
+                           [(response_time / 4).ceil, 3].min
+                         else
+                           [(response_time / 3).ceil, 3].min
+                         end
     # Calculamos la puntuación final restando los puntos a restar de la puntuación máxima y asegurándonos de que esté dentro del rango 0 a max_score
     final_score = max_score - points_to_subtract
     final_score.clamp(0, max_score)
@@ -1050,5 +1028,4 @@ class App < Sinatra::Application
       return nil
     end
   end
-
 end
