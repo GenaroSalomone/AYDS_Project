@@ -256,23 +256,6 @@ class App < Sinatra::Application
     end
   end
 
-  # Send an email to managers app
-  def send_email(user_id, description, email_ayds)
-    user = User.find(user_id)
-    username = user.username
-    user_email = user.email
-    email_one = ENV['EMAIL_ONE']
-    email_two = ENV['EMAIL_TWO']
-    email_managgers = [email_one, email_two]
-    message = "The user #{username} with email #{user_email} says:\n\n#{description}"
-    Mail.deliver do
-      from email_ayds
-      to email_managgers
-      subject 'New message of AYDS Project App.'
-      body message
-    end
-  end
-
   # @!method post_trivia
   # POST endpoint for handling trivia creation and initiation.
   #
@@ -537,7 +520,7 @@ class App < Sinatra::Application
         'email_taken' => 'El email no está disponible.'
       },
       'login' => {
-        'authenticate_failed' => 'El usuario o la contraseña no coinciden. Por favor, vuelva a intentearlo.'
+        'authenticate_failed' => 'El usuario o la contraseña no coinciden. Por favor, vuelva a intentarlo.'
       },
       'claim' => {
         'failed_send_claim' => 'No se pudo enviar su reclamo o valoración.',
@@ -655,7 +638,7 @@ class App < Sinatra::Application
     @results = []
     @score = 0
     @idx = 0
-    response_time_limit = @trivia.difficulty == 'beginner' ? 15 : 10
+    response_time_limit = @trivia.difficulty == 'beginner' ? TOTAL_TIME_BEGINNER : TOTAL_TIME_DIFFICULTY
     question_answers = @trivia.question_answers.offset(5) # 5th position and onwards
     question_answers.each do |question_answer|
       # Fetch the translated question from the session or Trivia object
@@ -921,6 +904,23 @@ class App < Sinatra::Application
     end
   end
 
+  # Send an email to managers app
+  def send_email(user_id, description, email_ayds)
+    user = User.find(user_id)
+    username = user.username
+    user_email = user.email
+    email_one = ENV['EMAIL_ONE']
+    email_two = ENV['EMAIL_TWO']
+    email_managgers = [email_one, email_two]
+    message = "The user #{username} with email #{user_email} says:\n\n#{description}"
+    Mail.deliver do
+      from email_ayds
+      to email_managgers
+      subject 'New message of AYDS Project App.'
+      body message
+    end
+  end
+
   # Return random questions of a specified type and difficulty
   def random_questions(question_count, question_type, difficulty)
     difficulty.questions
@@ -947,7 +947,7 @@ class App < Sinatra::Application
     response = Net::HTTP.get_response(uri)
     data = JSON.parse(response.body)
     raise 'Error: El token no se pudo verificar' unless data['aud'] == client_id
-            
+
     {
       username: data['name'],
       img: data['picture'],
