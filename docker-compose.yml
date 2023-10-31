@@ -2,7 +2,7 @@ version: "3.8"
 services:
   app:
     build: .
-    command: bundle exec rackup --host 0.0.0.0 -p 3000
+    command: bundle exec rackup --host 0.0.0.0 -p 3000 #disableHostCheck true
     ports:
       - "3000:3000"
     volumes:

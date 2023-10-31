@@ -25,3 +25,5 @@ require_relative 'models/true_false'
 require_relative 'models/autocomplete'
 require_relative 'models/ranking'
 require_relative 'models/claim'
+require_relative 'controllers/answer_controller'
+
