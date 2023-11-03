@@ -503,9 +503,10 @@ class App < Sinatra::Application
     @results = []
     @score = 0
     @idx = 0
-    response_time_limit = @trivia.difficulty == 'beginner' ? TOTAL_TIME_BEGINNER : TOTAL_TIME_DIFFICULTY
+    response_time_limit = @trivia.difficulty == 'beginner' ? TIME_BEGINNER : TIME_DIFFICULTY
     @trivia.question_answers.each do |question_answer|
       question = question_answer.question
+
       selected_answer = Answer.find_by(id: question_answer.answer_id, question_id: question_answer.question_id)
       correct_answer = Answer.find_by(question_id: question_answer.question_id, correct: true)
 
@@ -535,26 +536,17 @@ class App < Sinatra::Application
         @score += 0
       end
     end
-    # Logica para el ranking
-    # Obtener el usuario actual
-    user = current_user
 
-    # Obtener la dificultad de la trivia
-    difficulty = @trivia.difficulty
-
+    user = current_user # Obtener usuario en sesion
+    difficulty = @trivia.difficulty # Obtener la dificultad de la trivia
     # Buscar el ranking existente del usuario para la dificultad actual
     ranking = Ranking.find_by(user_id: user.id, difficulty_id: difficulty.id)
 
-    if ranking.nil? || @score > ranking.score
-      # Si no existe un ranking o el nuevo score es mayor al anterior, crear o actualizar el ranking
-      ranking = Ranking.find_or_initialize_by(user_id: user.id, difficulty_id: difficulty.id)
-      ranking.score = @score
-      ranking.difficulty = difficulty
-      ranking.save
-    end
+    @score = update_ranking(user, ranking, difficulty, @score)
 
     erb :results, locals: { results: @results, score: @score }
   end
+
 
   # @!method get_results_traduce
   # GET endpoint for displaying the results of the translated trivia.
@@ -577,7 +569,7 @@ class App < Sinatra::Application
     @results = []
     @score = 0
     @idx = 0
-    response_time_limit = @trivia.difficulty == 'beginner' ? TOTAL_TIME_BEGINNER : TOTAL_TIME_DIFFICULTY
+    response_time_limit = @trivia.difficulty == 'beginner' ? TIME_BEGINNER : TIME_DIFFICULTY
     question_answers = @trivia.question_answers.offset(5) # 5th position and onwards
     question_answers.each do |question_answer|
       # Fetch the translated question from the session or Trivia object
@@ -609,12 +601,7 @@ class App < Sinatra::Application
     difficulty = @trivia.difficulty
     ranking = Ranking.find_by(user_id: user.id, difficulty_id: difficulty.id)
 
-    if ranking.nil? || @score > ranking.score
-      ranking = Ranking.find_or_initialize_by(user_id: user.id, difficulty_id: difficulty.id)
-      ranking.score = @score
-      ranking.difficulty = difficulty
-      ranking.save
-    end
+    @score = update_ranking(user, ranking, difficulty, @score)
     erb :results_traduce, locals: { results: @results, score: @score }
   end
 
@@ -719,12 +706,12 @@ class App < Sinatra::Application
     previous_index = index.zero? ? 0 : index - 1
     if index.zero? || session[:answered_questions].include?(previous_index)
       question = translated ? @trivia.translated_questions[index] : @trivia.questions[index]
-      if question.nil? || (translated && index >= TOTAL_TRANSLATEDS_QUESTIONS) || (!translated && index >= TOTAL_QUESTIONS_SPANISH)
+      if question.nil? || (translated && index >= TRANSLATEDS_QUESTIONS) || (!translated && index >= QUESTIONS_SPANISH)
         redirect translated ? '/results-traduce' : '/results'
       else
         @question = translated ? question['question'] : question
         @answers = Answer.where(question_id: @question['id'])
-        @time_limit_seconds = @trivia.difficulty.level == 'beginner' ? TOTAL_TIME_BEGINNER : TOTAL_TIME_DIFFICULTY
+        @time_limit_seconds = @trivia.difficulty.level == 'beginner' ? TIME_BEGINNER : TIME_DIFFICULTY
         @question_index = index
         @help = @trivia.difficulty.level == 'beginner' ? @question['help'] : nil
       end
@@ -756,6 +743,20 @@ class App < Sinatra::Application
               .where(type: question_type, is_question_translated: false)
               .order('RANDOM()')
               .limit(question_count)
+  end
+
+  # Update ranking or not according current score of trivia.
+  def update_ranking(user, ranking, difficulty, score)
+   if ranking.nil? || score > ranking.score
+     # Si no existe un ranking o el nuevo score es mayor al anterior, crear o actualizar el ranking
+     ranking = Ranking.find_or_initialize_by(user_id: user.id, difficulty_id: difficulty.id)
+     ranking.score = score
+     ranking.difficulty = difficulty
+     ranking.save
+     return ranking.score
+   else
+     return score
+   end
   end
 
   # @!method google_verify
@@ -801,7 +802,7 @@ class App < Sinatra::Application
     # Asignamos una puntuación máxima de 10 puntos a una respuesta correcta
     max_score = 10
     # Calculamos los puntos a restar basados en el tiempo de respuesta y el límite de tiempo
-    points_to_subtract = if response_time_limit == TOTAL_TIME_BEGINNER
+    points_to_subtract = if response_time_limit == TIME_BEGINNER
                            [(response_time / 4).ceil, 3].min
                          else
                            [(response_time / 3).ceil, 3].min

@@ -1,4 +1,3 @@
-
 require_relative '../server'
 require_relative '../constants'
 
@@ -20,14 +19,14 @@ class AnswerController < Sinatra::Base
       is_translated = trivia.selected_language_code != 'es'
       question_id = is_translated ? question['id'] : question.id
       selected_answer = Answer.find_by(id: selected_answer_id, question_id: question_id)
-    
+
       if selected_answer.nil? && !question.is_a?(Autocomplete)
         handle_unanswered_question(index, path_prefix, session)
       else
         process_answer(selected_answer, index, question, question_id, trivia, path_prefix, params, session)
       end
     end
-  
+
     # @!method process_answer
     # Method for processing answers.
     #
@@ -46,7 +45,7 @@ class AnswerController < Sinatra::Base
       handle_autocomplete_answer(question, params, session) if is_an_autocomplete
       update_response_time(index, question_id, trivia, path_prefix, params)
     end
-  
+
     # @!method create_or_update_question_answer
     # Method for creating or updating a QuestionAnswer record.
     #
@@ -60,12 +59,12 @@ class AnswerController < Sinatra::Base
       question_answer = QuestionAnswer.find_or_initialize_by(question_id: question_id, trivia_id: trivia.id)
 
       return unless selected_answer
-    
+
       question_answer.answer_id = selected_answer.id
       question_answer.save
       selected_answer.update(selected: true)
     end
-  
+
     # @!method update_response_time
     # Method for updating the response time of a trivia question.
     #
@@ -77,7 +76,7 @@ class AnswerController < Sinatra::Base
     # @param [Trivia] trivia The current trivia session.
     # @param [String] path_prefix The prefix of the redirect path.
     def update_response_time(index, question_id, trivia, path_prefix, params)
-      total_time = trivia.difficulty == 'beginner' ? TOTAL_TIME_BEGINNER : TOTAL_TIME_DIFFICULTY
+      total_time = trivia.difficulty == 'beginner' ? TIME_BEGINNER : TIME_DIFFICULTY
       response_time = total_time - params[:response_time].to_i
       question_answer = QuestionAnswer.find_by(question_id: question_id, trivia_id: trivia.id)
       question_answer&.update(response_time: response_time)
@@ -85,7 +84,7 @@ class AnswerController < Sinatra::Base
       next_index = index + 1
       redirect "#{path_prefix}/#{next_index}"
     end
-  
+
     # @!method handle_autocomplete_answer
     # Method for handling answers to autocomplete questions.
     #
@@ -96,11 +95,11 @@ class AnswerController < Sinatra::Base
     def handle_autocomplete_answer(question, params, session)
       autocomplete_input = params[:autocomplete_input].to_s.strip
       return unless question.is_a?(Autocomplete)
-    
+
       answer_autocomplete = Answer.find_by(question_id: question.id)
       answer_autocomplete.update(autocomplete_input: autocomplete_input)
     end
-  
+
     # @!method handle_unanswered_question
     # Method for handling unanswered questions.
     #
@@ -133,8 +132,8 @@ class AnswerController < Sinatra::Base
       @trivia = Trivia.find(session[:trivia_id])
       index = params[:index].to_i
       question = @trivia.questions[index]
-    
-      if question.nil? || index >= TOTAL_QUESTIONS_SPANISH
+
+      if question.nil? || index >= QUESTIONS_SPANISH
         redirect '/results'
       elsif session[:answered_questions].include?(index)
         redirect '/error?code=answered'
@@ -142,7 +141,7 @@ class AnswerController < Sinatra::Base
         handle_answer(index, question, @trivia, '/question', params, session)
       end
     end
-    
+
     # @!method post_answer_traduce
     # POST endpoint for submitting an answer to a translated trivia question.
     #
@@ -161,8 +160,8 @@ class AnswerController < Sinatra::Base
       @trivia = Trivia.find(session[:trivia_id])
       index = params[:index].to_i
       question_hash = @trivia.translated_questions[index]
-    
-      if question_hash.nil? || index >= TOTAL_TRANSLATEDS_QUESTIONS
+
+      if question_hash.nil? || index >= TRANSLATEDS_QUESTIONS
         redirect '/results-traduce'
       elsif session[:answered_questions].include?(index)
         redirect '/error?code=answered'
