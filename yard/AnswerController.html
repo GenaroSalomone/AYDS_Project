@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Class: AnswerController
+  
+    &mdash; Documentation by YARD 0.9.34
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "AnswerController";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index (A)</a> &raquo;
+    
+    
+    <span class="title">AnswerController</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Class: AnswerController
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+  <dl>
+    <dt>Inherits:</dt>
+    <dd>
+      <span class="inheritName">Sinatra::Base</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">Sinatra::Base</li>
+          
+            <li class="next">AnswerController</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+    </dd>
+  </dl>
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd>ServerConstants</dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>controllers/answer_controller.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#create_or_update_question_answer-instance_method" title="#create_or_update_question_answer (instance method)">#<strong>create_or_update_question_answer</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Method for creating or updating a QuestionAnswer record.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_answer-instance_method" title="#handle_answer (instance method)">#<strong>handle_answer</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Method for handling answers to trivia questions.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_autocomplete_answer-instance_method" title="#handle_autocomplete_answer (instance method)">#<strong>handle_autocomplete_answer</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Method for handling answers to autocomplete questions.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#handle_unanswered_question-instance_method" title="#handle_unanswered_question (instance method)">#<strong>handle_unanswered_question</strong>  &#x21d2; Redirect </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Method for handling unanswered questions.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#post_answer-instance_method" title="#post_answer (instance method)">#<strong>post_answer</strong>  &#x21d2; Redirect </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>POST endpoint for submitting an answer to a trivia question.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#post_answer_traduce-instance_method" title="#post_answer_traduce (instance method)">#<strong>post_answer_traduce</strong>  &#x21d2; Redirect </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>POST endpoint for submitting an answer to a translated trivia question.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#process_answer-instance_method" title="#process_answer (instance method)">#<strong>process_answer</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Method for processing answers.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#update_response_time-instance_method" title="#update_response_time (instance method)">#<strong>update_response_time</strong>  &#x21d2; Object </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Method for updating the response time of a trivia question.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="create_or_update_question_answer-instance_method">
+  
+    #<strong>create_or_update_question_answer</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Method for creating or updating a QuestionAnswer record.</p>
+
+<p>This method creates or updates a QuestionAnswer record in the database with the IDs of the selected answer and question. If a selected answer exists, it updates the answer_id of the QuestionAnswer record and sets the selected attribute of the Answer record to true.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>selected_answer</span>
+      
+      
+        <span class='type'>(<tt>Answer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The selected answer object.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>question_id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The ID of the current question.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>trivia</span>
+      
+      
+        <span class='type'>(<tt>Trivia</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current trivia session.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+58
+59
+60
+61
+62
+63
+64
+65
+66</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'controllers/answer_controller.rb', line 58</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_create_or_update_question_answer'>create_or_update_question_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='comma'>,</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_question_answer'>question_answer</span> <span class='op'>=</span> <span class='const'>QuestionAnswer</span><span class='period'>.</span><span class='id identifier rubyid_find_or_initialize_by'>find_or_initialize_by</span><span class='lparen'>(</span><span class='label'>question_id:</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='label'>trivia_id:</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_selected_answer'>selected_answer</span>
+
+  <span class='id identifier rubyid_question_answer'>question_answer</span><span class='period'>.</span><span class='id identifier rubyid_answer_id'>answer_id</span> <span class='op'>=</span> <span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
+  <span class='id identifier rubyid_question_answer'>question_answer</span><span class='period'>.</span><span class='id identifier rubyid_save'>save</span>
+  <span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='label'>selected:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_answer-instance_method">
+  
+    #<strong>handle_answer</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Method for handling answers to trivia questions.</p>
+
+<p>This method handles the submission of an answer to a trivia question. It checks if the answer is nil and if the question is not an Autocomplete question, it calls the handle_unanswered_question method. Otherwise, it calls the process_answer method.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>index</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The index of the current question.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>question</span>
+      
+      
+        <span class='type'>(<tt>Question</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current question object.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>trivia</span>
+      
+      
+        <span class='type'>(<tt>Trivia</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current trivia session.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>path_prefix</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The prefix of the redirect path.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'controllers/answer_controller.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_handle_answer'>handle_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_question'>question</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='comma'>,</span> <span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_selected_answer_id'>selected_answer_id</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:selected_answer</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_is_translated'>is_translated</span> <span class='op'>=</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_selected_language_code'>selected_language_code</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>es</span><span class='tstring_end'>&#39;</span></span>
+  <span class='id identifier rubyid_question_id'>question_id</span> <span class='op'>=</span> <span class='id identifier rubyid_is_translated'>is_translated</span> <span class='op'>?</span> <span class='id identifier rubyid_question'>question</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>id</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span>
+  <span class='id identifier rubyid_selected_answer'>selected_answer</span> <span class='op'>=</span> <span class='const'>Answer</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>id:</span> <span class='id identifier rubyid_selected_answer_id'>selected_answer_id</span><span class='comma'>,</span> <span class='label'>question_id:</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='rparen'>)</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Autocomplete</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_handle_unanswered_question'>handle_unanswered_question</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_process_answer'>process_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_question'>question</span><span class='comma'>,</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='comma'>,</span> <span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_autocomplete_answer-instance_method">
+  
+    #<strong>handle_autocomplete_answer</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Method for handling answers to autocomplete questions.</p>
+
+<p>This method checks if the question is an Autocomplete question. If it is, it updates the autocomplete_input attribute of the Answer record.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>selected_answer</span>
+      
+      
+        <span class='type'>(<tt>Answer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The selected answer object.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>question</span>
+      
+      
+        <span class='type'>(<tt>Question</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current question object.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+95
+96
+97
+98
+99
+100
+101</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'controllers/answer_controller.rb', line 95</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_handle_autocomplete_answer'>handle_autocomplete_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_question'>question</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_autocomplete_input'>autocomplete_input</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:autocomplete_input</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_strip'>strip</span>
+  <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Autocomplete</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_answer_autocomplete'>answer_autocomplete</span> <span class='op'>=</span> <span class='const'>Answer</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>question_id:</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_answer_autocomplete'>answer_autocomplete</span><span class='period'>.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='label'>autocomplete_input:</span> <span class='id identifier rubyid_autocomplete_input'>autocomplete_input</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="handle_unanswered_question-instance_method">
+  
+    #<strong>handle_unanswered_question</strong>  &#x21d2; <tt>Redirect</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Method for handling unanswered questions.</p>
+
+<p>This method adds the index to the answered_questions session array and redirects to the next question.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>index</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The index of the current question.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>path_prefix</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The prefix of the redirect path.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Redirects to the next question.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+112
+113
+114
+115</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'controllers/answer_controller.rb', line 112</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_handle_unanswered_question'>handle_unanswered_question</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_settings'>settings</span><span class='period'>.</span><span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_index'>index</span>
+  <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_index'>index</span> <span class='op'>+</span> <span class='int'>1</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="post_answer-instance_method">
+  
+    #<strong>post_answer</strong>  &#x21d2; <tt>Redirect</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>POST endpoint for submitting an answer to a trivia question.</p>
+
+<p>This route handles the submission of an answer to a trivia question. It checks if the trivia session exists, validates the submitted answer, and records the response time. Depending on the answer type (choice, true/false, or autocomplete), it updates the appropriate tables in the database and redirects to the next question or results page.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>index</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The index of the current question.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Redirects to the next question or results page.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there is no trivia in session, redirects to ‘/trivia’.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there are no more questions or if index is greater or equal to 10, redirects to ‘/results’.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If the question has already been answered, redirects to ‘/error?code=answered’.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'controllers/answer_controller.rb', line 131</span>
+
+<span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/answer/:index</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+  <span class='ivar'>@trivia</span> <span class='op'>=</span> <span class='const'>Trivia</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:trivia_id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_index'>index</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:index</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='id identifier rubyid_question'>question</span> <span class='op'>=</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_questions'>questions</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_index'>index</span> <span class='op'>&gt;=</span> <span class='const'>QUESTIONS_SPANISH</span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/results</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error?code=answered</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_handle_answer'>handle_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_question'>question</span><span class='comma'>,</span> <span class='ivar'>@trivia</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/question</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="post_answer_traduce-instance_method">
+  
+    #<strong>post_answer_traduce</strong>  &#x21d2; <tt>Redirect</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>POST endpoint for submitting an answer to a translated trivia question.</p>
+
+<p>This route handles the submission of an answer to a translated trivia question. It checks if the trivia session exists, validates the submitted answer, and records the response time. Depending on the answer type (choice, true/false, or autocomplete), it updates the appropriate tables in the database and redirects to the next question or results page.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>index</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The index of the current question.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Redirects to the next question or results page.</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there is no trivia in session, redirects to ‘/trivia’.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If there are no more questions or if index is greater or equal to 5, redirects to ‘/results-traduce’.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Redirect</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>If the question has already been answered, redirects to ‘/error?code=answered’.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168
+169
+170
+171</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'controllers/answer_controller.rb', line 159</span>
+
+<span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/answer-traduce/:index</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+  <span class='ivar'>@trivia</span> <span class='op'>=</span> <span class='const'>Trivia</span><span class='period'>.</span><span class='id identifier rubyid_find'>find</span><span class='lparen'>(</span><span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:trivia_id</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_index'>index</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:index</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='id identifier rubyid_question_hash'>question_hash</span> <span class='op'>=</span> <span class='ivar'>@trivia</span><span class='period'>.</span><span class='id identifier rubyid_translated_questions'>translated_questions</span><span class='lbracket'>[</span><span class='id identifier rubyid_index'>index</span><span class='rbracket'>]</span>
+
+  <span class='kw'>if</span> <span class='id identifier rubyid_question_hash'>question_hash</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>||</span> <span class='id identifier rubyid_index'>index</span> <span class='op'>&gt;=</span> <span class='const'>TRANSLATEDS_QUESTIONS</span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/results-traduce</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/error?code=answered</span><span class='tstring_end'>&#39;</span></span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_handle_answer'>handle_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_question_hash'>question_hash</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>question</span><span class='tstring_end'>&#39;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='ivar'>@trivia</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/question-traduce</span><span class='tstring_end'>&#39;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="process_answer-instance_method">
+  
+    #<strong>process_answer</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Method for processing answers.</p>
+
+<p>This method processes the submitted answer. It adds the index to the answered_questions session array, calls the create_or_update_question_answer and handle_autocomplete_answer methods, and updates the response time.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>selected_answer</span>
+      
+      
+        <span class='type'>(<tt>Answer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The selected answer object.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>index</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The index of the current question.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>question_id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The ID of the current question.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>trivia</span>
+      
+      
+        <span class='type'>(<tt>Trivia</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current trivia session.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>path_prefix</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The prefix of the redirect path.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+41
+42
+43
+44
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'controllers/answer_controller.rb', line 41</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_process_answer'>process_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='comma'>,</span> <span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_question'>question</span><span class='comma'>,</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='comma'>,</span> <span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_session'>session</span><span class='lbracket'>[</span><span class='symbol'>:answered_questions</span><span class='rbracket'>]</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_index'>index</span>
+  <span class='id identifier rubyid_is_an_autocomplete'>is_an_autocomplete</span> <span class='op'>=</span> <span class='id identifier rubyid_question'>question</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Autocomplete</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_create_or_update_question_answer'>create_or_update_question_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_selected_answer'>selected_answer</span><span class='comma'>,</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='rparen'>)</span> <span class='kw'>unless</span> <span class='id identifier rubyid_is_an_autocomplete'>is_an_autocomplete</span>
+  <span class='id identifier rubyid_handle_autocomplete_answer'>handle_autocomplete_answer</span><span class='lparen'>(</span><span class='id identifier rubyid_question'>question</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='comma'>,</span> <span class='id identifier rubyid_session'>session</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_is_an_autocomplete'>is_an_autocomplete</span>
+  <span class='id identifier rubyid_update_response_time'>update_response_time</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='comma'>,</span> <span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="update_response_time-instance_method">
+  
+    #<strong>update_response_time</strong>  &#x21d2; <tt>Object</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Method for updating the response time of a trivia question.</p>
+
+<p>This method calculates the response time based on the total time and the time taken by the user to respond. It updates the response_time attribute of the QuestionAnswer record and redirects to the next question.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>index</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The index of the current question.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>question_id</span>
+      
+      
+        <span class='type'>(<tt>Integer</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The ID of the current question.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>trivia</span>
+      
+      
+        <span class='type'>(<tt>Trivia</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The current trivia session.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>path_prefix</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The prefix of the redirect path.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+78
+79
+80
+81
+82
+83
+84
+85
+86</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'controllers/answer_controller.rb', line 78</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_update_response_time'>update_response_time</span><span class='lparen'>(</span><span class='id identifier rubyid_index'>index</span><span class='comma'>,</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='comma'>,</span> <span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='comma'>,</span> <span class='id identifier rubyid_params'>params</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_total_time'>total_time</span> <span class='op'>=</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_difficulty'>difficulty</span> <span class='op'>==</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>beginner</span><span class='tstring_end'>&#39;</span></span> <span class='op'>?</span> <span class='const'>TIME_BEGINNER</span> <span class='op'>:</span> <span class='const'>TIME_DIFFICULTY</span>
+  <span class='id identifier rubyid_response_time'>response_time</span> <span class='op'>=</span> <span class='id identifier rubyid_total_time'>total_time</span> <span class='op'>-</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='symbol'>:response_time</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span>
+  <span class='id identifier rubyid_question_answer'>question_answer</span> <span class='op'>=</span> <span class='const'>QuestionAnswer</span><span class='period'>.</span><span class='id identifier rubyid_find_by'>find_by</span><span class='lparen'>(</span><span class='label'>question_id:</span> <span class='id identifier rubyid_question_id'>question_id</span><span class='comma'>,</span> <span class='label'>trivia_id:</span> <span class='id identifier rubyid_trivia'>trivia</span><span class='period'>.</span><span class='id identifier rubyid_id'>id</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_question_answer'>question_answer</span><span class='op'>&amp;.</span><span class='id identifier rubyid_update'>update</span><span class='lparen'>(</span><span class='label'>response_time:</span> <span class='id identifier rubyid_response_time'>response_time</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_next_index'>next_index</span> <span class='op'>=</span> <span class='id identifier rubyid_index'>index</span> <span class='op'>+</span> <span class='int'>1</span>
+  <span class='id identifier rubyid_redirect'>redirect</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_path_prefix'>path_prefix</span><span class='embexpr_end'>}</span><span class='tstring_content'>/</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_next_index'>next_index</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Sat Nov  4 10:07:03 2023 by
+  <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.34 (ruby-2.7.5).
+</div>
+
+    </div>
+  </body>
+</html>
