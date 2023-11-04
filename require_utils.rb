@@ -26,4 +26,4 @@ require_relative 'models/autocomplete'
 require_relative 'models/ranking'
 require_relative 'models/claim'
 require_relative 'controllers/answer_controller'
-
+require_relative 'controllers/results_controller'

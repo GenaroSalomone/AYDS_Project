@@ -18,6 +18,7 @@ class App < Sinatra::Application
     logger.level = Logger::DEBUG if development?
     set :logger, logger
     use AnswerController
+    use ResultsController
   end
 
   # Development settings
@@ -60,6 +61,7 @@ class App < Sinatra::Application
       @trivia = Trivia.find_by(id: session[:trivia_id])
       #redirect '/trivia' if @trivia.nil?
       @answer_controller = AnswerController.new
+      @results_controller = ResultsController.new
     end
   end
 
@@ -481,130 +483,6 @@ class App < Sinatra::Application
 
   end
 
-  # @!method get_results
-  # GET endpoint for displaying the results of the trivia in the original language.
-  #
-  # This method displays the results of the trivia in the original language in which it was conducted.
-  # It calculates the user's score, checks the answers, and displays whether they were correct or not.
-  # If the trivia contains autocomplete questions, it also verifies the correctness of those answers.
-  # The method then calculates the user's score based on response times for correct answers.
-  # Finally, it handles ranking logic by updating or creating a user's ranking entry for the specific difficulty level.
-  #
-  # @return [ERB] The results template displaying trivia results.
-  #
-  # @raise [Redirect] If there is no trivia in session, redirects to '/trivia'.
-  #
-  # @see QuestionAnswer
-  # @see Answer
-  # @see Trivia
-  get '/results' do
-    redirect '/trivia' if @trivia.nil?
-    @user = @trivia.user
-    @results = []
-    @score = 0
-    @idx = 0
-    response_time_limit = @trivia.difficulty == 'beginner' ? TIME_BEGINNER : TIME_DIFFICULTY
-    @trivia.question_answers.each do |question_answer|
-      question = question_answer.question
-
-      selected_answer = Answer.find_by(id: question_answer.answer_id, question_id: question_answer.question_id)
-      correct_answer = Answer.find_by(question_id: question_answer.question_id, correct: true)
-
-      result = {
-        question: question,
-        selected_answer: selected_answer,
-        correct_answer: correct_answer,
-        correct: false,
-        autocomplete_input: nil
-      }
-
-      if question.is_a?(Autocomplete)
-        answer = Answer.find_by(question_id: question.id)
-        result[:correct] = answer.answers_autocomplete.include?(answer.autocomplete_input)
-        result[:autocomplete_input] = answer.autocomplete_input
-        result[:correct_answer] = answer.answers_autocomplete[0]
-      else
-        result[:correct] = selected_answer == correct_answer
-      end
-
-      @results << result
-      # Calcular el puntaje basado en el tiempo de respuesta solo si la respuesta seleccionada es correcta
-      if result[:correct] && question_answer.response_time <= response_time_limit
-        response_time_score = calculate_response_time_score(question_answer.response_time, response_time_limit)
-        @score += response_time_score
-      else
-        @score += 0
-      end
-    end
-
-    user = current_user # Obtener usuario en sesion
-    difficulty = @trivia.difficulty # Obtener la dificultad de la trivia
-    # Buscar el ranking existente del usuario para la dificultad actual
-    ranking = Ranking.find_by(user_id: user.id, difficulty_id: difficulty.id)
-
-    @score = update_ranking(user, ranking, difficulty, @score)
-
-    erb :results, locals: { results: @results, score: @score }
-  end
-
-
-  # @!method get_results_traduce
-  # GET endpoint for displaying the results of the translated trivia.
-  #
-  # This method displays the results of the translated trivia in which it was conducted.
-  # It calculates the user's score, checks the answers, and displays whether they were correct or not.
-  # The method then calculates the user's score based on response times for correct answers.
-  # Finally, it handles ranking logic by updating or creating a user's ranking entry for the specific difficulty level.
-  #
-  # @return [ERB] The results template displaying translated trivia results.
-  #
-  # @raise [Redirect] If there is no trivia in session, redirects to '/trivia'.
-  #
-  # @see QuestionAnswer
-  # @see Answer
-  # @see Trivia
-  get '/results-traduce' do
-    redirect '/trivia' if @trivia.nil?
-    @user = @trivia.user
-    @results = []
-    @score = 0
-    @idx = 0
-    response_time_limit = @trivia.difficulty == 'beginner' ? TIME_BEGINNER : TIME_DIFFICULTY
-    question_answers = @trivia.question_answers.offset(5) # 5th position and onwards
-    question_answers.each do |question_answer|
-      # Fetch the translated question from the session or Trivia object
-      translated_question_hash = @trivia.translated_questions.find { |q| q['question']['id'] == question_answer.question_id }
-      question = translated_question_hash['question']
-
-      selected_answer = Answer.find_by(id: question_answer.answer_id, question_id: question_answer.question_id)
-      correct_answer = Answer.find_by(question_id: question_answer.question_id, correct: true)
-
-      correct = selected_answer == correct_answer
-
-      result = {
-        question: question,
-        selected_answer: selected_answer,
-        correct_answer: correct_answer,
-        correct: correct
-      }
-
-      @results << result
-      if result[:correct] && question_answer.response_time <= response_time_limit
-        response_time_score = calculate_response_time_score(question_answer.response_time, response_time_limit)
-        @score += response_time_score
-      else
-        @score += 0
-      end
-    end
-
-    user = current_user
-    difficulty = @trivia.difficulty
-    ranking = Ranking.find_by(user_id: user.id, difficulty_id: difficulty.id)
-
-    @score = update_ranking(user, ranking, difficulty, @score)
-    erb :results_traduce, locals: { results: @results, score: @score }
-  end
-
   # @!method post_google
   # Post endpoint for handling Google Sign-In authentication.
   #
@@ -745,20 +623,6 @@ class App < Sinatra::Application
               .limit(question_count)
   end
 
-  # Update ranking or not according current score of trivia.
-  def update_ranking(user, ranking, difficulty, score)
-   if ranking.nil? || score > ranking.score
-     # Si no existe un ranking o el nuevo score es mayor al anterior, crear o actualizar el ranking
-     ranking = Ranking.find_or_initialize_by(user_id: user.id, difficulty_id: difficulty.id)
-     ranking.score = score
-     ranking.difficulty = difficulty
-     ranking.save
-     return ranking.score
-   else
-     return score
-   end
-  end
-
   # @!method google_verify
   # Verifies a Google ID token to obtain user information.
   #
@@ -783,33 +647,6 @@ class App < Sinatra::Application
       img: data['picture'],
       email: data['email']
     }
-  end
-
-  # @!method calculate_response_time_score
-  # Calculates the score for response time in a trivia game.
-  #
-  # This method takes the response time and response time limit as input and calculates the score based on how quickly
-  # a question is answered. It assigns a maximum score of 10 points for a correct answer and deducts points based on
-  # the time it took to respond. The deduction rate varies depending on the difficulty level.
-  #
-  # @param response_time [Integer] The time it took to respond to a question in seconds.
-  # @param response_time_limit [Integer] The time limit allowed for responding to a question, which varies by difficulty.
-  #
-  # @return [Integer] The final score based on response time, clamped between 0 and a maximum of 10 points.
-  private
-
-  def calculate_response_time_score(response_time, response_time_limit)
-    # Asignamos una puntuación máxima de 10 puntos a una respuesta correcta
-    max_score = 10
-    # Calculamos los puntos a restar basados en el tiempo de respuesta y el límite de tiempo
-    points_to_subtract = if response_time_limit == TIME_BEGINNER
-                           [(response_time / 4).ceil, 3].min
-                         else
-                           [(response_time / 3).ceil, 3].min
-                         end
-    # Calculamos la puntuación final restando los puntos a restar de la puntuación máxima y asegurándonos de que esté dentro del rango 0 a max_score
-    final_score = max_score - points_to_subtract
-    final_score.clamp(0, max_score)
   end
 
   # @!method translate_to_selected_language(text, target_language)
