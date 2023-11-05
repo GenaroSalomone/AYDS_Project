@@ -21,6 +21,7 @@ class App < Sinatra::Application
     use LoginController
     use AnswerController
     use ResultsController
+    use TriviaController
   end
 
   # Development settings
@@ -61,8 +62,6 @@ class App < Sinatra::Application
   before do
     if session[:trivia_id]
       @trivia = Trivia.find_by(id: session[:trivia_id])
-      @answer_controller = AnswerController.new
-      @results_controller = ResultsController.new
     end
   end
 
@@ -150,140 +149,6 @@ class App < Sinatra::Application
         redirect '/error?code=claim&reason=failed_send_claim'
       end
     end
-  end
-
-  # @!method post_trivia
-  # POST endpoint for handling trivia creation and initiation.
-  #
-  # This route handles the creation and initiation of a trivia game when a POST request is made to '/trivia'.
-  # It retrieves the current user, the selected difficulty level, and initializes a new trivia game.
-  # The number of choice questions, true/false questions, and autocomplete questions are determined
-  # based on the selected difficulty level. Random questions are selected from the database for each category,
-  # and the questions are shuffled and added to the trivia game.
-  #
-  # @return [Redirect] Redirects the user to the first question of the trivia game.
-  #
-  # @see Trivia#questions
-  # @see Trivia#translated_questions
-  # @see Trivia#save
-  # @see session[:trivia_id]
-  # @see session[:answered_questions]
-  post '/trivia' do
-    user = current_user
-    difficulty_level = params[:difficulty]
-    difficulty = Difficulty.find_by(level: difficulty_level)
-    trivia = Trivia.new(user: user, difficulty: difficulty)
-
-    if difficulty_level == 'beginner'
-      choice_count = rand(3..6)
-      true_false_count = rand(3..4)
-    else
-      choice_count = rand(2..5)
-      true_false_count = rand(2..4)
-    end
-
-    remaining_count = 10 - choice_count - true_false_count
-    autocomplete_count = [remaining_count, 0].max
-
-    choice_questions = random_questions(choice_count, 'Choice', difficulty)
-
-    true_false_questions = random_questions(true_false_count, 'True_False', difficulty)
-
-    autocomplete_questions = random_questions(autocomplete_count, 'Autocomplete', difficulty)
-
-    questions = choice_questions.to_a + true_false_questions.to_a + autocomplete_questions.to_a
-    shuffled_questions = questions.shuffle
-    trivia.questions.concat(shuffled_questions)
-    trivia.translated_questions = [] # Esto eliminará las preguntas traducidas de la trivia actual
-    trivia.save
-    session[:trivia_id] = trivia.id
-    session[:answered_questions] = []
-
-    redirect '/question/0'
-  end
-
-  # @!method post_trivia-traduce
-  # POST endpoint for handling translated trivia creation and initiation.
-  #
-  # This route handles the creation and initiation of a translated trivia game when a POST request is made to '/trivia-traduce'.
-  # It retrieves the current user, the selected difficulty level, and the selected language code for translation.
-  # A new trivia game is initialized, and a specific number of choice and true/false questions are randomly selected
-  # based on the selected difficulty level. These questions are then translated to the selected language code using
-  # an external translation API.
-  #
-  # @return [Redirect] Redirects the user to the first translated question of the trivia game.
-  #
-  # @see Trivia#questions
-  # @see Trivia#translated_questions
-  # @see session[:trivia_id]
-  # @see session[:answered_questions]
-  post '/trivia-traduce' do
-    user = current_user
-    difficulty_level = params[:difficulty]
-    selected_language_code = params[:selectedLanguageCode]
-    difficulty = Difficulty.find_by(level: difficulty_level)
-
-    trivia = Trivia.new(user: user, difficulty: difficulty, selected_language_code: selected_language_code)
-
-    choice_and_true_false_questions = difficulty.questions
-                                                .where(type: %w[Choice True_False])
-                                                .where(is_question_translated: false)
-                                                .order('RANDOM()')
-                                                .limit(5)
-    trivia.questions.concat(choice_and_true_false_questions)
-
-    translated_questions = []
-    translated_answers = []
-
-    trivia.questions.each do |question|
-      # Hace una solicitud a la API de traducción para traducir el texto al idioma seleccionado
-      translated_question_text = translate_to_selected_language(question.text, trivia.selected_language_code)
-
-      translated_help_text = translate_to_selected_language(question.help, trivia.selected_language_code) if question.difficulty.level == 'beginner'
-      # Crea una nueva pregunta traducida y guárdala en el arreglo
-      translated_question = case question
-                            when Choice
-                              { 'question_type' => 'Choice', 'question' => Choice.create!(
-                                text: translated_question_text,
-                                difficulty: question.difficulty,
-                                is_question_translated: true,
-                                help: translated_help_text
-                              ) }
-                            when True_False
-                              { 'question_type' => 'True_False', 'question' => True_False.create!(
-                                text: translated_question_text,
-                                difficulty: question.difficulty,
-                                is_question_translated: true,
-                                help: translated_help_text
-                              ) }
-                            end
-      translated_questions << translated_question
-
-      translated_question_answers = [] # Arreglo para las respuestas traducidas de esta pregunta
-      answers = Answer.where(question: question)
-
-      answers.each do |answer|
-        is_an_autocomplete = answer.question.is_a?(Autocomplete)
-        translated_answer_text = translate_to_selected_language(answer.text, trivia.selected_language_code) unless is_an_autocomplete
-        translated_answer = if is_an_autocomplete
-                              Answer.create!(text: translated_answer_text, question_id: translated_question['question']['id'])
-                            else
-                              Answer.create!(text: translated_answer_text, question_id: translated_question['question']['id'], correct: answer.correct)
-                            end
-        translated_question_answers << translated_answer
-      end
-
-      translated_answers << translated_question_answers
-    end
-    trivia.translated_questions = translated_questions
-    @translated_questions = translated_questions
-    @translated_answers = translated_answers
-
-    trivia.save
-    session[:trivia_id] = trivia.id
-    session[:answered_questions] = []
-
-    redirect '/question-traduce/0'
   end
 
   # @!method get_question
@@ -468,61 +333,6 @@ class App < Sinatra::Application
       to email_managgers
       subject 'New message of AYDS Project App.'
       body message
-    end
-  end
-
-  # Return random questions of a specified type and difficulty
-  def random_questions(question_count, question_type, difficulty)
-    difficulty.questions
-              .where(type: question_type, is_question_translated: false)
-              .order('RANDOM()')
-              .limit(question_count)
-  end
-
-  # @!method translate_to_selected_language(text, target_language)
-  # Translates a given text to the selected language.
-  #
-  # This method sends a POST request to a translation API with the text to be translated and the target language.
-  # It then parses the JSON response and returns the translated text.
-  # If there is an error with the request or parsing the response, it outputs an error message and returns nil.
-  #
-  # @param [String] text The text to be translated.
-  # @param [String] target_language The language to translate the text into.
-  #
-  # @return [String, nil] The translated text if successful, or nil if there was an error.
-  #
-  # @raise [StandardError] If there is an error with the request or parsing the response, it outputs an error message and returns nil.
-  def translate_to_selected_language(text, target_language)
-    url = URI('https://text-translator2.p.rapidapi.com/translate')
-
-    http = Net::HTTP.new(url.host, url.port)
-    http.use_ssl = true
-
-    request = Net::HTTP::Post.new(url)
-    request['content-type'] = 'application/x-www-form-urlencoded'
-    request['X-RapidAPI-Key'] = ENV['TEXT_TRANSLATOR_KEY']
-    request['X-RapidAPI-Host'] = 'text-translator2.p.rapidapi.com'
-    query = URI.encode_www_form(
-      source_language: 'es',
-      target_language: target_language,
-      text: text
-    )
-    request.body = query
-    response = http.request(request)
-
-    if response.code == '200'
-      # Parsea la respuesta JSON
-      response_data = JSON.parse(response.body)
-
-      if response_data.key?('data') && response_data['data'].key?('translatedText')
-        return response_data['data']['translatedText']
-      else
-        puts "Error: No se encontró 'translatedText' en la respuesta."
-        return nil
-      end
-    else
-      puts "Error al traducir: #{response.message}"
-      return nil
     end
   end
 
