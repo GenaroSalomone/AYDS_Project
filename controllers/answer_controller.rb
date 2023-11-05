@@ -110,7 +110,7 @@ class AnswerController < Sinatra::Base
     #
     # @return [Redirect] Redirects to the next question.
     def handle_unanswered_question(index, path_prefix, session)
-      settings.session[:answered_questions] << index
+      session[:answered_questions] << index
       redirect "#{path_prefix}/#{index + 1}"
     end
 
