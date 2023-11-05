@@ -109,4 +109,75 @@ class LoginController < Sinatra::Base
     end
   end
 
+
+  # @!method post_google
+  # Post endpoint for handling Google Sign-In authentication.
+  #
+  # This route receives a JSON payload containing an ID token from the Google Sign-In process.
+  # It verifies the ID token with Google's authentication service and retrieves user information.
+  # If the user with the retrieved email or username doesn't exist, a new user is created and logged in.
+  # If the user already exists, they are logged in with their existing account.
+  #
+  # @return [JSON] A JSON response indicating success or an error message.
+  post '/google' do
+    request_body = JSON.parse(request.body.read)
+    id_token = request_body['id_token']
+
+    begin
+      usuario_info = google_verify(id_token)
+      usuario = User.find_by(email: usuario_info[:email])
+      usuario_por_username = User.find_by(username: usuario_info[:username])
+
+      if !usuario && !usuario_por_username
+        user = User.create(username: usuario_info[:username], email: usuario_info[:email], password: ':P')
+        session[:user_id] = user.id
+      else
+        session[:user_id] = usuario.id if usuario
+        session[:user_id] = usuario_por_username.id if usuario_por_username
+      end
+
+      content_type :json
+      {
+        correo: usuario_info[:email],
+        success: true,
+        session: session[:user_id]
+      }.to_json
+    rescue StandardError => e
+      content_type :json
+      {
+        msg: 'Error en la verificación del token',
+        error: e.message
+      }.to_json
+    end
+
+  end
+
+
+  # @!method google_verify
+  # Verifies a Google ID token to obtain user information.
+  #
+  # This method takes a Google ID token as input and verifies its authenticity by making a request to the Google
+  # OAuth2 tokeninfo endpoint. If the token is valid and corresponds to the expected client ID, it returns user
+  # information including the username, profile picture URL, and email.
+  #
+  # @param token [String] The Google ID token to be verified.
+  #
+  # @return [Hash] A hash containing user information if the token is valid.
+  #
+  # @raise [StandardError] An error is raised if the token cannot be verified or does not match the expected client ID.
+  def google_verify(token)
+    client_id = ENV['GOOGLE_CLIENT_ID']
+    uri = URI.parse("https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=#{token}")
+    response = Net::HTTP.get_response(uri)
+    data = JSON.parse(response.body)
+    raise 'Error: El token no se pudo verificar' unless data['aud'] == client_id
+
+    {
+      username: data['name'],
+      img: data['picture'],
+      email: data['email']
+    }
+  end
+
+
 end

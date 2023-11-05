@@ -1,6 +1,6 @@
 # Informe actividad 4 - Rubocop & Refactor
 
-Al iniciar el ciclo de refactorización, lo primero que hicimos fue un analisis del codigo completo, en nuestro caso, un analisis profundo de todo el codigo que teniamos en nuestro archivo server.rb, el cual contenia la logica completa de nuestra aplicacion en conjunto con el manejo de la API.
+Al iniciar el ciclo de refactorización, lo primero que hicimos fue un analisis del código completo, en nuestro caso, un analisis profundo de todo el código que teniamos en nuestro archivo server.rb, el cual contenia la lógica completa de nuestra aplicación en conjunto con el manejo de la API.
 
 (Para dar un vistazo a simple vista de lo que hablamos al mencionar server.rb:
 [Link_al_viejo_server.rb](https://github.com/GenaroSalomone/AYDS_Project/blob/e322aacf03f47d8f19341cd16a02b6b22230a571/server.rb) )
@@ -16,15 +16,15 @@ Algunos code smells que detectamos analizando la lista de ofensas detectadas por
 3. **Números Mágicos**: Hay números codificados como **`15`**, **`10`** y **`5`** que determinan el comportamiento del programa, como los límites de tiempo para las respuestas o la cantidad de preguntas. 
 4. **Complejidad Condicional**: Hay múltiples condiciones anidadas if-else, lo que hace que el código sea difícil de leer y mantener. 
 
-Antes de iniciar el ciclo de refactorizacion, comprobamos que la [test suite](https://github.com/GenaroSalomone/AYDS_Project/tree/e322aacf03f47d8f19341cd16a02b6b22230a571/spec) de la aplicacion se encuentre funcionando, para cuando estemos refactorizando, podamos ir chequeando que los cambios no corrompen la logica de nuestra aplicacion:
+Antes de iniciar el ciclo de refactorizacion, comprobamos que la [test suite](https://github.com/GenaroSalomone/AYDS_Project/tree/e322aacf03f47d8f19341cd16a02b6b22230a571/spec) de la aplicación se encuentre funcionando, para cuando estemos refactorizando, podamos ir chequeando que los cambios no corrompen la lógica de nuestra aplicación:
 
 ![Untitled](Informe%20actividad%204%20-%20Rubocop%20&%20Refactor%200eb164678b5b48d097e73e42b81a3ee4/Untitled%201.png)
 
-Al momento de dar inicio inicio al sprint de refactorizacion, creamos la historia de usuario en Pivotal Tracker para tener un seguimiento de los cambios producidos en el codigo, donde en el siguiente link estaran listados los commits para cada una de las refactorizaciones listadas y explicadas a continuacion → [(Link)](https://www.pivotaltracker.com/story/show/186332802)
+Al momento de dar inicio al sprint de refactorizacion, creamos la historia de usuario en Pivotal Tracker para tener un seguimiento de los cambios producidos en el código, donde en el siguiente link estarán listados los commits para cada una de las refactorizaciones listadas y explicadas a continuacion → [(Link)](https://www.pivotaltracker.com/story/show/186332802)
 
 ***Lista de tareas completadas en nuestro ciclo de refactorizacion:***
 
-- Refactorizacion para endpoints post /answer y post /answer-traduce.  [Link_to_commit](https://github.com/GenaroSalomone/AYDS_Project/commit/85f8f7af2f912c933a70c0a69d557a6669ee9c1c) [Link_to_second_commit](https://github.com/GenaroSalomone/AYDS_Project/commit/0d18f11045f9dd6aeb90d71ec96c79464fa1f110)
+- Refactorización para endpoints post /answer y post /answer-traduce.  [Link_to_commit](https://github.com/GenaroSalomone/AYDS_Project/commit/85f8f7af2f912c933a70c0a69d557a6669ee9c1c) [Link_to_second_commit](https://github.com/GenaroSalomone/AYDS_Project/commit/0d18f11045f9dd6aeb90d71ec96c79464fa1f110)
     1. **Encapsulamiento y modularización**: Se ha trasladado la lógica de las rutas a un controlador separado (**`AnswerController`**), utilizando la técnica de encapsulamiento para agrupar funcionalidades relacionadas.
     2. **Extracción de métodos**: Se crearon métodos más pequeños y descriptivos (**`handle_answer`**, **`process_answer`**, **`create_or_update_question_answer`**, **`update_response_time`**, **`handle_autocomplete_answer`**, **`handle_unanswered_question`**), aplicando la técnica de extracción de métodos para simplificar y descomponer las rutas.
     3. **Uso de Constantes**: La implementación de constantes (**`TIME_BEGINNER`**, **`TIME_DIFFICULTY`**, **`QUESTIONS_SPANISH`**, **`TRANSLATEDS_QUESTIONS`**) sustituye valores literales, lo que refleja la técnica de reemplazar números mágicos por constantes nombradas. 
@@ -40,3 +40,9 @@ Al momento de dar inicio inicio al sprint de refactorizacion, creamos la histori
     4. **Parametrización de Métodos**: Los métodos se han parametrizado para aceptar argumentos y trabajar con diferentes contextos, como se ve en **`setup_view_and_calculate_scores`**, lo que los hace flexibles y aplicables en varias situaciones.
     5. **Mejora de cohesión**: Al separar la lógica en métodos individuales, cada uno se ocupa de una sola tarea o conjunto de tareas relacionadas, lo que mejora la cohesión del código.
     6. **Uso de Constantes**: La refactorización continúa el uso de constantes (**`TIME_BEGINNER`**, **`TIME_DIFFICULTY`**) para eliminar los números mágicos, lo que hace que el código sea más fácil de entender y mantener.
+- Creación de un controlador para inicio de sesión y registro de usuario.
+    1. **Encapsulamiento**: Se ha trasladado la lógica de determinadas rutas a un controlador separado (**`LoginController`**), utilizando la técnica de encapsulamiento para agrupar funcionalidades relacionadas. Los endpoints post /registrarse, post /login, post /google, get /registrarse, get /login y la función google_verify se trasladaron desde server.rb hacia su controlador especifico, el cuál maneja su lógica.
+- Refactorización para endpoint post /claim.
+    1. **Extracción de Método**: Se realizo extracción de código en el endpoint /claim, el cuál esta relacionado con la lógica de enviar un email desde el usuario que realizo el reclamo o valoración de la aplicación hacia los manejadores de la app. El método que maneja la lógica es **`send_email`**.
+- Refactorización para endpoint post /error.
+    1. **Disminución de número de lineas**: El endpoint /error realizaba un manejo repetido de condiciones lógicas (if .. then .. else) para mostrar distintos mensajes de errores. Se encapsulo la lógica en una estructura de datos diccionario, el cuál mapea de **`error_code`** (la Key) a **`error_reason`** (el Value). De esta manera se redujo significativamente el número de lineas en el cuerpo del endpoint. 
