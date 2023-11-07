@@ -1,0 +1,36 @@
+# Enable or disable all cops. By default, all cops are enabled.
+# You can disable a specific cop by setting it to `false`.
+# You can also enable a disabled cop by setting it to `true`.
+
+AllCops:
+  DisabledByDefault: false
+  Include:
+    - '**/*.rb'
+
+Style/StringLiterals:
+  EnforcedStyle: single_quotes # Prefer single-quoted strings
+
+Layout/LineLength:
+  Max: 250 # Set your preferred line length
+
+Metrics/BlockLength:
+  Max: 50
+  Exclude:
+    - 'spec/**/*' # Exclude block length checks in spec files
+
+Metrics/MethodLength:
+  Max: 50
+
+Metrics/CyclomaticComplexity:
+  Max: 20
+
+Metrics/PerceivedComplexity:
+  Max: 20
+
+Style/FrozenStringLiteralComment:
+  Exclude:
+    - '**/*' # Excluye el mensaje en todos los archivos
+
+Lint/UnusedMethodArgument:
+  Exclude:
+    - '**/*'
