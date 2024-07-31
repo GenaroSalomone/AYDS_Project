@@ -78,7 +78,7 @@ class ResultsController < Sinatra::Base
     end
     score
   end
-  
+
   # Retrieves the current user and trivia difficulty level.
   #
   # This is a utility method to encapsulate the retrieval of the current user
@@ -92,7 +92,7 @@ class ResultsController < Sinatra::Base
     difficulty = @trivia.difficulty
     [user, difficulty]
   end
-  
+
   # Updates or creates the ranking for the user based on the difficulty and score.
   #
   # @param user [User] the current user
@@ -122,10 +122,10 @@ class ResultsController < Sinatra::Base
     results = []
     question_answers.each do |question_answer|
       question = question_answer.question
-  
+
       selected_answer = Answer.find_by(id: question_answer.answer_id, question_id: question_answer.question_id)
       correct_answer = Answer.find_by(question_id: question_answer.question_id, correct: true)
-  
+
       result = {
         question: question,
         selected_answer: selected_answer,
@@ -133,7 +133,7 @@ class ResultsController < Sinatra::Base
         correct: false,
         autocomplete_input: nil
       }
-  
+
       if question.is_a?(Autocomplete)
         answer = Answer.find_by(question_id: question.id)
         result[:correct] = answer.answers_autocomplete.include?(answer.autocomplete_input)
@@ -142,12 +142,12 @@ class ResultsController < Sinatra::Base
       else
         result[:correct] = selected_answer == correct_answer
       end
-  
+
       results << result
     end
     results
   end
-  
+
   # Sets up the view for results and calculates scores.
   #
   # This method consolidates the actions needed to set up the view for showing results.
@@ -171,7 +171,7 @@ class ResultsController < Sinatra::Base
     user, difficulty = get_user_and_difficulty(session)
     update_user_ranking(user, difficulty, @score)
   end
-  
+
   # GET endpoint for displaying the results of the trivia.
   #
   # @!method get('/results')
@@ -185,7 +185,7 @@ class ResultsController < Sinatra::Base
     setup_view_and_calculate_scores(session)
     erb :results, locals: { results: @results, score: @score }
   end
-  
+
   # GET endpoint for displaying the results of the translated trivia.
   #
   # @!method get('/results-traduce')
@@ -196,7 +196,7 @@ class ResultsController < Sinatra::Base
   # @see setup_view_and_calculate_scores
   get '/results-traduce' do
     @trivia = Trivia.find(session[:trivia_id])
-    setup_view_and_calculate_scores(5, session) 
+    setup_view_and_calculate_scores(5, session)
     erb :results_traduce, locals: { results: @results, score: @score }
   end
 end
