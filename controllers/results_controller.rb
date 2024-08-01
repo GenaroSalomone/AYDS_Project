@@ -23,10 +23,10 @@ class ResultsController < Sinatra::Base
   def update_ranking(user, ranking, difficulty, score)
     if ranking.nil? || score > ranking.score
       ranking = Ranking.find_or_initialize_by(user_id: user.id, difficulty_id: difficulty.id)
-      ranking.score = [score, ranking.score].max # Asegúrate de que siempre se guarde la puntuación más alta
+      ranking.score = [score, ranking.score].max
       ranking.save
     end
-    ranking.score # Devuelve la puntuación más alta, ya sea la nueva o la existente
+    ranking.score
   end
 
   # @!method calculate_response_time_score
@@ -43,15 +43,12 @@ class ResultsController < Sinatra::Base
   private
 
   def calculate_response_time_score(response_time, response_time_limit)
-    # Asignamos una puntuación máxima de 10 puntos a una respuesta correcta
     max_score = 10
-    # Calculamos los puntos a restar basados en el tiempo de respuesta y el límite de tiempo
     points_to_subtract = if response_time_limit == TIME_BEGINNER
                            [(response_time / 4).ceil, 3].min
                          else
                            [(response_time / 3).ceil, 3].min
                          end
-    # Calculamos la puntuación final restando los puntos a restar de la puntuación máxima y asegurándonos de que esté dentro del rango 0 a max_score
     final_score = max_score - points_to_subtract
     final_score.clamp(0, max_score)
   end

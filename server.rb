@@ -101,7 +101,7 @@ class App < Sinatra::Application
 
       erb :protected_page, locals: { beginner_ranking: beginner_ranking, difficult_ranking: difficult_ranking }
     else
-      redirect '/login' # Usuario no autenticado, redirigir a la página de inicio de sesión
+      redirect '/login'
     end
   end
 
@@ -165,8 +165,6 @@ class App < Sinatra::Application
   #
   # @return [ERB] Displays an error page with a custom error message.
   get '/error' do
-
-    # Diccionario o hash que mapea error_code y error_reason a mensajes (Key => Value)
     error_messages = {
       'unanswered' => 'Se intentó acceder directamente a una pregunta sin haber respondido la pregunta anterior.',
       'answered' => 'La pregunta ya ha sido respondida.',
@@ -196,7 +194,6 @@ class App < Sinatra::Application
     end
 
     erb :error, locals: { error_message: @error_message }
-
   end
 
   # @!method get_supported_languages
@@ -239,7 +236,7 @@ class App < Sinatra::Application
     User.find(session[:user_id]) if session[:user_id]
   end
 
-  # @!method fetch_question
+    # @!method fetch_question
   # Method for fetching a trivia question or a translated trivia question.
   #
   # @param index [Integer] The index of the question to fetch.
