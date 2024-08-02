@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Página protegida</title>
+  <title>Trivia</title>
+  <script src="https://kit.fontawesome.com/8a2a68e2d5.js" crossorigin="anonymous"></script>
   <link rel="icon" href="/icon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/css/protected.css">
 </head>
 <body>
-  <h1 id="select-language-title">Elige un lenguaje:</h1>
+  <h1 id="select-language-title">Elige un lenguaje</h1>
   <select id="select-language">
     <option value="es" selected>Español (es)</option>
   </select>
@@ -130,21 +131,29 @@
     </div>
   </div>
   <h1>¡Hola <%= @username %>!, esta es la página protegida.</h1>
-  <p>La autenticación fue correcta. ¡Que comience el juego!</p>
+  <p>¡Que comience el juego!</p>
   <form id="trivia-form" method="post" action="/trivia">
-    <h2>Seleccione la dificultad de la trivia para continuar:</h2>
+    <h2>Seleccione la dificultad de la trivia</h2>
     <div class="button-container">
-      <button class="button" name="difficulty" value="beginner">Principiante</button>
-      <button class="button" name="difficulty" value="difficult">Experto</button>
+      <button class="button" name="difficulty" value="beginner">
+        Principiante <i class="fa-regular fa-thumbs-up"></i>
+      </button>
+      <button class="button" name="difficulty" value="difficult">
+        Experto <i class="fa-solid fa-brain"></i>
+      </button>
     </div>
     <input type="hidden" name="selectedLanguageCode" id="selectedLanguageCode" value="">
     <input type="hidden" name="selectedLanguageName" id="selectedLanguageName" value="">
   </form>
   <form action="/claim" method="get">
-    <button id="claim-button" type="submit">Hacer un reclamo</button>
+    <button id="claim-button" type="submit">
+      Reclamo <i class="fa-solid fa-user-nurse"></i>
+    </button>
   </form>
   <form action="/" method="get">
-    <button class="button" id="logout-button" type="submit">Salir</button>
+    <button class="button" id="logout-button" type="submit">
+      Salir <i class="fa-solid fa-right-to-bracket"></i>
+    </button>
   </form>
 </body>
 </html>

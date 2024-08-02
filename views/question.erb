@@ -4,23 +4,21 @@
   <title>Pregunta</title>
   <link rel="icon" href="/icon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/css/question.css">
-  <!-- Importación de librería JS para implementar el temporizador-->
+  <script src="https://kit.fontawesome.com/8a2a68e2d5.js" crossorigin="anonymous"></script>
+  <!-- JQuery -->
   <script src="/js/jquery-3.6.0.js"></script>
-  <!-- Toastify para help -->
+  <!-- Toastify -->
   <script src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
   <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
-  <!-- Código JavaScript para manejar la validación de la selección de respuesta -->
   <script>
      function validateForm() {
       var selectedOption = document.querySelector('input[name="selected_answer"]:checked');
       var timeRemaining = parseInt($('#timer').text());
 
       if (!selectedOption && timeRemaining > 0) {
-        // Si no se seleccionó ninguna opción y todavía hay tiempo restante, mostrar mensaje de alerta
         showMessage("Debe seleccionar una respuesta antes de continuar.");
         return false;
       }
-      // Si se cumple la validación existente, se asigna selected_answer como null
       if (!selectedOption) {
         document.querySelector('input[name="selected_answer"]').value = null;
       }
@@ -37,14 +35,10 @@
       var timeRemaining = parseInt($('#timer').text());
 
       if (autocompleteInput.value.trim().length === 0 && timeRemaining > 0) {
-        // Si no se ha ingresado ningún carácter y todavía hay tiempo restante, mostrar mensaje de alerta
         showMessage("Debe ingresar al menos un carácter antes de continuar.");
         return false;
       }
-      // Obtener el tiempo restante del temporizador
       var timeRemaining = parseInt($('#timer').text());
-
-      // Establecer el tiempo de respuesta en el campo oculto
       $('#response_time').val(timeRemaining);
       return true;
     }
@@ -55,12 +49,13 @@
 
       var messageContainer = document.createElement("div");
       messageContainer.classList.add("message-container");
-      messageContainer.innerHTML = `
-        <div class="message-box">
-          <p>${message}</p>
-          <button id="entendido-btn" class="button-style">Entendido</button>
-        </div>
-      `;
+      messageContainer.innerHTML = 
+        `
+          <div class="message-box">
+            <p>${message}</p>
+            <button id="entendido-btn" class="button-style">Entendido</button>
+          </div>
+        `;
       overlay.appendChild(messageContainer);
       document.body.appendChild(overlay);
 
@@ -112,7 +107,6 @@
     });
 
     var isHelpVisible = false;
-
     function showHelp(helpText) {
       if (isHelpVisible) {
         return;
@@ -129,7 +123,7 @@
 
       Toastify({
         text: helpText,
-        duration: 3000,
+        duration: 7000,
         position: 'left',
         close: true,
         backgroundColor: getRandomColor(),
@@ -148,11 +142,11 @@
   </script>
 </head>
 <body>
-  <h1>Pregunta <%= @question_index + 1 %> :</h1>
+  <h1>Pregunta <%= @question_index + 1 %></h1>
   <% if @question %>
     <p><%= @question.text %></p>
     <% if @question.is_a?(Autocomplete) %>
-      <h2>Ingrese su respuesta:</h2>
+      <h2>Ingrese su respuesta</h2>
       <form action="/answer/<%= @question_index %>" method="post" onsubmit="return autocompleteValidateForm()">
         <input type="hidden" name="response_time" id="response_time" value="">
         <input type="hidden" name="trivia_id" value="<%= @trivia.id %>">
@@ -164,17 +158,21 @@
           <span id="timer"></span>
         </div>
         <div class="button-container">
-          <button type="submit">Siguiente pregunta</button>
+          <button type="submit">
+            Siguiente pregunta  <i class="fa-regular fa-circle-right"></i>
+          </button>
         </div>
         <div class="help-container">
-          <!-- Ayuda para preguntas autocompletado nivel principiante -->
+          <!-- Ayuda preguntas autocompletado-->
           <% if @help %>
-            <button type="button" style="margin-top: 20px;" onClick="showHelp('<%= @help %>')">Mostrar ayuda</button>
+            <button type="button" style="margin-top: 20px;" onClick="showHelp('<%= @help %>')">
+              Ayuda <i class="fa-solid fa-handshake-angle"></i>
+            </button>
           <% end %>
         </div>
       </form>
     <% else %>
-      <h2>Opciones:</h2>
+      <h2>Opciones</h2>
       <form action="/answer/<%= @question_index %>" method="post" onsubmit="return validateForm()">
         <input type="hidden" name="response_time" id="response_time" value="">
         <input type="hidden" name="trivia_id" value="<%= @trivia.id %>">
@@ -195,12 +193,16 @@
           <span id="timer"></span>
         </div>
         <div class="button-container">
-          <button type="submit">Siguiente pregunta</button>
+          <button type="submit">
+            Siguiente pregunta <i class="fa-regular fa-circle-right"></i>
+          </button>
         </div>
         <div class="help-container">
-          <!-- Ayuda para preguntas choices y true-falses nivel principiante -->
+          <!-- Ayuda preguntas choices y true-falses -->
           <% if @help %>
-            <button type="button" style="margin-top: 20px;" onClick="showHelp('<%= @help %>')">Mostrar ayuda</button>
+            <button type="button" style="margin-top: 20px;" onClick="showHelp('<%= @help %>')">
+              Ayuda <i class="fa-solid fa-handshake-angle"></i>
+            </button>
           <% end %>
         </div>
       </form>
@@ -214,7 +216,7 @@
         messageContainer.classList.add("message-container");
         messageContainer.innerHTML = `
           <div class="message-box">
-            <p>Se terminó el tiempo, respuesta marcada como incorrecta!</p>
+            <p>Se terminó el tiempo, respuesta marcada como incorrecta</p>
             <button id="entendido-btn" class="button-style" onclick="nextQuestion()">Entendido</button>
           </div>
         `;

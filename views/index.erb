@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>TriviaAYDS</title>
+  <title>Home</title>
+  <script src="https://kit.fontawesome.com/8a2a68e2d5.js" crossorigin="anonymous"></script>
   <link rel="icon" href="/icon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/css/index.css">
 </head>
@@ -12,7 +13,9 @@
 
   <div class="button-container">
     <form action="/login" method="GET">
-      <button type="submit">Iniciar sesión</button>
+      <button type="submit">
+        Iniciar sesión <i class="fa-solid fa-user"></i>
+      </button>
     </form>
 
     <form action="/registrarse" method="GET">
@@ -35,7 +38,7 @@
     </div>
 
     <button id="google_sign_out" class="logout-button logout-google-button">
-        Finalizar sesión Google
+        Finalizar sesión <i class="fa-brands fa-google"></i>
     </button>
   </div>
   <script src="https://accounts.google.com/gsi/client" async defer></script>

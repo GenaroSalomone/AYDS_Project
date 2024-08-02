@@ -2,27 +2,31 @@
 <html>
 <head>
   <title>Reclamos</title>
+  <script src="https://kit.fontawesome.com/8a2a68e2d5.js" crossorigin="anonymous"></script>
   <link rel="icon" href="/icon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/css/claim.css">
 </head>
 <body>
   <form id="reclamo-form" action="/claim" method="post">
     <h1>Sección de reclamos</h1>
-    <p>Escriba su reclamo o sugerencia para ayudarnos a mejorar el sistema de trivias.</p>
+    <p>Escriba su reclamo o sugerencia.</p>
     <div class="img-textarea-container">
       <img src="/images/duda.jpg" alt="image">
       <textarea type="text" id="description" name="description" placeholder="Escriba su texto aquí..."></textarea>    
     </div>
-    <button type="button" onclick="showMsg()">Enviar</button>
+    <button type="button" onclick="showMsg()">
+      Enviar
+      <i class="fa-solid fa-paper-plane"></i>
+    </button>
     <script>
       function showMsg() {
         var description = document.getElementById("description").value;
-        if (description.trim() == "") { // Si no se escribió un reclamo y se dio clic a "Enviar reclamo"
+        if (description.trim() == "") {
           window.alert("Por favor, ingrese su reclamo.");
-        } else { // Si se escribió por lo menos un caracter y se dio clic a "Enviar reclamo"
+        } else {
           var confirmation = window.confirm("Su reclamo será enviado exitosamente.")
           if (confirmation) {
-            document.getElementById("reclamo-form").submit(); // Envía el formulario con el reclamo
+            document.getElementById("reclamo-form").submit();
           }
         }
       } 

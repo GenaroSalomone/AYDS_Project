@@ -8,13 +8,13 @@
   </head>
   <body>
     <div class="container">
-      <h1>Bien jugado <%= @user.username %>, has realizado la trivia #<%= @trivia.id %></h1>
-      <h2>Resultado total:</h2>
+      <h1>Bien jugado <%= @user.username %></h1>
+      <h2>Resultado total</h2>
 
       <% @results.each do |result| %>
         <% @idx += 1 %>
         <div class="question-result">
-          <h3>Pregunta <%= @idx %> :</h3>
+          <h3>Pregunta <%= @idx %></h3>
           <p class="question-text"><strong><%= result[:question].text %></strong></p>
           <% if result[:question].is_a?(Autocomplete) %>
             <% if result[:correct] %>
@@ -46,12 +46,14 @@
           <% end %>
         </div>
       <% end %>
-
       <h2 class="score">Puntaje total: <%= @score %>/100</h2>
-
       <div class="button-container">
-        <a href="/protected_page" class="button">Realizar otra trivia</a>
-        <a href="/" class="button">Salir</a>
+        <a href="/protected_page" class="button">
+          Realizar otra trivia
+        </a>
+        <a href="/" class="button">
+          Salir
+        </a>
       </div>
     </div>
   </body>
