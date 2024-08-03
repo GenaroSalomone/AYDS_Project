@@ -10,14 +10,12 @@
   <h1>¡Te damos la bienvenida a la trivia!</h1>
   <h2>Temática: Software y Tecnología</h2>
   <h2>¿Estás listo para comenzar?</h2>
-
   <div class="button-container">
     <form action="/login" method="GET">
       <button type="submit">
-        Iniciar sesión <i class="fa-solid fa-user"></i>
+        Iniciar sesión
       </button>
     </form>
-
     <form action="/registrarse" method="GET">
       <button type="submit">Registrarse</button>
     </form>
@@ -36,13 +34,11 @@
          data-shape="rectangular"
          data-logo_alignment="left">
     </div>
-
     <button id="google_sign_out" class="logout-button logout-google-button">
         Finalizar sesión <i class="fa-brands fa-google"></i>
     </button>
   </div>
   <script src="https://accounts.google.com/gsi/client" async defer></script>
-
   <script>
     function handleCredentialResponse(response) {
       const body = {
