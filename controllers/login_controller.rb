@@ -52,20 +52,17 @@ class LoginController < Sinatra::Base
     confirm_password = params[:confirm_password]
     email = params[:email]
 
-    # Verificar si las contraseñas coinciden
     if password == confirm_password
-      # Verificar si el username ya está en uso
       if User.exists?(username: username)
-        status 302 # Establece el código de estado HTTP a 302 Found (Redirección)
+        status 302
         redirect '/error?code=registration&reason=username_taken'
-      # Verificar si el email ya está en uso
       elsif User.exists?(email: email)
         status 302
         redirect '/error?code=registration&reason=email_taken'
       else
         user = User.create(username: username, email: email, password: password)
         if user.save
-          status 200 # Establece el código de estado HTTP a 200
+          status 200
           @message = 'Vuelva a logearse por favor, vaya a inicio de sesión.'
           erb :register_success
         else
@@ -78,7 +75,6 @@ class LoginController < Sinatra::Base
       redirect '/error?code=registration&reason=password_mismatch'
     end
   end
-
 
   # @!method post_login
   # POST endpoint for authenticate and log in the user.
@@ -108,7 +104,6 @@ class LoginController < Sinatra::Base
       redirect '/error?code=login&reason=authenticate_failed'
     end
   end
-
 
   # @!method post_google
   # Post endpoint for handling Google Sign-In authentication.
@@ -152,7 +147,6 @@ class LoginController < Sinatra::Base
 
   end
 
-
   # @!method google_verify
   # Verifies a Google ID token to obtain user information.
   #
@@ -171,13 +165,11 @@ class LoginController < Sinatra::Base
     response = Net::HTTP.get_response(uri)
     data = JSON.parse(response.body)
     raise 'Error: El token no se pudo verificar' unless data['aud'] == client_id
-
     {
       username: data['name'],
       img: data['picture'],
       email: data['email']
     }
   end
-
 
 end
