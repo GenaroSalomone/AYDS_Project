@@ -104,6 +104,33 @@ class App < Sinatra::Application
     end
   end
 
+  # @!method get_supported_languages
+  # GET endpoint for obtaining supported languages.
+  #
+  # This method reads data from a local JSON file and returns a list of supported languages.
+  # If the data cannot be loaded, it returns an error message.
+  #
+  # @return [JSON] The list of supported languages.
+  #
+  # @raise [StandardError] If there is an error reading the file or parsing the JSON, it returns a 500 status code and an error message.
+  get '/obtener-lenguajes-soportados' do
+    # Lee los datos desde el archivo JSON local
+    languages_data = JSON.parse(File.read('languages.json'))
+
+    if languages_data.nil?
+      status 500
+      body 'Error al obtener la lista de lenguajes: No se pudieron cargar los datos.'
+    else
+      # Define el contenido de la respuesta JSON
+      content_type :json
+      status 200
+      body languages_data['data']['languages'].to_json
+    end
+  rescue StandardError => e
+    status 500
+    body "Error al obtener la lista de lenguajes: #{e.message}"
+  end
+
   # @!method get_question
   # GET endpoint for handling displaying a trivia question.
   #
@@ -152,33 +179,6 @@ class App < Sinatra::Application
     }
   end
 
-  # @!method get_supported_languages
-  # GET endpoint for obtaining supported languages.
-  #
-  # This method reads data from a local JSON file and returns a list of supported languages.
-  # If the data cannot be loaded, it returns an error message.
-  #
-  # @return [JSON] The list of supported languages.
-  #
-  # @raise [StandardError] If there is an error reading the file or parsing the JSON, it returns a 500 status code and an error message.
-  get '/obtener-lenguajes-soportados' do
-    # Lee los datos desde el archivo JSON local
-    languages_data = JSON.parse(File.read('languages.json'))
-
-    if languages_data.nil?
-      status 500
-      body 'Error al obtener la lista de lenguajes: No se pudieron cargar los datos.'
-    else
-      # Define el contenido de la respuesta JSON
-      content_type :json
-      status 200
-      body languages_data['data']['languages'].to_json
-    end
-  rescue StandardError => e
-    status 500
-    body "Error al obtener la lista de lenguajes: #{e.message}"
-  end
-
   # @!method current_user
   # Returns the current user based on the session.
   #
@@ -192,7 +192,7 @@ class App < Sinatra::Application
     User.find(session[:user_id]) if session[:user_id]
   end
 
-    # @!method fetch_question
+  # @!method fetch_question
   # Method for fetching a trivia question or a translated trivia question.
   #
   # @param index [Integer] The index of the question to fetch.

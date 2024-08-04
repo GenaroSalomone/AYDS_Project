@@ -48,7 +48,7 @@ class TriviaController < Sinatra::Base
     trivia = Trivia.new(user: user, difficulty: difficulty)
     [user, difficulty, trivia]
   end
-  
+
   # @!method setup_standard_trivia
   # Sets up standard trivia questions for the game.
   #
@@ -65,7 +65,7 @@ class TriviaController < Sinatra::Base
     questions = get_questions(choice_count, true_false_count, autocomplete_count, difficulty)
     trivia.questions.concat(questions)
   end
-  
+
   # @!method setup_translated_trivia
   # Sets up translated trivia questions for the game.
   #
@@ -85,7 +85,7 @@ class TriviaController < Sinatra::Base
     translated_questions, translated_answers = create_translated_questions_and_answers(trivia, trivia.questions)
     trivia.translated_questions = translated_questions
   end
-  
+
   # @!method finalize_trivia_setup
   # Finalizes the trivia setup by saving the trivia instance and initializing session variables.
   #
@@ -100,7 +100,7 @@ class TriviaController < Sinatra::Base
     session[:trivia_id] = trivia.id
     session[:answered_questions] = []
   end
-  
+
   # @!method get_questions_count
   # Determines the count of different types of questions based on the difficulty level.
   #
@@ -121,7 +121,7 @@ class TriviaController < Sinatra::Base
     autocomplete_count = [remaining_count, 0].max
     [choice_count, true_false_count, autocomplete_count]
   end
-  
+
   # @!method get_questions
   # Retrieves a shuffled array of questions for the trivia.
   #
@@ -141,7 +141,7 @@ class TriviaController < Sinatra::Base
     shuffled_questions = questions.shuffle
     shuffled_questions
   end
-  
+
   # @!method random_questions
   # Fetches a random set of questions from the database.
   #
@@ -158,7 +158,7 @@ class TriviaController < Sinatra::Base
               .order('RANDOM()')
               .limit(question_count)
   end
-  
+
   # @!method create_translated_questions_and_answers
   # Creates translated versions of the provided questions and their answers.
   #
@@ -207,7 +207,7 @@ class TriviaController < Sinatra::Base
     end
     [translated_questions, translated_answers]
   end
-  
+
   # @!method get_translated_questions
   # Retrieves a subset of questions for translation based on the difficulty level.
   #
@@ -256,7 +256,6 @@ class TriviaController < Sinatra::Base
     response = http.request(request)
 
     if response.code == '200'
-      # Parsea la respuesta JSON
       response_data = JSON.parse(response.body)
 
       if response_data.key?('data') && response_data['data'].key?('translatedText')
@@ -270,7 +269,7 @@ class TriviaController < Sinatra::Base
       return nil
     end
   end
-  
+
   # @!method post_trivia
   # Post endpoint that handles the initiation of a standard trivia game.
   #
@@ -285,7 +284,7 @@ class TriviaController < Sinatra::Base
     setup_trivia(params, session, translate: false)
     redirect '/question/0'
   end
-  
+
   # @!method post_trivia_traduce
   # Post endpoint that handles the initiation of a translated trivia game.
   #
