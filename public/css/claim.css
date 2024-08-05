@@ -20,12 +20,6 @@ p {
   font-size: 25px;
 }
 
-/* Se acomoda la imagen y el cuadro en el centro */
-.img-textarea-container {
-  position: relative;
-  right: 15%;
-}
-
 /* Cuadro de texto para el reclamo */
 textarea[type="text"] {
   background-color: #8080801c;

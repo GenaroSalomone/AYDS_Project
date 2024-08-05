@@ -10,27 +10,30 @@
   <form id="reclamo-form" action="/claim" method="post">
     <h1>Sección de reclamos</h1>
     <p>Escriba su reclamo o sugerencia.</p>
-    <div class="img-textarea-container">
-      <img src="/images/duda.jpg" alt="image">
+    <div class="textarea-container">
       <textarea type="text" id="description" name="description" placeholder="Escriba su texto aquí..."></textarea>    
     </div>
     <button type="button" onclick="showMsg()">
-      Enviar
-      <i class="fa-solid fa-paper-plane"></i>
+      Enviar <i class="fa-solid fa-paper-plane"></i>
     </button>
-    <script>
-      function showMsg() {
-        var description = document.getElementById("description").value;
-        if (description.trim() == "") {
-          window.alert("Por favor, ingrese su reclamo.");
-        } else {
-          var confirmation = window.confirm("Su reclamo será enviado exitosamente.")
-          if (confirmation) {
-            document.getElementById("reclamo-form").submit();
-          }
-        }
-      } 
-    </script>
   </form>
+  <a href="/protected_page">
+    <button type="button">
+      Volver
+    </button>
+  </a>
+  <script>
+    function showMsg() {
+      var description = document.getElementById("description").value;
+      if (description.trim() == "") {
+        window.alert("Por favor, ingrese su reclamo.");
+      } else {
+        var confirmation = window.confirm("Su reclamo será enviado exitosamente.")
+        if (confirmation) {
+          document.getElementById("reclamo-form").submit();
+        }
+      }
+    } 
+  </script>
 </body>
 </html>
