@@ -2,22 +2,36 @@
 <html>
 <head>
  <title>Inicio sesión</title>
+ <link rel="stylesheet" href="https://bootswatch.com/5/litera/bootstrap.min.css">
+ <script src="https://kit.fontawesome.com/8a2a68e2d5.js" crossorigin="anonymous"></script>
  <link rel="icon" href="/icon.ico" type="image/x-icon">
  <link rel="stylesheet" type="text/css" href="/css/login.css">
 </head>
 <body>
- <h1>Iniciar sesión</h1>
- <form action="/login" method="post">
-   <label for="username">Usuario</label>
-   <input type="text" id="username" name="username" required><br>
-   <label for="password">Contraseña</label>
-   <input type="password" id="password" name="password" required><br>
-   <input type="submit" value="Iniciar sesión">
- </form>
- <a href="/">
-    <button type="button">
-      Volver
-    </button>
-  </a>
+  <div class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="card bg-dark text-white text-center">
+      <div class="card-header">
+        <h3>Iniciar sesión</h3>
+      </div>
+      <div class="card-body text-center">
+        <form action="/login" method="POST">
+          <div class="form-group mb-3">
+            <input type="text" id="username" name="username" placeholder="Usuario" required>
+          </div>
+          <div class="form-group mb-3">
+            <input type="password" id="password" name="password" placeholder="Contraseña" required>
+          </div>
+          <div class="card-footer justify-content-between">
+            <button class="btn btn-primary btn-block fs-6">
+              Iniciar sesión
+            </button>
+            <a href="/" class="btn btn-secondary fs-6">
+              Volver <i class="fa-solid fa-arrow-rotate-right"></i>
+            </a>
+          </div>
+        </form>
+      </div> 
+    </div>
+  </div>
 </body>
 </html>
