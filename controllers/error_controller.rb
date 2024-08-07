@@ -17,20 +17,20 @@ class ErrorController < Sinatra::Base
   # @return [ERB] Displays an error page with a custom error message.
   get '/error' do
     error_messages = {
-      'unanswered' => 'Se intentó acceder directamente a una pregunta sin haber respondido la pregunta anterior.',
+      'unanswered' => 'Se intentó acceder directamente a una pregunta.',
       'answered' => 'La pregunta ya ha sido respondida.',
       'registration' => {
         'password_mismatch' => 'Las contraseñas no coinciden.',
         'registration_error' => "Ha ocurrido un error durante el registro: #{params[:error_message]}",
-        'username_taken' => 'El nombre de usuario no está disponible.',
-        'email_taken' => 'El email no está disponible.'
+        'username_taken' => 'El nombre de usuario no está disponible. Intenta con otro.',
+        'email_taken' => 'El email no está disponible. Intenta con otro.'
       },
       'login' => {
         'authenticate_failed' => 'El usuario o la contraseña no coinciden. Por favor, vuelva a intentarlo.'
       },
       'claim' => {
-        'failed_send_claim' => 'No se pudo enviar su reclamo o valoración.',
-        'malicious_block' => 'Se detectó código malicioso, el texto no fue enviado.'
+        'failed_send_claim' => 'No se pudo enviar su mensaje.',
+        'malicious_block' => 'Error en el mensaje.'
       }
     }
 
