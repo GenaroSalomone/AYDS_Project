@@ -2,42 +2,53 @@
 <html>
 <head>
   <title>Error</title>
+  <link rel="stylesheet" href="https://bootswatch.com/5/litera/bootstrap.min.css">
   <link rel="icon" href="/icon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/css/error.css">
+  <script src="https://kit.fontawesome.com/8a2a68e2d5.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <h1>Error</h1>
-  <% if params[:code] == "unanswered" || params[:code] == "answered" %>
-    <p><%= @error_message %></p>
-    <p>Será redirigido para comenzar una nueva trivia.</p>
-  <% elsif params[:code] == "registration" %>
-    <% if params[:reason] == "password_mismatch" || params[:reason] == "registration_error" ||
-      params[:reason] == "email_taken" || params[:reason] == "username_taken" %>
-      <p><%= @error_message %></p>
-    <% else %>
-      <p>Ha ocurrido un error durante el registro.</p>
-      <p>Vuelva a intentarlo más tarde.</p>
-    <% end %>
-  <% elsif params[:code] == "login" %>
-    <% if params[:reason] == "authenticate_failed" %>
-      <p><%= @error_message %></p>
-    <% end %>
-  <% elsif params[:code] == "claim" %>
-    <% if params[:reason] == "failed_send_claim" || params[:reason] == "malicious_block" %>
-      <p><%= @error_message%></p>
-    <% end %>
-  <% else %>  
-    <p>Ha ocurrido un error.</p>
-    <p>Vuelva a intentarlo más tarde.</p>
-  <% end %>
-  
-  <form action=" <% if params[:code] == "registration" %> /registrarse 
-                 <% elsif params[:code] == "login" %> /login 
-                 <% elsif params[:code] == "unanswered" ||  params[:code] == "answered" || 
-                    params[:code] == "claim" %> /protected_page
-                 <% else %> / 
-                 <% end %> " method="get">
-    <input type="submit" value="Entendido">
-  </form>
+  <div class="container vh-100 d-flex justify-content-center align-items-center">
+    <div class="card bg-dark text-white text-center">
+      <div class="card-header">
+        <h1>Error</h1>
+      </div>
+      <div class="card-body">
+        <% if params[:code] == "unanswered" || params[:code] == "answered" %>
+          <p><%= @error_message %></p>
+          <p>Será redirigido para comenzar una nueva trivia.</p>
+        <% elsif params[:code] == "registration" %>
+          <% if params[:reason] == "password_mismatch" || params[:reason] == "registration_error" ||
+            params[:reason] == "email_taken" || params[:reason] == "username_taken" %>
+            <p><%= @error_message %></p>
+          <% else %>
+            <p>Ha ocurrido un error durante el registro.</p>
+            <p>Vuelva a intentarlo más tarde.</p>
+          <% end %>
+        <% elsif params[:code] == "login" %>
+          <% if params[:reason] == "authenticate_failed" %>
+            <p><%= @error_message %></p>
+          <% end %>
+        <% elsif params[:code] == "claim" %>
+          <% if params[:reason] == "failed_send_claim" || params[:reason] == "malicious_block" %>
+            <p><%= @error_message%></p>
+          <% end %>
+        <% else %>  
+          <p>Ha ocurrido un error.</p>
+          <p>Vuelva a intentarlo más tarde.</p>
+        <% end %>
+        <form action=" <% if params[:code] == "registration" %> /registrarse 
+                        <% elsif params[:code] == "login" %> /login 
+                        <% elsif params[:code] == "unanswered" ||  params[:code] == "answered" || 
+                          params[:code] == "claim" %> /protected_page
+                        <% else %> / 
+                        <% end %> " method="get">
+          <button class="btn btn-success">
+            Entendido <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
 </body>
 </html>
