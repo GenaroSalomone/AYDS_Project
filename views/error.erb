@@ -18,8 +18,9 @@
           <p><%= @error_message %></p>
           <p>Será redirigido para comenzar una nueva trivia.</p>
         <% elsif params[:code] == "registration" %>
-          <% if params[:reason] == "password_mismatch" || params[:reason] == "registration_error" ||
-            params[:reason] == "email_taken" || params[:reason] == "username_taken" %>
+          <% if params[:reason] == "empty_inputs" || params[:reason] == "password_mismatch" || 
+            params[:reason] == "registration_error" || params[:reason] == "email_taken" || 
+            params[:reason] == "username_taken" %>
             <p><%= @error_message %></p>
           <% else %>
             <p>Ha ocurrido un error durante el registro.</p>
