@@ -27,6 +27,7 @@ class ErrorController < Sinatra::Base
         'email_taken' => 'El email no está disponible. Intenta con otro.'
       },
       'login' => {
+        'empty_inputs' => 'Usuario o contraseña no pueden estar vacíos.',
         'authenticate_failed' => 'El usuario o la contraseña no coinciden. Por favor, vuelva a intentarlo.'
       },
       'claim' => {
