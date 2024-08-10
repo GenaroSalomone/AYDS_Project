@@ -27,7 +27,7 @@
             <p>Vuelva a intentarlo más tarde.</p>
           <% end %>
         <% elsif params[:code] == "login" %>
-          <% if params[:reason] == "authenticate_failed" %>
+          <% if params[:reason] == "authenticate_failed" || params[:reason] == "empty_inputs"%>
             <p><%= @error_message %></p>
           <% end %>
         <% elsif params[:code] == "claim" %>
