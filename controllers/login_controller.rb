@@ -63,7 +63,7 @@ class LoginController < Sinatra::Base
         user = User.create(username: username, email: email, password: password)
         if user.save
           status 200
-          @message = 'Vuelva a logearse por favor, vaya a inicio de sesión.'
+          @message = 'Ir a inicio de sesión.'
           erb :register_success
         else
           status 302
