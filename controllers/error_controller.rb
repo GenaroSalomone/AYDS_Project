@@ -20,6 +20,7 @@ class ErrorController < Sinatra::Base
       'unanswered' => 'Se intentó acceder directamente a una pregunta.',
       'answered' => 'La pregunta ya ha sido respondida.',
       'registration' => {
+        'empty_inputs' => 'Usuario, email o contraseña no pueden estar vacíos.',
         'password_mismatch' => 'Las contraseñas no coinciden.',
         'registration_error' => "Ha ocurrido un error durante el registro: #{params[:error_message]}",
         'username_taken' => 'El nombre de usuario no está disponible. Intenta con otro.',
