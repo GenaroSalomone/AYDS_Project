@@ -48,9 +48,14 @@ class LoginController < Sinatra::Base
   # @see User#save
   post '/registrarse' do
     username = params[:username]
+    email = params[:email]
     password = params[:password]
     confirm_password = params[:confirm_password]
-    email = params[:email]
+
+    if username.empty? || email.empty? || password.empty? || confirm_password.empty?
+      status 302
+      redirect '/error?code=registration&reason=empty_inputs'
+    end
 
     if password == confirm_password
       if User.exists?(username: username)
