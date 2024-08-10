@@ -53,7 +53,6 @@ class LoginController < Sinatra::Base
     confirm_password = params[:confirm_password]
 
     if username.empty? || email.empty? || password.empty? || confirm_password.empty?
-      status 302
       redirect '/error?code=registration&reason=empty_inputs'
     end
 
@@ -100,6 +99,10 @@ class LoginController < Sinatra::Base
   post '/login' do
     username = params[:username]
     password = params[:password]
+
+    if username.empty? || password.empty?
+      redirect '/error?code=login&reason=empty_inputs'
+    end
 
     user = User.find_by(username: username)
     if user&.authenticate(password)
