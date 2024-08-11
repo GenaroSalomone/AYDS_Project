@@ -12,7 +12,11 @@ class ClaimController < Sinatra::Base
   #
   # @return [ERB] The claim page content.
   get '/claim' do
-    erb :claim
+    if session[:user_id]
+      erb :claim
+    else
+      redirect '/login'
+    end
   end
 
   # @!method post_claim
