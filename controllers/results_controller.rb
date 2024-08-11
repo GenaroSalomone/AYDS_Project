@@ -178,9 +178,13 @@ class ResultsController < Sinatra::Base
   # @return [ERB] the results template displaying trivia results
   # @see setup_view_and_calculate_scores
   get '/results' do
-    @trivia = Trivia.find(session[:trivia_id])
-    setup_view_and_calculate_scores(session)
-    erb :results, locals: { results: @results, score: @score }
+    if session[:user_id]
+      @trivia = Trivia.find(session[:trivia_id])
+      setup_view_and_calculate_scores(session)
+      erb :results, locals: { results: @results, score: @score }
+    else
+      redirect '/login'
+    end
   end
 
   # GET endpoint for displaying the results of the translated trivia.
