@@ -208,7 +208,6 @@ class App < Sinatra::Application
   # @see Trivia#translated_questions
   # @see Answer.where
   def fetch_question(index, translated = false)
-    redirect '/trivia' if @trivia.nil?
     previous_index = index.zero? ? 0 : index - 1
     if index.zero? || session[:answered_questions].include?(previous_index)
       question = translated ? @trivia.translated_questions[index] : @trivia.questions[index]
