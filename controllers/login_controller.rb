@@ -4,48 +4,39 @@ class LoginController < Sinatra::Base
 
   set :views, File.expand_path('../views', __dir__)
 
-  # @!method get_registrarse
+  # method get_registrarse
   # GET endpoint to display the registration page.
   #
   # This route is used to show the web application's registration page when a user visits it.
   #
-  # @return [ERB] The registration page template.
+  # return [ERB] The registration page template.
   get '/registrarse' do
     erb :register
   end
 
-  # @!method get_login
+  # method get_login
   # GET endpoint to display the login page.
   #
   # This route is used to show the web application's login page when a user visits it.
   #
-  # @return [ERB] The login page template.
+  # return [ERB] The login page template.
   get '/login' do
     erb :login
   end
 
-  # @!method post_registrarse
+  # method post_registrarse
   # POST endpoint for user registration.
   #
   # This method processes user registration when a user submits the registration form.
   # It validates the submitted data, checks for the availability of the username and email,
   # and creates a new user record in the database if everything is valid.
   #
-  # @param [String] username The username provided by the user.
-  # @param [String] password The password provided by the user.
-  # @param [String] confirm_password The password confirmation provided by the user.
-  # @param [String] email The email provided by the user.
+  # param [String] username The username provided by the user.
+  # param [String] password The password provided by the user.
+  # param [String] confirm_password The password confirmation provided by the user.
+  # param [String] email The email provided by the user.
   #
-  # @return [ERB] The registration success page or redirects to an error page if there are issues.
-  #
-  # @raise [Redirect] If passwords do not match, redirects to '/error?code=registration&reason=password_mismatch'.
-  # @raise [Redirect] If username is already in use, redirects to '/error?code=registration&reason=username_taken'.
-  # @raise [Redirect] If email is already in use, redirects to '/error?code=registration&reason=email_taken'.
-  # @raise [Redirect] If there's an error saving the new user record in the database, redirects to '/error?code=registration&reason=registration_error
-  #
-  # @see User#create
-  # @see User#exists?
-  # @see User#save
+  # return [ERB] The registration success page or redirects to an error page if there are issues.
   post '/registrarse' do
     username = params[:username]
     email = params[:email]
@@ -80,22 +71,15 @@ class LoginController < Sinatra::Base
     end
   end
 
-  # @!method post_login
+  # method post_login
   # POST endpoint for authenticate and log in the user.
   #
   # This route handles the user authentication process when a user submits the login form.
   # It retrieves the form data, checks the provided username and password against the
   # database records, and logs in the user if the credentials are valid.
   #
-  # @param [String] :username The username entered in the login form.
-  # @param [String] :password The password entered in the login form.
-  #
-  # @return [Redirect] Redirects to '/protected_page' if authentication is successful.
-  # @raise [Redirect] Redirects to '/error' with appropriate error code and reason if
-  #   authentication fails.
-  #
-  # @see User#find_by
-  # @see User#authenticate
+  # param [String] :username The username entered in the login form.
+  # param [String] :password The password entered in the login form.
   post '/login' do
     username = params[:username]
     password = params[:password]
@@ -113,15 +97,13 @@ class LoginController < Sinatra::Base
     end
   end
 
-  # @!method post_google
+  # method post_google
   # Post endpoint for handling Google Sign-In authentication.
   #
   # This route receives a JSON payload containing an ID token from the Google Sign-In process.
   # It verifies the ID token with Google's authentication service and retrieves user information.
-  # If the user with the retrieved email or username doesn't exist, a new user is created and logged in.
-  # If the user already exists, they are logged in with their existing account.
   #
-  # @return [JSON] A JSON response indicating success or an error message.
+  # return [JSON] A JSON response indicating success or an error message.
   post '/google' do
     request_body = JSON.parse(request.body.read)
     id_token = request_body['id_token']
@@ -155,18 +137,20 @@ class LoginController < Sinatra::Base
 
   end
 
-  # @!method google_verify
+  # method google_verify
   # Verifies a Google ID token to obtain user information.
   #
-  # This method takes a Google ID token as input and verifies its authenticity by making a request to the Google
-  # OAuth2 tokeninfo endpoint. If the token is valid and corresponds to the expected client ID, it returns user
+  # This method takes a Google ID token as input and verifies its authenticity
+  # by making a request to the Google OAuth2 tokeninfo endpoint.
+  # If the token is valid and corresponds to the expected client ID, it returns user
   # information including the username, profile picture URL, and email.
   #
-  # @param token [String] The Google ID token to be verified.
+  # param token [String] The Google ID token to be verified.
   #
-  # @return [Hash] A hash containing user information if the token is valid.
+  # return [Hash] A hash containing user information if the token is valid.
   #
-  # @raise [StandardError] An error is raised if the token cannot be verified or does not match the expected client ID.
+  # raise [StandardError] An error is raised if the token cannot be verified
+  # or does not match the expected client ID.
   def google_verify(token)
     client_id = ENV['GOOGLE_CLIENT_ID']
     uri = URI.parse("https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=#{token}")
