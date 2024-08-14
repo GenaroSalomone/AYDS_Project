@@ -3,6 +3,7 @@ require 'sinatra/reloader' if Sinatra::Base.environment == :development
 
 class App < Sinatra::Application
   include ServerConstants
+
   # General settings
   configure do
     enable :logging
@@ -63,17 +64,17 @@ class App < Sinatra::Application
     end
   end
 
-  # @!method get_root
+  # method get_root
   # GET endpoint to displays the home page.
   #
   # This route is used to show the web application's home page when a user visits it.
   #
-  # @return [ERB] The home page template.
+  # return [ERB] The home page template.
   get '/' do
     erb :index
   end
 
-  # @!method get_protected_page
+  # method get_protected_page
   # GET endpoint for displaying the protected page if the user is authenticated.
   #
   # This route displays the protected page if the user is authenticated. It checks
@@ -81,12 +82,8 @@ class App < Sinatra::Application
   # and displays the protected page along with the rankings for different
   # difficulty levels.
   #
-  # @return [ERB] The protected page with rankings if the user is authenticated.
-  # @raise [Redirect] Redirects to '/login' if the user is not authenticated.
-  #
-  # @see User#find
-  # @see Difficulty#find_by
-  # @see Ranking#where
+  # return [ERB] The protected page with rankings if the user is authenticated.
+  # raise [Redirect] Redirects to '/login' if the user is not authenticated.
   get '/protected_page' do
     if session[:user_id]
       user_id = session[:user_id]
@@ -104,24 +101,22 @@ class App < Sinatra::Application
     end
   end
 
-  # @!method get_supported_languages
+  # method get_supported_languages
   # GET endpoint for obtaining supported languages.
   #
   # This method reads data from a local JSON file and returns a list of supported languages.
   # If the data cannot be loaded, it returns an error message.
   #
-  # @return [JSON] The list of supported languages.
+  # return [JSON] The list of supported languages.
   #
-  # @raise [StandardError] If there is an error reading the file or parsing the JSON, it returns a 500 status code and an error message.
+  # raise [StandardError] If there is an error reading the file or parsing the JSON, it returns a 500 status code and an error message.
   get '/obtener-lenguajes-soportados' do
-    # Lee los datos desde el archivo JSON local
     languages_data = JSON.parse(File.read('languages.json'))
 
     if languages_data.nil?
       status 500
       body 'Error al obtener la lista de lenguajes: No se pudieron cargar los datos.'
     else
-      # Define el contenido de la respuesta JSON
       content_type :json
       status 200
       body languages_data['data']['languages'].to_json
@@ -131,17 +126,15 @@ class App < Sinatra::Application
     body "Error al obtener la lista de lenguajes: #{e.message}"
   end
 
-  # @!method get_question
+  # method get_question
   # GET endpoint for handling displaying a trivia question.
   #
-  # @param index [Integer] The index of the question to display.
+  # param index [Integer] The index of the question to display.
   #
-  # @return [ERB] The question view for the specified trivia question.
+  # return [ERB] The question view for the specified trivia question.
   #
-  # @raise [Redirect] Redirects to '/results' if there are no more questions or if the trivia is complete.
-  # @raise [Redirect] Redirects to '/error?code=unanswered' if the user tries to access questions out of order.
-  #
-  # @see fetch_question
+  # raise [Redirect] Redirects to '/results' if there are no more questions or if the trivia is complete.
+  # raise [Redirect] Redirects to '/error?code=unanswered' if the user tries to access questions out of order.
   get '/question/:index' do
     index = params[:index].to_i
     fetch_question(index)
@@ -155,17 +148,17 @@ class App < Sinatra::Application
     }
   end
 
-  # @!method get_question_traduce
+  # method get_question_traduce
   # GET endpoint for handling displaying a translated trivia question.
   #
-  # @param index [Integer] The index of the translated question to display.
+  # param index [Integer] The index of the translated question to display.
   #
-  # @return [ERB] The translated question view for the specified trivia question.
+  # return [ERB] The translated question view for the specified trivia question.
   #
-  # @raise [Redirect] Redirects to '/results-traduce' if there are no more translated questions or if the trivia is complete.
-  # @raise [Redirect] Redirects to '/error?code=unanswered' if the user tries to access translated questions out of order.
-  #
-  # @see fetch_question
+  # raise [Redirect] Redirects to '/results-traduce' if there are no more translated questions
+  # or if the trivia is complete.
+  # raise [Redirect] Redirects to '/error?code=unanswered' if the user tries to access
+  # translated questions out of order.
   get '/question-traduce/:index' do
     index = params[:index].to_i
     fetch_question(index, true)
@@ -179,34 +172,30 @@ class App < Sinatra::Application
     }
   end
 
-  # @!method current_user
+  # method current_user
   # Returns the current user based on the session.
   #
   # This method finds and returns the User object associated with the current session.
   # If there is no user_id in the session, it returns nil.
   #
-  # @return [User, nil] The User object if there is a user_id in the session, or nil if there isn't.
-  #
-  # @see User#find
+  # return [User, nil] The User object if there is a user_id in the session, or nil if there isn't.
   def current_user
     User.find(session[:user_id]) if session[:user_id]
   end
 
-  # @!method fetch_question
+  # method fetch_question
   # Method for fetching a trivia question or a translated trivia question.
   #
-  # @param index [Integer] The index of the question to fetch.
-  # @param translated [Boolean] A flag indicating whether to fetch a translated question.
+  # param index [Integer] The index of the question to fetch.
+  # param translated [Boolean] A flag indicating whether to fetch a translated question.
   #
-  # @return [void]
+  # return [void]
   #
-  # @raise [Redirect] Redirects to '/trivia' if there's no active trivia session.
-  # @raise [Redirect] Redirects to '/results' or '/results-traduce' if there are no more questions or if the trivia is complete.
-  # @raise [Redirect] Redirects to '/error?code=unanswered' if the user tries to access questions out of order.
-  #
-  # @see Trivia#questions
-  # @see Trivia#translated_questions
-  # @see Answer.where
+  # raise [Redirect] Redirects to '/trivia' if there's no active trivia session.
+  # raise [Redirect] Redirects to '/results' or '/results-traduce' if there are no more
+  # questions or if the trivia is complete.
+  # @raise [Redirect] Redirects to '/error?code=unanswered' if the user tries to access
+  # questions out of order.
   def fetch_question(index, translated = false)
     previous_index = index.zero? ? 0 : index - 1
     if index.zero? || session[:answered_questions].include?(previous_index)
