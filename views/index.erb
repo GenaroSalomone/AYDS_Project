@@ -2,42 +2,84 @@
 <html>
 <head>
   <title>Home</title>
-  <script src="https://kit.fontawesome.com/8a2a68e2d5.js" crossorigin="anonymous"></script>
+  <link rel="stylesheet" href="https://bootswatch.com/5/litera/bootstrap.min.css">
   <link rel="icon" href="/icon.ico" type="image/x-icon">
   <link rel="stylesheet" type="text/css" href="/css/index.css">
+  <script src="https://kit.fontawesome.com/8a2a68e2d5.js" crossorigin="anonymous"></script>
 </head>
 <body>
-  <h1>¡Te damos la bienvenida a la trivia!</h1>
-  <h2>Temática: Software y Tecnología</h2>
-  <h2>¿Estás listo para comenzar?</h2>
-  <div class="button-container">
-    <form action="/login" method="GET">
-      <button type="submit">
-        Iniciar sesión
+  <!-- Navbar header -->
+  <nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="#" onclick="reloadPage()">
+        <i class="fa-solid fa-house-chimney"></i>
+      </a>
+      <button class="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarNav"
+              aria-controls="navbarNav"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
       </button>
-    </form>
-    <form action="/registrarse" method="GET">
-      <button type="submit">Registrarse</button>
-    </form>
-  </div>
-  <div id="g_id_onload"
-         data-client_id="450042762936-m67fepfi9lmc6vut0j5do5tc0sjp54a1.apps.googleusercontent.com"
-         data-auto_prompt="false"
-         data-callback="handleCredentialResponse">
-  </div>
-  <div class="button-container">
-    <div class="g_id_signin logout-button"
-         data-type="standard"
-         data-size="large"
-         data-theme="outline"
-         data-text="sign_in_with"
-         data-shape="rectangular"
-         data-logo_alignment="left">
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item">
+            <form action="/login" method="GET">
+              <button
+                class="btn btn-info fs-6 me-4 mb-2 mt-2"
+                type="Submit"
+                data-bs-toggle="modal"
+              >
+                Iniciar sesión
+              </button>
+            </form>
+          </li>
+          <li class="nav-item">
+            <form action="/registrarse" method="GET">
+              <button
+                class="btn btn-info fs-6 me-4 mb-2 mt-2"
+                type="Submit"
+                data-bs-toggle="modal"
+              >
+                Registrarse
+              </button>
+            </form>
+          </li>
+          <li class="nav-item">
+            <div id="g_id_onload"
+                 data-client_id="450042762936-m67fepfi9lmc6vut0j5do5tc0sjp54a1.apps.googleusercontent.com"
+                 data-auto_prompt="false"
+                 data-callback="handleCredentialResponse">
+            </div>
+            <div class="g_id_signin logout-button me-4 mb-2 mt-2"
+                 data-type="standard"
+                 data-size="large"
+                 data-theme="outline"
+                 data-text="sign_in_with"
+                 data-shape="rectangular"
+                 data-logo_alignment="left">
+            </div>
+          </li>
+          <li class="nav-item">
+            <button id="google_sign_out" 
+                    class="logout-button 
+                           logout-google-button 
+                           btn btn-danger fs-6 me-4 mb-2 mt-2">
+              <i class="fa-brands fa-google"></i> Finalizar sesión
+            </button>
+          </li>
+        </ul>
+      </div>
     </div>
-    <button id="google_sign_out" class="logout-button logout-google-button">
-        Finalizar sesión <i class="fa-brands fa-google"></i>
-    </button>
-  </div>
+  </nav>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Goggle API -->
   <script src="https://accounts.google.com/gsi/client" async defer></script>
   <script>
     function handleCredentialResponse(response) {
@@ -72,6 +114,15 @@
         location.reload();
       });
     };
+
+    function reloadPage() {
+      location.reload();
+    }
   </script>
+  <!--
+  <h1>¡Te damos la bienvenida a la trivia!</h1>
+  <h2>Temática: Software y Tecnología</h2>
+  <h2>¿Estás listo para comenzar?</h2>
+  -->
 </body>
 </html>
